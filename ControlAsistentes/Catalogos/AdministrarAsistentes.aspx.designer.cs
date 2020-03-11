@@ -10,7 +10,7 @@
 namespace ControlAsistentes.Catalogos {
     
     
-    public partial class Periodo {
+    public partial class AdministrarAsistentes {
         
         /// <summary>
         /// Control lblAdministrarAistentes.

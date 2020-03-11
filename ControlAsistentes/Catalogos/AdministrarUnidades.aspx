@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/SiteMaster.Master" AutoEventWireup="true" CodeBehind="Unidad.aspx.cs" Inherits="ControlAsistentes.Catalogos.Unidades" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/SiteMaster.Master" AutoEventWireup="true" CodeBehind="AdministrarUnidades.aspx.cs" Inherits="ControlAsistentes.Catalogos.AdministrarUnidades" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -78,6 +78,7 @@
             <div  style="text-align: right">
                  <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
              </div>
+             <%--paginación--%>
             <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                 <center>
                      <table class="table" style="max-width:664px;">
@@ -112,7 +113,7 @@
                      </table>
                  </center>
             </div>
-            
+             <%--fn paginación--%>
              <br />
             <br />
              <br />

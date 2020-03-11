@@ -10,7 +10,7 @@
 namespace ControlAsistentes.Catalogos {
     
     
-    public partial class Unidades {
+    public partial class AdministrarUnidades {
         
         /// <summary>
         /// Control MainScriptManager.

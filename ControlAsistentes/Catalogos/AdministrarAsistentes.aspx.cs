@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace ControlAsistentes.Catalogos
 {
-    public partial class Periodo : System.Web.UI.Page
+    public partial class AdministrarAsistentes : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace ControlAsistentes.Catalogos
 {
-    public partial class Unidades : System.Web.UI.Page
+    public partial class AdministrarUnidades : System.Web.UI.Page
     {
         #region Variable globales
         UnidadServicios unidadServicios = new UnidadServicios();
@@ -63,7 +63,7 @@ namespace ControlAsistentes.Catalogos
 
         }
 
-        #region Evnetos
+        #region Eventos
 
         protected void MostrarUnidades()
         {
@@ -96,7 +96,7 @@ namespace ControlAsistentes.Catalogos
             lbUltimo.Enabled = !pgsource.IsLastPage;
             rpUnidades.DataSource = pgsource;
             rpUnidades.DataBind();
-
+            Paginacion();
         }
 
         /// <summary>

@@ -13,5 +13,6 @@ namespace Entidades
     {
         public int anoPeriodo { get; set; }
         public bool habilitado { get; set; }
+        public string semestre { get; set; }
     }
 }

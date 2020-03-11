@@ -7,99 +7,90 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ControlAsistentes {
+namespace ControlAsistentes.Catalogos {
     
     
-    public partial class Menuaspx {
+    public partial class AdministrarPeriodos {
         
         /// <summary>
-        /// Control MenuSecretaria.
+        /// Control btnNuevoPeriodo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuSecretaria;
+        protected global::System.Web.UI.WebControls.Button btnNuevoPeriodo;
         
         /// <summary>
-        /// Control unidadesS.
+        /// Control rpPeriodos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor unidadesS;
+        protected global::System.Web.UI.WebControls.Repeater rpPeriodos;
         
         /// <summary>
-        /// Control A1.
+        /// Control btnAtras.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor A1;
+        protected global::System.Web.UI.WebControls.Button btnAtras;
         
         /// <summary>
-        /// Control asistentesS.
+        /// Control lbPrimero.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor asistentesS;
+        protected global::System.Web.UI.WebControls.LinkButton lbPrimero;
         
         /// <summary>
-        /// Control MenuEncargado.
+        /// Control lbAnterior.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuEncargado;
+        protected global::System.Web.UI.WebControls.LinkButton lbAnterior;
         
         /// <summary>
-        /// Control asistentesE.
+        /// Control rptPaginacion.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor asistentesE;
+        protected global::System.Web.UI.WebControls.DataList rptPaginacion;
         
         /// <summary>
-        /// Control MenuUTI.
+        /// Control lbSiguiente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuUTI;
+        protected global::System.Web.UI.WebControls.LinkButton lbSiguiente;
         
         /// <summary>
-        /// Control asistentesUTI.
+        /// Control lbUltimo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor asistentesUTI;
+        protected global::System.Web.UI.WebControls.LinkButton lbUltimo;
         
         /// <summary>
-        /// Control tarjetasU.
+        /// Control lblpagina.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor tarjetasU;
-        
-        /// <summary>
-        /// Control usuariosU.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor usuariosU;
+        protected global::System.Web.UI.WebControls.Label lblpagina;
     }
 }

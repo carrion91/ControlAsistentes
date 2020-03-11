@@ -125,8 +125,8 @@ namespace AccesoDatos
         }
 
         // <summary>
-        // Adrián Serrano
-        // 7/14/2019
+        // Mariela Calvo
+        // Noviembre/2019
         // Efecto: Actualiza una unidad de la base de datos
         // Requiere: Unidad
         // Modifica: -

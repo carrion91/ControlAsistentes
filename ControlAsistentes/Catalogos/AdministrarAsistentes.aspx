@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/SiteMaster.Master"  AutoEventWireup="true" CodeBehind="Periodo.aspx.cs" Inherits="ControlAsistentes.Catalogos.Periodo" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/SiteMaster.Master" AutoEventWireup="true" CodeBehind="AdministrarAsistentes.aspx.cs" Inherits="ControlAsistentes.Catalogos.AdministrarAsistentes" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

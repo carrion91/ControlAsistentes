@@ -66,9 +66,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Catalogos\Asistente.aspx" />
-    <Content Include="Catalogos\Periodo.aspx" />
-    <Content Include="Catalogos\Unidad.aspx" />
+    <Content Include="Catalogos\AdministrarAsistentes.aspx" />
+    <Content Include="Catalogos\AdministrarPeriodos.aspx" />
+    <Content Include="Catalogos\AdministrarUnidades.aspx" />
     <Content Include="Content\DataTables\datatables.min.css" />
     <Content Include="Content\DataTables\images\details_close.png" />
     <Content Include="Content\DataTables\images\details_open.png" />
@@ -131,26 +131,26 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Catalogos\Asistente.aspx.cs">
-      <DependentUpon>Asistente.aspx</DependentUpon>
+    <Compile Include="Catalogos\AdministrarAsistentes.aspx.cs">
+      <DependentUpon>AdministrarAsistentes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Catalogos\Asistente.aspx.designer.cs">
-      <DependentUpon>Asistente.aspx</DependentUpon>
+    <Compile Include="Catalogos\AdministrarAsistentes.aspx.designer.cs">
+      <DependentUpon>AdministrarAsistentes.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Catalogos\Periodo.aspx.cs">
-      <DependentUpon>Periodo.aspx</DependentUpon>
+    <Compile Include="Catalogos\AdministrarPeriodos.aspx.cs">
+      <DependentUpon>AdministrarPeriodos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Catalogos\Periodo.aspx.designer.cs">
-      <DependentUpon>Periodo.aspx</DependentUpon>
+    <Compile Include="Catalogos\AdministrarPeriodos.aspx.designer.cs">
+      <DependentUpon>AdministrarPeriodos.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Catalogos\Unidad.aspx.cs">
-      <DependentUpon>Unidad.aspx</DependentUpon>
+    <Compile Include="Catalogos\AdministrarUnidades.aspx.cs">
+      <DependentUpon>AdministrarUnidades.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Catalogos\Unidad.aspx.designer.cs">
-      <DependentUpon>Unidad.aspx</DependentUpon>
+    <Compile Include="Catalogos\AdministrarUnidades.aspx.designer.cs">
+      <DependentUpon>AdministrarUnidades.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

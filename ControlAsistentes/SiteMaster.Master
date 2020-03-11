@@ -121,7 +121,7 @@
             <div id="MenuSecretaria" runat="server">
                 <div class="gridcontainer clearfix">
                     <div class="grid_3">
-                        <a id="unidadesS" runat="server" href="~/Catalogos/Unidad.aspx" >
+                        <a id="unidadesS" runat="server" href="~/Catalogos/AdministrarUnidades.aspx" >
                             
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
@@ -134,7 +134,7 @@
                         </a>
                     </div>
                     <div class="grid_3">
-                        <a id="periodosS"  runat="server">
+                        <a id="periodosS"  runat="server" href="~/Catalogos/AdministrarPeriodos.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">
@@ -146,7 +146,7 @@
                         </a>
                     </div>
                     <div class="grid_3">
-                        <a id="asistentesS"  runat="server">
+                        <a id="asistentesS"  runat="server" href="~/Catalogos/AdministrarAsistentes.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">

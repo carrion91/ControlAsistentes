@@ -13,24 +13,27 @@
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">
                                         <h3 class="fa fa-building-o fa-2x"></h3>
-                                        <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Unidades</h3>
+                                        <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Unidadeds</h3>
                                     </div>
                                 </div>
                             </div>
                         </a>
                     </div>
+                    
                     <div class="grid_3">
-                        <a id="periodosS"  runat="server">
+                        <a id="A1"  runat="server">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">
-                                        <h3 class="fa fa-calendar fa-2x"></h3>
-                                        <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Períodos</h3>
+                                        <h3 class="fa fa-building-o fa-2x"></h3>
+                                        <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">P</h3>
                                     </div>
                                 </div>
                             </div>
                         </a>
                     </div>
+                      
+
                     <div class="grid_3">
                         <a id="asistentesS"  runat="server">
                             <div class="fmcircle_out">
