@@ -22,5 +22,22 @@ namespace Servicios
         {
             return this.periodoDatos.ObtenerPeriodos();
         }
+
+
+        public bool HabilitarPeriodo(int anoPeriodo)
+        {
+            return periodoDatos.HabilitarPeriodo(anoPeriodo);
+        }
+
+
+        public int InsertarPeriodo(Periodo periodo)
+        {
+            return periodoDatos.InsertarPeriodo(periodo);
+        }
+
+        public void EliminarPeriodo(int anoPeriodo)
+        {
+           periodoDatos.EliminarPeriodo(anoPeriodo);
+        }
     }
 }

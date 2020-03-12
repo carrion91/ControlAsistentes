@@ -3,8 +3,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <asp:ScriptManager ID="MainScriptManager" runat="server" EnableCdn="true"></asp:ScriptManager>
+    <asp:UpdatePanel ID="UpdatePanel" runat="server">
+     <ContentTemplate>
     <br />
     <div class="row">
+         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <br />
+        </div>
+     
         <div class="col-md-12 col-xs-12 col-sm-12">
             <center>
                 <asp:Label runat="server" Text="Apertura de Periodo" Font-Size="Large" ForeColor="Black"></asp:Label>
@@ -23,7 +30,7 @@
         <div class="col-md-12 col-xs-6 col-sm-6">
 
             <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                <asp:Button ID="btnNuevoPeriodo" runat="server" Text="Nuevo periodo" CssClass="btn btn-primary boton-nuevo" />
+                <asp:Button ID="btnNuevoPeriodo" runat="server" Text="Nuevo periodo" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoPeriodo_Click" />
             </div>
         </div>
         <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
@@ -47,13 +54,13 @@
                                 <div class="btn-group">
                                     <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("anoPeriodo") %>' />
                                     <%--<asp:CheckBox ID="cbProyecto" runat="server" Text="" />--%>
-                                    <asp:LinkButton ID="btnSelccionar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("anoPeriodo") %>'  OnClick="EstablecerPeriodoActual_Click"><span class="glyphicon glyphicon-ok"></span></asp:LinkButton>
+                                    <asp:LinkButton ID="btnSelccionar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("anoPeriodo") %>' OnClick="EstablecerPeriodoActual_Click"><span class="glyphicon glyphicon-ok"></span></asp:LinkButton>
                                 </div>
                             </td>
-                            <td> <%# Eval("AnoPeriodo") %> <%# (Eval("habilitado").ToString() == "True")? "(Actual)" : "" %></td>
+                            <td><%# Eval("AnoPeriodo") %> <%# (Eval("habilitado").ToString() == "True")? "(Actual)" : "" %></td>
                             <td><%# Eval("semestre") %></td>
                             <td>
-                                <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("anoPeriodo") %>'><span class="btn glyphicon glyphicon-trash"></span></asp:LinkButton>
+                                <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("anoPeriodo") %>' OnClick="btnEliminar_Click"><span class="btn glyphicon glyphicon-trash" ></span></asp:LinkButton>
                             </td>
                         </tr>
 
@@ -104,6 +111,211 @@
         </div>
         <%--fn paginación--%>
     </div>
+    <!-- Modal nuevo periodo -->
+    <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+        <ContentTemplate>
+
+            <div id="modalNuevoPeriodo" class="modal fade" role="alertdialog">
+                <div class="modal-dialog modal-lg">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Nuevo Período</h4>
+                        </div>
+                        <div class="modal-body">
+                            <%-- campos a llenar --%>
+                            <div class="row">
+
+                                <%-- fin campos a llenar --%>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="label4" runat="server" Text="Período <span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                    </div>
+                                    <div class="col-md-4 col-xs-4 col-sm-4">
+                                        <div class="input-group">
+                                            <asp:TextBox class="form-control" ID="txtNuevoP" runat="server"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <br />
+                                <br />
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="label1" runat="server" Text="Semestre<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 col-sm-4">
+                                        <div class="input-group">
+                                            <asp:DropDownList ID="ddlSemestre" class="btn btn-default dropdown-toggle" runat="server">
+                                                <asp:ListItem Value="I">I Semestre</asp:ListItem>
+                                                <asp:ListItem Value="II">II Semestre</asp:ListItem>
+                                                <asp:ListItem Value="III">III Semestre</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="text-align: center">
+                            <asp:Button ID="btnNuevoPeriodoModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnNuevoPeriodoModal_Click" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+    <!-- Fin modal nuevo periodo -->
+
+    <!-- Modal eliminar periodo -->
+    <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+        <ContentTemplate>
+            <div id="modalEliminarPeriodo" class="modal fade" role="alertdialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Eliminar Periodo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <%-- campos a llenar --%>
+                            <div class="row">
+
+                                <%-- fin campos a llenar --%>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="lblProyecto" runat="server" Text="Perído" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="txtPeriodoEliminarModal" runat="server" Text="Período" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                    </div>
+                                </div>
+                                
+                                     <br />
+                                     <br /><br />
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="Label2" runat="server" Text="Semestre" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="txtSemestreEliminarModal" runat="server" Text="Semestre" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer" style="text-align: center">
+                                <asp:Button ID="btnEliminarModal" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnConfirmarEliminarPeriodo_Click" />
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Fin modal eliminar periodo -->
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+     <!-- Modal Confirmar Eliminar Periodo-->
+                <asp:UpdatePanel ID="UPconfirmarPeriodo" runat="server">
+                    <ContentTemplate>
+                        <div id="modalConfirmarPeriodo" class="modal" role="alertdialog">
+                            <div class="modal-dialog modal-lg">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Confirmar elimimar Periodo</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <%-- campos a llenar --%>
+                                        <div class="row">
+
+                                            <%-- fin campos a llenar --%>
+
+                                            <div class="col-md-12 col-xs-12 col-sm-12">
+                                                <br />
+                                            </div>
+                                            <div class="col-md-12 col-xs-12 col-sm-12">
+                                                <center>
+                                             <asp:Label runat="server" Text="" Font-Size="Large" ForeColor="Black"></asp:Label>
+                                             <p>¿Está seguro que desea eliminar el Período?</p> 
+                                              <asp:Label ID="lbConfPer" runat="server" Text="" Font-Size="Large" ForeColor="Black" CssClass="label"></asp:Label>             
+                                            </center>
+                                            </div>
+
+                                            <div class="col-md-12 col-xs-12 col-sm-12">
+                                                <br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" style="text-align: center">
+                                        <asp:Button ID="btnConfPeriodo" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar" OnClick="btnEliminarModal_Click" />
+                                        <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+                <!-- FIN Modal Confirmar Eliminar periodo -->
+    </ContentTemplate>
+    </asp:UpdatePanel>
+    
+   
+    <!-- Script inicio -->
+    <script type="text/javascript">
+        function activarModalNuevoPeriodo() {
+            $('#modalNuevoPeriodo').modal('show');
+        };
+        function activarModalEliminarPeriodo() {
+            $('#modalEliminarPeriodo').modal('show');
+        };
+        function activarModalConfirmarPeriodo() {
+            $('#modalConfirmarPeriodo').modal('show');
+        }
+
+    </script>
+    <!-- Script fin -->
+
+
+
 
 
 

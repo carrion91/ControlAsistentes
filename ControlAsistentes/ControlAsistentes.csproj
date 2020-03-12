@@ -66,9 +66,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Catalogos\AdministarEncargado.aspx" />
     <Content Include="Catalogos\AdministrarAsistentes.aspx" />
     <Content Include="Catalogos\AdministrarPeriodos.aspx" />
     <Content Include="Catalogos\AdministrarUnidades.aspx" />
+    <Content Include="CatalogoUTI\AdministrarUsuarios.aspx" />
     <Content Include="Content\DataTables\datatables.min.css" />
     <Content Include="Content\DataTables\images\details_close.png" />
     <Content Include="Content\DataTables\images\details_open.png" />
@@ -131,6 +133,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Catalogos\AdministarEncargado.aspx.cs">
+      <DependentUpon>AdministarEncargado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Catalogos\AdministarEncargado.aspx.designer.cs">
+      <DependentUpon>AdministarEncargado.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Catalogos\AdministrarAsistentes.aspx.cs">
       <DependentUpon>AdministrarAsistentes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -151,6 +160,13 @@
     </Compile>
     <Compile Include="Catalogos\AdministrarUnidades.aspx.designer.cs">
       <DependentUpon>AdministrarUnidades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoUTI\AdministrarUsuarios.aspx.cs">
+      <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoUTI\AdministrarUsuarios.aspx.designer.cs">
+      <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -247,7 +263,9 @@
       <Name>Servicios</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CatalogoEncargado\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

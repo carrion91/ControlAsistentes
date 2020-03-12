@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsistenteDatos.cs" />
     <Compile Include="ConexionDatos.cs" />
     <Compile Include="EncargadoDatos.cs" />
     <Compile Include="EncargadoUnidadDatos.cs" />

@@ -19,6 +19,8 @@ namespace Entidades
         public Archivo archivo { get; set; }
         public Periodo periodo { get; set; }
         public Encargado encargado { get; set; }
+
+        public Unidad unidad { get; set; }
         public int cantidadHorasNombrado { get; set; }
         public int cantidadPeriodosNombrados { get; set; }
 

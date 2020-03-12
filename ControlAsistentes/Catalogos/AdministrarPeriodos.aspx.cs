@@ -17,7 +17,8 @@ namespace ControlAsistentes.Catalogos
         #region variable globales
         PeriodoServicios periodoServicios = new PeriodoServicios();
         public static Periodo periodoSelccionado = new Periodo();
-        
+        Periodo periodoActual = new Periodo();
+
 
         #region Paginación
         readonly PagedDataSource pgsource = new PagedDataSource();
@@ -40,7 +41,7 @@ namespace ControlAsistentes.Catalogos
         }
         #endregion
         #endregion
-
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = {1,2,5 };
@@ -50,20 +51,20 @@ namespace ControlAsistentes.Catalogos
             if (!IsPostBack)
             {
                 Session["listaPeriodos"] = null;
-                Session["listaPeriodosFiltrada"] = null;
-                Session["CheckRefresh"] = Server.UrlDecode(System.DateTime.Now.ToString());
+                
                 List<Periodo> listaPeriodos = periodoServicios.ObtenerPeriodos();
                 Session["listaPeriodos"] = listaPeriodos;
-                Session["listaPeriodosFiltrada"] = listaPeriodos;
                 MostrarPeriodos();
-                //llenarDdlEncargados();
             }
         }
 
         #region Eventos
         protected void MostrarPeriodos()
         {
-            List<Periodo> listaPeriodos = (List<Periodo>)Session["listaPeriodos"];
+            List < Periodo> listaPeriodos = (List<Periodo>)Session["listaPeriodos"];
+          
+            var dt = listaPeriodos;
+
             int anoHabilitado = 0;
             if (listaPeriodos.Count > 0)
             {
@@ -84,7 +85,8 @@ namespace ControlAsistentes.Catalogos
                 }
             }
 
-                var dt = listaPeriodos;
+           
+
             pgsource.DataSource = dt;
             pgsource.AllowPaging = true;
             //numero de items que se muestran en el Repeater
@@ -99,14 +101,210 @@ namespace ControlAsistentes.Catalogos
             lbSiguiente.Enabled = !pgsource.IsLastPage;
             lbPrimero.Enabled = !pgsource.IsFirstPage;
             lbUltimo.Enabled = !pgsource.IsLastPage;
+
             rpPeriodos.DataSource = pgsource;
             rpPeriodos.DataBind();
+
+            //metodo que realiza la paginacion
+            Paginacion();
         }
 
         public void btnDevolverse(object sender, EventArgs e)
         {
             String url = Page.ResolveUrl("~/Default.aspx");
             Response.Redirect(url);
+        }
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo/2020
+        /// Efecto: Establecer un periodo como actual
+        /// Requiere: Presionar boton con icono de manita arriba en tabla periodo de algun periodo
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        protected void EstablecerPeriodoActual_Click(object sender, EventArgs e)
+        {
+            int anoPeriodo = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            anoPeriodo = 2;
+
+            if (anoPeriodo != 0)
+            {
+               List<Periodo> listaPeriodos = (List<Periodo>)Session["listaPeriodos"];
+                periodoActual = new Periodo();
+
+                foreach (Periodo periodo in listaPeriodos)
+                {
+                    if (periodo.anoPeriodo == anoPeriodo)
+                    {
+                        periodoActual = periodo;
+                    }
+                }
+                bool respuesta = this.periodoServicios.HabilitarPeriodo(anoPeriodo);
+
+                if (respuesta)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Período "+anoPeriodo + "Habilitado');", true);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Error en habilitar el período como actual, intentelo de nuevo" + "');", true);
+                }
+
+                MostrarPeriodos();
+            }
+        }
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo/2020
+        /// Efecto: Activar modal nuevo periodo
+        /// Requiere: Presionar boton nuevo periodo
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        protected void btnNuevoPeriodo_Click(object sender, EventArgs e)
+        {
+            txtNuevoP.CssClass = "form-control";
+            txtNuevoP.Text = "";
+            
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoPeriodo();", true);
+        }
+        /// <summary>
+        /// Mariela CalvobtnNuevoPeriodoModal_Click
+        /// Septiembre/2019
+        /// Efecto: Guardar un nuevo periodo
+        /// Requiere: Introducir datos del nuevo periodo, presionar boton guardar del modal nuevo periodo
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        protected void btnNuevoPeriodoModal_Click(object sender, EventArgs e)
+        {
+            int respuesta = 0;
+            if (validarPeriodoNuevo())
+            {
+                Periodo periodo = new Periodo();
+                periodo.anoPeriodo = Convert.ToInt32(txtNuevoP.Text);
+                periodo.semestre = ddlSemestre.SelectedValue.ToString();
+                periodo.habilitado = false;
+
+                respuesta = periodoServicios.InsertarPeriodo(periodo);
+                txtNuevoP.Text = "";
+                if (respuesta == periodo.anoPeriodo)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Período " + periodo.anoPeriodo + " registrado con éxito');", true);
+                    List<Periodo> listaPeriodos = periodoServicios.ObtenerPeriodos();
+                    Session["listaPeriodos"] = listaPeriodos;
+                    MostrarPeriodos();
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoPeriodo", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoPeriodo').hide();", true);
+                }
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoPeriodo", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoPeriodo').hide();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoPeriodo();", true);
+            }
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo/2020
+        /// Efecto: Validar que los datos del nuevo periodo sean ingresados
+        /// Requiere: -
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        public Boolean validarPeriodoNuevo()
+        {
+            Boolean valido = true;
+            txtNuevoP.CssClass = "form-control";
+
+            #region nombre
+            if (String.IsNullOrEmpty(txtNuevoP.Text) || txtNuevoP.Text.Trim() == String.Empty || txtNuevoP.Text.Length > 255)
+            {
+                txtNuevoP.CssClass = "form-control alert-danger";
+                valido = false;
+            }
+            #endregion
+
+            return valido;
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Septiembre/2019
+        /// Efecto: Activar modal eliminar periodo para proceder a eliminar un periodo
+        /// Requiere: Presionar boto nuevo periodo
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            txtPeriodoEliminarModal.CssClass = "form-control";
+            txtSemestreEliminarModal.CssClass = "form-control";
+
+            int anoPeriodo = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            List<Periodo> listaPeriodos = (List<Periodo>)Session["listaPeriodos"];
+
+            foreach (Periodo periodo in listaPeriodos)
+            {
+                if (periodo.anoPeriodo == anoPeriodo)
+                {
+                    periodoSelccionado = periodo;
+                    txtPeriodoEliminarModal.Text = periodo.anoPeriodo.ToString();
+                    txtSemestreEliminarModal.Text = periodo.semestre.ToString();
+                    break;
+                }
+            }
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEliminarPeriodo", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEliminarPeriodo').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEliminarPeriodo();", true);
+        }
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo/2020
+        /// Efecto: Mensaje de confirmacion para la eliminacion de un periodo
+        /// Requiere: Presionar boto eliminar del modal eliminar periodo
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        public void btnConfirmarEliminarPeriodo_Click(Object sender, EventArgs e)
+        {
+            //lbConfPer.Text = periodoSelccionado.anoPeriodo.ToString();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarPeriodo", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarPeriodo').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalConfirmarPeriodo() ", true);
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo/2020
+        /// Efecto: Encargado de eliminar el periodo luego de la confirmacion
+        /// Requiere: Presionar boton confirmar del modal confirmar eliminar periodo
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        /// 
+        protected void btnEliminarModal_Click(object sender, EventArgs e)
+        {
+
+            Periodo periodo = periodoSelccionado;
+            periodoServicios.EliminarPeriodo(periodo.anoPeriodo);
+
+            List<Periodo> listaPeriodos = periodoServicios.ObtenerPeriodos();
+
+            if (listaPeriodos.Contains(periodo))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al eliminar el período "+periodo.anoPeriodo+", intentelo de nuevo" + "');", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se eliminó el período  " + periodo.anoPeriodo + " exitosamente" + "');", true);
+            }
+            Session["listaPeriodos"] = listaPeriodos;
+
+            MostrarPeriodos();
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarPeriodo", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarPeriodo').hide();", true);
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEliminarPeriodo", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEliminarPeriodo').hide();", true);
         }
 
         #endregion

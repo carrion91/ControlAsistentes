@@ -25,7 +25,7 @@ namespace AccesoDatos
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Periodo> periodos = new List<Periodo>();
-            SqlCommand sqlCommand = new SqlCommand("SELECT id_periodo,ano_periodo, habilitado,semestre FROM Periodo; ", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT id_periodo,ano_periodo, habilitado,semestre FROM Periodo WHERE disponible=1; ", sqlConnection);
 
             SqlDataReader reader;
             sqlConnection.Open();
@@ -92,5 +92,51 @@ namespace AccesoDatos
 
             return habilitado;
         }
+
+        /// <summary>
+        /// Inserta la entidad Periodo en la base de datos
+        /// </summary>
+        /// <param name="periodo">Elemento de tipo <code>Periodo</code> que va a ser insertado</param>
+        /// <returns>Retorna un valor <code>int</code> con el identificador del periodo insertado</returns>
+        public int InsertarPeriodo(Periodo periodo)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            SqlCommand sqlCommand = new SqlCommand("insert into Periodo(ano_periodo, habilitado, semestre, disponible) output INSERTED.ano_periodo values(@ano_periodo_, @habilitado_, @semestre_,@disponible_);", sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@ano_periodo_", periodo.anoPeriodo);
+            sqlCommand.Parameters.AddWithValue("@habilitado_", periodo.habilitado);
+            sqlCommand.Parameters.AddWithValue("@semestre_", periodo.semestre);
+            sqlCommand.Parameters.AddWithValue("@disponible_", 1);
+
+            sqlConnection.Open();
+            int anoPeriodo = 0;
+            anoPeriodo = (int)sqlCommand.ExecuteScalar();
+            sqlConnection.Close();
+
+            return anoPeriodo;
+        }
+
+        // <summary>
+        // Mariela Calvo
+        // Marzo/2020
+        // Efecto: Elimina un periodo de forma logica de la base de datos
+        // Requiere: Periodo
+        // Modifica: -
+        // Devuelve: -
+        // </summary>
+        // <param name="idPeriodo"></param>
+        public void EliminarPeriodo(int anoPeriodo)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+            SqlCommand sqlCommand = new SqlCommand("update Periodo set disponible=0 where ano_periodo=@ano_periodo_;", sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@ano_periodo_", anoPeriodo);
+
+            sqlConnection.Open();
+
+            sqlCommand.ExecuteScalar();
+
+            sqlConnection.Close();
+        }
+
     }
 }

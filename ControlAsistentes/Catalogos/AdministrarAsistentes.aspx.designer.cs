@@ -7,20 +7,31 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ControlAsistentes.Catalogos {
-    
-    
-    public partial class AdministrarAsistentes {
-        
+namespace ControlAsistentes.Catalogos
+{
+
+
+    public partial class AdministrarAsistentes
+    {
+
         /// <summary>
-        /// Control lblAdministrarAistentes.
+        /// Control MainScriptManager.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAdministrarAistentes;
-        
+        protected global::System.Web.UI.ScriptManager MainScriptManager;
+
+        /// <summary>
+        /// Control UpdatePanel.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel;
+
         /// <summary>
         /// Control ddlUnidad.
         /// </summary>
@@ -29,7 +40,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlUnidad;
-        
+
         /// <summary>
         /// Control btnFiltrar.
         /// </summary>
@@ -38,32 +49,77 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnFiltrar;
-        
+
         /// <summary>
-        /// Control txtBuscarDesc.
+        /// Control txtBuscarNombre.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBuscarDesc;
-        
+        protected global::System.Web.UI.WebControls.TextBox txtBuscarNombre;
+
         /// <summary>
-        /// Control ddlBuscarTipo.
+        /// Control rpAsistentes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlBuscarTipo;
-        
+        protected global::System.Web.UI.WebControls.Repeater rpAsistentes;
+
         /// <summary>
-        /// Control rpPartidas.
+        /// Control lbPrimero.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpPartidas;
+        protected global::System.Web.UI.WebControls.LinkButton lbPrimero;
+
+        /// <summary>
+        /// Control lbAnterior.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbAnterior;
+
+        /// <summary>
+        /// Control rptPaginacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataList rptPaginacion;
+
+        /// <summary>
+        /// Control lbSiguiente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbSiguiente;
+
+        /// <summary>
+        /// Control lbUltimo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbUltimo;
+
+        /// <summary>
+        /// Control lblpagina.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblpagina;
     }
 }
