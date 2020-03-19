@@ -34,6 +34,7 @@ namespace AccesoDatos
             while (reader.Read())
             {
                 Periodo periodo = new Periodo();
+                periodo.idPeriodo = Convert.ToInt32(reader["id_periodo"].ToString());
                 periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
                 periodo.habilitado = Convert.ToBoolean(reader["habilitado"].ToString());
                 periodo.semestre = reader["semestre"].ToString();
@@ -47,7 +48,7 @@ namespace AccesoDatos
         public Periodo ObtenerPeriodoActual()
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
-            SqlCommand sqlCommand = new SqlCommand("SELECT id_periodo,ano_periodo, habilitado, semestre FROM Periodo WHERE habilitado=1; ", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("SELECT distinct id_periodo,ano_periodo, habilitado, semestre FROM Periodo WHERE habilitado=1; ", sqlConnection);
             Periodo periodo = new Periodo();
             SqlDataReader reader;
             sqlConnection.Open();

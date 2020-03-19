@@ -66,6 +66,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CatalogoEncargado\AdministrarAsistentesEncargado.aspx" />
+    <Content Include="CatalogoEncargado\NuevoAsistente.aspx" />
     <Content Include="Catalogos\AdministarEncargado.aspx" />
     <Content Include="Catalogos\AdministrarAsistentes.aspx" />
     <Content Include="Catalogos\AdministrarPeriodos.aspx" />
@@ -133,6 +135,20 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CatalogoEncargado\AdministrarAsistentesEncargado.aspx.cs">
+      <DependentUpon>AdministrarAsistentesEncargado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoEncargado\AdministrarAsistentesEncargado.aspx.designer.cs">
+      <DependentUpon>AdministrarAsistentesEncargado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoEncargado\NuevoAsistente.aspx.cs">
+      <DependentUpon>NuevoAsistente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoEncargado\NuevoAsistente.aspx.designer.cs">
+      <DependentUpon>NuevoAsistente.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Catalogos\AdministarEncargado.aspx.cs">
       <DependentUpon>AdministarEncargado.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -263,9 +279,7 @@
       <Name>Servicios</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CatalogoEncargado\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

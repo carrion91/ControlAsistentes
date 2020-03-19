@@ -10,7 +10,7 @@ namespace Servicios
 {
     public class AsistenteServicios
     {
-        AsistenteDatos asistenteDatos=new AsistenteDatos();
+        AsistenteDatos asistenteDatos = new AsistenteDatos();
 
 
         public List<Asistente> ObtenerAsistentes()
@@ -22,6 +22,11 @@ namespace Servicios
         public List<Asistente> ObtenerAsistentesPorUnidad(int idUnidad)
         {
             return asistenteDatos.ObtenerAsistentesPorUnidad(idUnidad);
+        }
+
+        public int insertarAsistente(Asistente asistente)
+        {
+            return asistenteDatos.insertarAsistente(asistente);
         }
     }
 }

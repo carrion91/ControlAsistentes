@@ -9,18 +9,20 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ControlAsistentes.Catalogos
+namespace ControlAsistentes.CatalogoEncargado
 {
-    public partial class AdministrarAsistentes : System.Web.UI.Page
+    public partial class AdministrarAsistentesEncargado : System.Web.UI.Page
     {
         #region variables globales
         AsistenteServicios asistenteServicios = new AsistenteServicios();
-        UnidadServicios UnidadServicios=new UnidadServicios();
+        PeriodoServicios periodoServicios = new PeriodoServicios();
+        NombramientoServicios nombramientoServicios = new NombramientoServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
-        
+        #endregion
 
+        #region paginacion
         private int paginaActual
         {
             get
@@ -49,11 +51,13 @@ namespace ControlAsistentes.Catalogos
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List <Asistente> listaAsistentes= asistenteServicios.ObtenerAsistentes();
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
-                unidadesDDL();
                 MostrarAsistentes();
+                ddlPeriodos();
+
+
             }
         }
 
@@ -64,22 +68,15 @@ namespace ControlAsistentes.Catalogos
             List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
             String nombreasistente = "";
 
-            if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
+            if (!String.IsNullOrEmpty(""))
             {
-                nombreasistente = txtBuscarNombre.ToString();
+                nombreasistente = "".ToString();
             }
-
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
-
             foreach (Asistente asistente in listaAsistentes)
             {
-               
-
                 txBool.Text = asistente.nombrado.ToString();
-                
             }
-
-
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
             var dt = listaAsistentesFiltrada;
@@ -101,9 +98,6 @@ namespace ControlAsistentes.Catalogos
             rpAsistentes.DataBind();
             Paginacion();
         }
-
-       
-
         public void btnDevolverse(object sender, EventArgs e)
         {
             String url = Page.ResolveUrl("~/Default.aspx");
@@ -118,39 +112,82 @@ namespace ControlAsistentes.Catalogos
         /// Modifica: DropDownList
         /// Devuelve: -
         /// </summary>
-        protected void unidadesDDL()
+        protected void ddlPeriodos()
         {
-            List<Unidad> unidades = new List<Unidad>();
-            ddlUnidad.Items.Clear();
-            unidades = UnidadServicios.ObtenerUnidades();
-            foreach (Unidad unidad in unidades)
+            List<Periodo> periodos = new List<Periodo>();
+            periodosDDL.Items.Clear();
+            periodos = periodoServicios.ObtenerPeriodos();
+            
+            foreach (Periodo periodo in periodos)
             {
-                ListItem itemEncargado = new ListItem(unidad.nombre, unidad.idUnidad + "");
-                ddlUnidad.Items.Add(itemEncargado);
+                ListItem itemPeriodos= new ListItem(periodo.semestre+" Semestre -"+periodo.anoPeriodo,periodo.idPeriodo+"");
+                periodosDDL.Items.Add(itemPeriodos);
             }
+          
         }
+
 
         /// <summary>
         /// Mariela Calvo
-        ///Marzo/2020
-        /// Efecto: Selecciona un Asistentes, de acuerdo al Asistentes seleccionada se llenará la tabla con los datos correspondientes
-        /// Requiere: 
-        /// Modifica: datos de la tabla
+        /// Marzo/2020
+        /// Efecto: Activar modal nuevo asistente
+        /// Requiere: Presionar boton nuevo asistente
+        /// Modifica: Tabla Asistentes
         /// Devuelve: -
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnNuevoAsistente_Click(object sender, EventArgs e)
         {
-            int idUnidad=Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            txtNombre.CssClass = "form-control";
+            txtNombre.Text = "";
+            txtTelefono.CssClass = "form-control";
+            txtTelefono.Text = "";
+            txtCarnet.CssClass = "form-control";
+            txtCarnet.Text = "";
 
-            Session["listaAsistentes"] = listaAsistentes;
-            Session["listaAsistentesFiltrada"] = listaAsistentes;
+            txtHoras.CssClass = "form-control";
+            txtHoras.Text = "";
 
-            MostrarAsistentes();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoAsistente();", true);
         }
-        
+
+        protected void guardarNuevoAsistente_Click(object sender, EventArgs e)
+        {
+            string periodoSemestre = periodosDDL.SelectedValue.ToString();
+            int idAsistente = 0;
+            /* INSERCIÓN ASISTENTE */
+            Asistente asistente = new Asistente();
+            asistente.nombreCompleto = txtNombre.Text;
+            asistente.carnet = txtCarnet.Text;
+            asistente.telefono = txtTelefono.Text;
+            //idAsistente = asistenteServicios.insertarAsistente(asistente);
+            asistente.idAsistente = idAsistente;
+
+            /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
+            Nombramiento nombramiento = new Nombramiento();
+            nombramiento.asistente = asistente;
+            Periodo periodo = new Periodo();
+            periodo.idPeriodo = Convert.ToInt32(periodosDDL.SelectedValue);
+            nombramiento.periodo = periodo;
+            Unidad unidad = new Unidad();
+            /* COMO SE CUAL ES LA UNIDAD DEL ENCARGADO */
+            unidad.idUnidad = 1;
+            nombramiento.unidad = unidad;
+            nombramiento.aprobado = false;
+            nombramiento.recibeInduccion = ChckBxInduccion.Checked ? true : false;
+            nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHoras.Text.ToString());
+            //nombramientoServicios.insertarNombramiento(nombramiento);
+
+            /* INSERCIÓN ARCHIVOS ASISTENTE */
+
+            ArchivoAsistente archivoExpediente = new ArchivoAsistente();
+            ArchivoAsistente archivoInforme= new ArchivoAsistente();
+            ArchivoAsistente archivoCV = new ArchivoAsistente();
+
+        }
+
+
+        #endregion
+
 
         #region metodos paginacion
         public void Paginacion()
@@ -286,7 +323,6 @@ namespace ControlAsistentes.Catalogos
             lnkPagina.BackColor = Color.FromName("#005da4");
             lnkPagina.ForeColor = Color.FromName("#FFFFFF");
         }
-        #endregion
         #endregion
     }
 }

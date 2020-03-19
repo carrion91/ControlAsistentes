@@ -11,6 +11,7 @@ namespace Entidades
     /// </summary>
     public class Periodo
     {
+        public int idPeriodo { get; set; }
         public int anoPeriodo { get; set; }
         public bool habilitado { get; set; }
         public string semestre { get; set; }

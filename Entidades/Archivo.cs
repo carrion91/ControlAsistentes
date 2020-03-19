@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace Entidades
 {
-    /// <summary>
-    /// Mariela Calvo
-    /// 20/noviembre/2019
-    /// Clase para administrar la entidad Archivo
-    /// </summary>
     public class Archivo
     {
         public int idArchivo { get; set; }
-        public string expedienteAcademico { get; set; }
-        public string informeMatricula { get; set; }
-        public string cuentaBanco { get; set; }
-        public string CV { get; set; }
-        
+        public DateTime fechaCreacion { get; set; }
+        public String nombreArchivo { get; set; }
+        public String rutaArchivo { get; set; }
+        public int tipoArchivo { get; set; }
         
     }
 }
