@@ -224,7 +224,7 @@
                         </div>
                         <%-- fin botones --%>
                     </div>
-                    </div>
+                   
                 </ContentTemplate>
             </asp:UpdatePanel>
 

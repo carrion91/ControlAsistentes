@@ -304,26 +304,23 @@ namespace ControlAsistentes.CatalogoEncargado
             if (String.IsNullOrEmpty(txtNombre.Text) || txtNombre.Text.Trim() == String.Empty || txtNombre.Text.Length > 255)
             {
                 txtNombre.CssClass = "form-control alert-danger";
-              //  div4.Style.Add("display", "block");
                 valido = false;
             }
-            else if (String.IsNullOrEmpty(txtCarnet.Text) || txtCarnet.Text.Trim() == String.Empty || txtCarnet.Text.Length > 255)
+            if (String.IsNullOrEmpty(txtCarnet.Text) || txtCarnet.Text.Trim() == String.Empty || txtCarnet.Text.Length > 255)
             {
                 txtCarnet.CssClass = "form-control alert-danger";
-                div5.Style.Add("display", "block");
                 valido = false;
             }
-            else if (String.IsNullOrEmpty(txtTelefono.Text) || txtTelefono.Text.Trim() == String.Empty || txtTelefono.Text.Length > 255)
+             if (String.IsNullOrEmpty(txtTelefono.Text) || txtTelefono.Text.Trim() == String.Empty || txtTelefono.Text.Length > 255)
             {
                 txtTelefono.CssClass = "form-control alert-danger";
                 div3.Style.Add("display", "block");
                 valido = false;
             }
 
-            else if (String.IsNullOrEmpty(txtHoras.Text) || txtHoras.Text.Trim() == String.Empty || txtHoras.Text.Length > 255)
+            if(String.IsNullOrEmpty(txtHoras.Text) || txtHoras.Text.Trim() == String.Empty || txtHoras.Text.Length > 255)
             {
                 txtHoras.CssClass = "form-control alert-danger";
-                div7.Style.Add("display", "block");
                 valido = false;
             }
 
