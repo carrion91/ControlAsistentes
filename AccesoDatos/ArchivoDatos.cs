@@ -41,5 +41,26 @@ namespace AccesoDatos
 
             return idArchivo;
         }
+
+
+        public int insertarArchivoAsistente(int idArchivo,int idAsistente)
+        {
+            SqlConnection connection = conexion.ConexionControlAsistentes();
+
+            String consulta
+                = @"INSERT Archivo_Asistente(id_archivo,id_asistente) 
+                    VALUES (@idArchivo,@idAsistente);
+                    SELECT SCOPE_IDENTITY();";
+
+            SqlCommand command = new SqlCommand(consulta, connection);
+            command.Parameters.AddWithValue("@idArchivo", idArchivo);
+            command.Parameters.AddWithValue("@idAsistente", idAsistente);
+           
+
+            connection.Open();
+            connection.Close();
+
+            return idArchivo;
+        }
     }
 }

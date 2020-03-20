@@ -47,7 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArchivoAsistente.cs" />
     <Compile Include="Asistente.cs" />
     <Compile Include="Archivo.cs" />
     <Compile Include="Encargado.cs" />

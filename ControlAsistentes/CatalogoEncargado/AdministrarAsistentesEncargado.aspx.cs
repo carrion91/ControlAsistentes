@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -17,6 +18,7 @@ namespace ControlAsistentes.CatalogoEncargado
         AsistenteServicios asistenteServicios = new AsistenteServicios();
         PeriodoServicios periodoServicios = new PeriodoServicios();
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
+        ArchivoServicios archivoServicios = new ArchivoServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
@@ -54,6 +56,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
+
+                //Sesión de Archivos
+                Session["archivos"] = null;
+                //Fin Sesión Archivos
+                Session["listaArchivos"] = new List<Archivo>();
+
                 MostrarAsistentes();
                 ddlPeriodos();
 
@@ -68,14 +76,11 @@ namespace ControlAsistentes.CatalogoEncargado
             List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
             String nombreasistente = "";
 
-            if (!String.IsNullOrEmpty(""))
+            if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
             {
-                nombreasistente = "".ToString();
+                nombreasistente = txtBuscarNombre.ToString();
             }
-            foreach (Asistente asistente in listaAsistentes)
-            {
-                txBool.Text = asistente.nombrado.ToString();
-            }
+
             List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -117,13 +122,13 @@ namespace ControlAsistentes.CatalogoEncargado
             List<Periodo> periodos = new List<Periodo>();
             periodosDDL.Items.Clear();
             periodos = periodoServicios.ObtenerPeriodos();
-            
+
             foreach (Periodo periodo in periodos)
             {
-                ListItem itemPeriodos= new ListItem(periodo.semestre+" Semestre -"+periodo.anoPeriodo,periodo.idPeriodo+"");
+                ListItem itemPeriodos = new ListItem(periodo.semestre + " Semestre -" + periodo.anoPeriodo, periodo.idPeriodo + "");
                 periodosDDL.Items.Add(itemPeriodos);
             }
-          
+
         }
 
 
@@ -152,39 +157,180 @@ namespace ControlAsistentes.CatalogoEncargado
 
         protected void guardarNuevoAsistente_Click(object sender, EventArgs e)
         {
-            string periodoSemestre = periodosDDL.SelectedValue.ToString();
-            int idAsistente = 0;
-            /* INSERCIÓN ASISTENTE */
-            Asistente asistente = new Asistente();
-            asistente.nombreCompleto = txtNombre.Text;
-            asistente.carnet = txtCarnet.Text;
-            asistente.telefono = txtTelefono.Text;
-            //idAsistente = asistenteServicios.insertarAsistente(asistente);
-            asistente.idAsistente = idAsistente;
+            if (validarAsistenteNuevo())
+            {
+                string periodoSemestre = periodosDDL.SelectedValue.ToString();
+                int idAsistente = 0;
+                /* INSERCIÓN ASISTENTE */
+                Asistente asistente = new Asistente();
+                asistente.nombreCompleto = txtNombre.Text;
+                asistente.carnet = txtCarnet.Text;
+                asistente.telefono = txtTelefono.Text;
+                asistente.cantidadPeriodosNombrado = 0;
+                idAsistente = asistenteServicios.insertarAsistente(asistente);
+                asistente.idAsistente = idAsistente;
 
-            /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
-            Nombramiento nombramiento = new Nombramiento();
-            nombramiento.asistente = asistente;
-            Periodo periodo = new Periodo();
-            periodo.idPeriodo = Convert.ToInt32(periodosDDL.SelectedValue);
-            nombramiento.periodo = periodo;
-            Unidad unidad = new Unidad();
-            /* COMO SE CUAL ES LA UNIDAD DEL ENCARGADO */
-            unidad.idUnidad = 1;
-            nombramiento.unidad = unidad;
-            nombramiento.aprobado = false;
-            nombramiento.recibeInduccion = ChckBxInduccion.Checked ? true : false;
-            nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHoras.Text.ToString());
-            //nombramientoServicios.insertarNombramiento(nombramiento);
+                /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
+                Nombramiento nombramiento = new Nombramiento();
+                nombramiento.asistente = asistente;
+                Periodo periodo = new Periodo();
+                periodo.idPeriodo = Convert.ToInt32(periodosDDL.SelectedValue);
+                nombramiento.periodo = periodo;
+                Unidad unidad = new Unidad();
+                /* COMO SE CUAL ES LA UNIDAD DEL ENCARGADO */
+                unidad.idUnidad = 1;
+                nombramiento.unidad = unidad;
+                nombramiento.aprobado = false;
+                nombramiento.recibeInduccion = Convert.ToBoolean(ChckBxInduccion.Checked);
+              
+                nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHoras.Text);
 
-            /* INSERCIÓN ARCHIVOS ASISTENTE */
+                nombramientoServicios.insertarNombramiento(nombramiento);
 
-            ArchivoAsistente archivoExpediente = new ArchivoAsistente();
-            ArchivoAsistente archivoInforme= new ArchivoAsistente();
-            ArchivoAsistente archivoCV = new ArchivoAsistente();
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente  "+asistente.nombreCompleto+" fue  registrado con éxito');", true);
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
+                Session["listaAsistentes"] = listaAsistentes;
+                MostrarAsistentes();
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
+
+                /* INSERCIÓN ARCHIVOS ASISTENTE */
+
+
+                int tipo = 1;
+
+                if (fileExpediente.HasFile)
+                {
+                    List<FileUpload> listaArchivosInsertar = new List<FileUpload>();
+                    listaArchivosInsertar.Add(fileExpediente);
+                    listaArchivosInsertar.Add(fileInforme);
+                    listaArchivosInsertar.Add(fileCV);
+
+                    List<Archivo> listaArchivos = guardarArchivos(listaArchivosInsertar, asistente);
+
+                    Session["listaArchivos"] = listaArchivos;
+                    foreach (Archivo archivo in listaArchivos)
+                    {
+                        archivo.tipoArchivo = tipo;
+                        int idArchivo = archivoServicios.insertarArchivo(archivo);
+                        archivoServicios.insertarArchivoAsistente(idArchivo, asistente.idAsistente);
+                        tipo++;
+                    }
+                }
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoAsistente();", true);
+            }
 
         }
 
+        /// <summary>
+        ///Mariela Calvo
+        /// marzo/2020
+        /// Efecto: filtra la tabla segun los datos ingresados en los filtros
+        /// Requiere: dar clic en el boton de flitrar e ingresar datos en los filtros
+        /// Modifica: datos de la tabla
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void filtrarAsistentes(object sender, EventArgs e)
+        {
+            paginaActual = 0;
+            MostrarAsistentes();
+
+        }
+
+        public List<Archivo> guardarArchivos(List<FileUpload> archivosAsistente, Asistente asistente)
+        {
+            List<Archivo> listaArchivos = new List<Archivo>();
+            string archivosRepetidos = "";
+
+
+            foreach (FileUpload archivo in archivosAsistente)
+            {
+
+                foreach (HttpPostedFile file in archivo.PostedFiles)
+                {
+                    String nombreArchivo = Path.GetFileName(file.FileName);
+                    nombreArchivo = nombreArchivo.Replace(' ', '_');
+                    DateTime fechaHoy = DateTime.Now;
+                    String carpeta = asistente.carnet + "-" + asistente.periodo.semestre + " " + asistente.periodo.anoPeriodo;
+
+                    int guardado = Utilidades.SaveFile(file, fechaHoy.Year, nombreArchivo, carpeta);
+
+                    if (guardado == 0)
+                    {
+                        Archivo archivoNuevo = new Archivo();
+                        archivoNuevo.nombreArchivo = nombreArchivo;
+                        archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
+                        archivoNuevo.fechaCreacion = fechaHoy;
+                        listaArchivos.Add(archivoNuevo);
+                    }
+                    else
+                    {
+                        archivosRepetidos += "* " + nombreArchivo + ", \n";
+                    }
+                }
+
+            }
+
+
+
+
+            return listaArchivos;
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo/2020
+        /// Efecto: Validar que los datos del nuevo periodo sean ingresados
+        /// Requiere: -
+        /// Modifica: Tabla Periodos
+        /// Devuelve: -
+        /// </summary>
+        public Boolean validarAsistenteNuevo()
+        {
+            Boolean valido = false;
+
+            txtNombre.CssClass = "form-control";
+            txtCarnet.CssClass = "form-control";
+            txtTelefono.CssClass = "form-control";
+            txtHoras.CssClass = "form-control";
+           
+            #region nombre
+            if (String.IsNullOrEmpty(txtNombre.Text) || txtNombre.Text.Trim() == String.Empty || txtNombre.Text.Length > 255)
+            {
+                txtNombre.CssClass = "form-control alert-danger";
+              //  div4.Style.Add("display", "block");
+                valido = false;
+            }
+            else if (String.IsNullOrEmpty(txtCarnet.Text) || txtCarnet.Text.Trim() == String.Empty || txtCarnet.Text.Length > 255)
+            {
+                txtCarnet.CssClass = "form-control alert-danger";
+                div5.Style.Add("display", "block");
+                valido = false;
+            }
+            else if (String.IsNullOrEmpty(txtTelefono.Text) || txtTelefono.Text.Trim() == String.Empty || txtTelefono.Text.Length > 255)
+            {
+                txtTelefono.CssClass = "form-control alert-danger";
+                div3.Style.Add("display", "block");
+                valido = false;
+            }
+
+            else if (String.IsNullOrEmpty(txtHoras.Text) || txtHoras.Text.Trim() == String.Empty || txtHoras.Text.Length > 255)
+            {
+                txtHoras.CssClass = "form-control alert-danger";
+                div7.Style.Add("display", "block");
+                valido = false;
+            }
+
+            #endregion
+
+            return valido;
+        }
 
         #endregion
 

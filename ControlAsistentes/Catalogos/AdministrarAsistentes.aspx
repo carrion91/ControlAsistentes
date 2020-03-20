@@ -56,19 +56,20 @@
                                 <th>Último Período Nombrado</th>
                                 <th>Cantidad de Horas Nombrado</th>
                                 <th>Cantidad de Períodos Nombrado</th>
-
+                                <th>Documentos</th>
 
                             </tr>
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton></td>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary"><span aria-hidden="true" class="glyphicon glyphicon-search" Onlick="filtrarAsistentes()"></span> </asp:LinkButton></td>
                             <td>
 
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true"></asp:TextBox>
                             </td>
                             <td>
                                 <asp:TextBox ID="txBool" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" Visible="false"></asp:TextBox></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -88,7 +89,9 @@
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <% if (Convert.ToBoolean(txBool.Text.ToString()) == true)
+                                    <%
+                                    
+                                     if (Convert.ToBoolean(1))
                                         {
                                     %>
                                     <td>
@@ -118,6 +121,19 @@
                                             <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
                                         </div>
                                     </td>
+                                   <td>
+            
+                                            
+                                       <div id="s" class="btn-g>
+                                            <asp:HiddenField runat="server" ID="HiddenField3" Value='<%# Eval("carnet") %>' />
+                                            <asp:LinkButton ID="LinkButton1" runat="server" ToolTip="Aprobar" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-remove-sign"></span></asp:LinkButton>
+                                        </div>
+                                       <div id="n" class="btn-group">
+                                            <asp:HiddenField runat="server" ID="HiddenField4" Value='<%# Eval("carnet") %>' />
+                                            <asp:LinkButton ID="LinkButton3" runat="server" ToolTip="Aprobar" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-remove-sign"></span></asp:LinkButton>
+                                        </div>
+                                   </td>
+                                    
 
                                 </tr>
 

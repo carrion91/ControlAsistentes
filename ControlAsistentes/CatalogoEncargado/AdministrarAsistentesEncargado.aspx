@@ -60,7 +60,7 @@
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton></td>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="filtrarAsistentes"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton></td>
                             <td>
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true"></asp:TextBox>
                             </td>
@@ -85,7 +85,7 @@
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <% if (Convert.ToBoolean(txBool.Text.ToString()) == true)
+                                    <% if (true == true)
                                         {
                                     %>
                                     <td>
@@ -227,6 +227,9 @@
                     </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
+
+
+
             <!-- Modal nuevo periodo -->
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
@@ -250,15 +253,14 @@
                                             <br />
                                         </div>
 
-                                        <div class="col-xs-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lbNombre" runat="server" Text="Nombre Completo <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="label4" runat="server" Text="Nombre Completo <span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <asp:TextBox ID="txtNombre" runat="server" Text="" CssClass="form-control" ReadOnly="true"></asp:TextBox>
-                                            </div>
-                                            <div id="div4" runat="server" style="display: none" class="col-xs-5">
-                                                <asp:Label ID="lbNombreC" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <div class="input-group">
+                                                    <asp:TextBox class="form-control" ID="txtNombre" runat="server"></asp:TextBox>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -268,8 +270,8 @@
                                             <div class="col-xs-3">
                                                 <asp:Label ID="lbCarnet" runat="server" Text="Carné <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <asp:TextBox ID="txtCarnet" runat="server" Text="" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                                            <div class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtCarnet" runat="server"></asp:TextBox>
                                             </div>
                                             <div id="div5" runat="server" style="display: none" class="col-xs-5">
                                                 <asp:Label ID="lbCarne" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
@@ -282,8 +284,8 @@
                                             <div class="col-xs-3">
                                                 <asp:Label ID="lbTelefono" runat="server" Text="Numéro Teléfono <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <asp:TextBox ID="txtTelefono" runat="server" Text="" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                                            <div class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtTelefono" runat="server"></asp:TextBox>
                                             </div>
                                             <div id="div3" runat="server" style="display: none" class="col-xs-5">
                                                 <asp:Label ID="lblTelefono" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
@@ -296,8 +298,8 @@
                                             <div class="col-xs-3">
                                                 <asp:Label ID="lbHoras" runat="server" Text="Horas Nombramiento<span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <asp:TextBox ID="txtHoras" runat="server" Text="" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                                            <div class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtHoras" runat="server"></asp:TextBox>
                                             </div>
                                             <div id="div7" runat="server" style="display: none" class="col-xs-5">
                                                 <asp:Label ID="lblHoras" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
@@ -311,7 +313,7 @@
                                                 <asp:Label ID="lbPeriodoN" runat="server" Text="Período  Nombramiento<span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
                                             <div class="col-xs-4">
-                                                <asp:DropDownList  ID="periodosDDL" runat="server" CssClass="form-control" >
+                                                <asp:DropDownList ID="periodosDDL" runat="server" CssClass="form-control">
                                                 </asp:DropDownList>
                                             </div>
                                             <div id="div8" runat="server" style="display: none" class="col-xs-5">
@@ -386,7 +388,25 @@
                                             </div>
                                         </div>
                                         <!-- Fin Archivos CV -->
-                                        
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                            <br />
+                                        </div>
+
+                                        <!-- Archivo Cuenta-->
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbCuenta" runat="server" Text="Cuenta del Banco" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:FileUpload ID="fileCuenta" runat="server" AllowMultiple="true" oninput="validarArchivos(this);" onchange="validarArchivos(this);" />
+                                            </div>
+                                            <div class="col-md-5 col-xs-5 col-sm-5" id="div9" runat="server" style="display: none;">
+                                                <asp:Label ID="lblCuenta" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
+                                            </div>
+                                        </div>
+                                        <!-- Fin Archivos Cuenta -->
+
 
                                     </div>
                                 </div>

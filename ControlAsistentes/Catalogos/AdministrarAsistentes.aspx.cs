@@ -74,7 +74,7 @@ namespace ControlAsistentes.Catalogos
             foreach (Asistente asistente in listaAsistentes)
             {
                
-
+               
                 txBool.Text = asistente.nombrado.ToString();
                 
             }
@@ -98,11 +98,26 @@ namespace ControlAsistentes.Catalogos
             lbPrimero.Enabled = !pgsource.IsFirstPage;
             lbUltimo.Enabled = !pgsource.IsLastPage;
             rpAsistentes.DataSource = pgsource;
+            
             rpAsistentes.DataBind();
             Paginacion();
         }
-
-       
+        /// <summary>
+        ///Mariela Calvo
+        /// marzo/2020
+        /// Efecto: filtra la tabla segun los datos ingresados en los filtros
+        /// Requiere: dar clic en el boton de flitrar e ingresar datos en los filtros
+        /// Modifica: datos de la tabla
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void filtrarAsistentes()
+        {
+            paginaActual = 0;
+            MostrarAsistentes();
+            
+        }
 
         public void btnDevolverse(object sender, EventArgs e)
         {

@@ -52,6 +52,7 @@ namespace AccesoDatos
             SqlConnection sqlConnection = ConexionLogin();
             SqlCommand sqlCommand = new SqlCommand("select R.id_rol, U.nombre_completo from Rol R, Usuario U, Usuario_Rol_Aplicacion URA where  U.usuario = @usuario and URA.id_usuario = u.id_usuario and R.id_rol = URA.id_rol ", sqlConnection);
             sqlCommand.Parameters.AddWithValue("@usuario", usuario);
+            
             SqlDataReader reader;
             sqlConnection.Open();
             reader = sqlCommand.ExecuteReader();

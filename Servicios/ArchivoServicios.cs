@@ -16,6 +16,11 @@ namespace Servicios
         {
             return archivoDatos.insertarArchivo(archivo);
         }
+
+        public int insertarArchivoAsistente(int idArchivo,int idAsistente)
+        {
+            return archivoDatos.insertarArchivoAsistente(idArchivo,idAsistente);
+        }
     }
 }
 
