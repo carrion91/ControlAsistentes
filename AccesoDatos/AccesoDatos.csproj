@@ -49,10 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArchivoDatos.cs" />
     <Compile Include="AsistenteDatos.cs" />
     <Compile Include="ConexionDatos.cs" />
     <Compile Include="EncargadoDatos.cs" />
     <Compile Include="EncargadoUnidadDatos.cs" />
+    <Compile Include="NombramientoAsistenteDatos.cs" />
     <Compile Include="PeriodoDatos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnidadDatos.cs" />
