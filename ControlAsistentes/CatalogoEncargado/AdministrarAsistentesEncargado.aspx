@@ -125,6 +125,9 @@
                         </asp:Repeater>
                     </table>
                 </div>
+                <div style="text-align: right">
+                    <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
+                </div>
                 <%--paginación--%>
                 <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <center>
@@ -224,7 +227,7 @@
                         </div>
                         <%-- fin botones --%>
                     </div>
-                   
+
                 </ContentTemplate>
             </asp:UpdatePanel>
 
@@ -410,9 +413,9 @@
 
                                     </div>
                                 </div>
-                                <div class="modal-footer col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9" style="text-align: center">
-                                    <asp:Button ID="btnGuardarA" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="guardarNuevoAsistente_Click" />
-                                    <asp:Button ID="btnCancelarA" runat="server" Text="Cancelar" CssClass="btn btn-danger" />
+                                <div class="modal-footer" style="text-align: center">
+                                    <asp:Button ID="btnNuevoPeriodoModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="guardarNuevoAsistente_Click" />
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
 

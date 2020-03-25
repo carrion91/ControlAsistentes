@@ -63,9 +63,11 @@ namespace ControlAsistentes.Catalogos
         {
             List < Periodo> listaPeriodos = (List<Periodo>)Session["listaPeriodos"];
           
-            var dt = listaPeriodos;
+            
 
             int anoHabilitado = 0;
+
+
             if (listaPeriodos.Count > 0)
             {
                 foreach (Periodo periodo in listaPeriodos)
@@ -84,8 +86,8 @@ namespace ControlAsistentes.Catalogos
                     ListItem itemPeriodo = new ListItem(nombre, periodo.anoPeriodo.ToString());
                 }
             }
+            var dt = listaPeriodos;
 
-           
 
             pgsource.DataSource = dt;
             pgsource.AllowPaging = true;
@@ -124,13 +126,14 @@ namespace ControlAsistentes.Catalogos
         /// </summary>
         protected void EstablecerPeriodoActual_Click(object sender, EventArgs e)
         {
-            int anoPeriodo = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
-            anoPeriodo = 2;
+            int idPeriodo = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            periodoSelccionado = periodoServicios.ObtenerPeriodoPorId(idPeriodo);
+            int anoPeriodo = periodoSelccionado.anoPeriodo;
 
             if (anoPeriodo != 0)
             {
                List<Periodo> listaPeriodos = (List<Periodo>)Session["listaPeriodos"];
-                periodoActual = new Periodo();
+               periodoActual = new Periodo();
 
                 foreach (Periodo periodo in listaPeriodos)
                 {
@@ -139,17 +142,18 @@ namespace ControlAsistentes.Catalogos
                         periodoActual = periodo;
                     }
                 }
-                bool respuesta = this.periodoServicios.HabilitarPeriodo(anoPeriodo);
+                bool respuesta = this.periodoServicios.HabilitarPeriodo(periodoSelccionado);
 
                 if (respuesta)
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Período "+anoPeriodo + "Habilitado');", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Período "+anoPeriodo + " habilitado con éxito');", true);
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Error en habilitar el período como actual, intentelo de nuevo" + "');", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error en habilitar el período "+anoPeriodo +" como actual, intentelo de nuevo" + "');", true);
                 }
-
+                
+                Session["listaPeriodos"] = periodoServicios.ObtenerPeriodos();
                 MostrarPeriodos();
             }
         }

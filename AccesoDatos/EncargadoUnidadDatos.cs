@@ -59,5 +59,30 @@ namespace AccesoDatos
             sqlCommand.ExecuteReader();
             sqlConnection.Close();
         }
+
+
+
+        public List<Encargado> listaEncargados()
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            List<Encargado> encargados = new List<Encargado>();
+            SqlCommand sqlCommand = new SqlCommand("SELECT id_encargado, nombre_completo from Encargado", sqlConnection);
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Encargado encargado = new Encargado();
+                encargado.idEncargado = Convert.ToInt32(reader["id_encargado"].ToString());
+                encargado.nombreCompleto = reader["nombre_completo"].ToString();
+                encargados.Add(encargado);
+
+            }
+            sqlConnection.Close();
+
+            return encargados;
+        }
     }
 }

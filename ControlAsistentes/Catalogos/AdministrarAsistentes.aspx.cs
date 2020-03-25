@@ -66,19 +66,10 @@ namespace ControlAsistentes.Catalogos
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
             {
-                nombreasistente = txtBuscarNombre.ToString();
+                nombreasistente = txtBuscarNombre.Text;
             }
 
             List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
-
-            foreach (Asistente asistente in listaAsistentes)
-            {
-               
-               
-                txBool.Text = asistente.nombrado.ToString();
-                
-            }
-
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -102,6 +93,8 @@ namespace ControlAsistentes.Catalogos
             rpAsistentes.DataBind();
             Paginacion();
         }
+
+
         /// <summary>
         ///Mariela Calvo
         /// marzo/2020
@@ -112,7 +105,7 @@ namespace ControlAsistentes.Catalogos
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void filtrarAsistentes()
+        public void filtrarAsistentes(object sender, EventArgs e)
         {
             paginaActual = 0;
             MostrarAsistentes();

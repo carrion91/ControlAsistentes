@@ -26,7 +26,7 @@
                 
                 <div class="col-md-12 col-xs-6 col-sm-6">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                        <asp:Button ID="Button1" runat="server" Text="Nuevo Unidad" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevaUnidad_Click" />
+                        <asp:Button ID="Button1" runat="server" Text="Nueva Unidad" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevaUnidad_Click" />
                     </div>
                 </div>
                 

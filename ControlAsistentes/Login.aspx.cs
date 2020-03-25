@@ -28,6 +28,7 @@ namespace ControlAsistentes
             //Utilidades.SetLogDirectory();
             Session["rol"] = null;
             Session["nombreCompleto"] = null;
+            Session["Encargado"]= null;
 
             this.txtPassword.Attributes.Add("onkeypress", "button_click(this,'" + this.btIngresar.ClientID + "')");
             this.txtUsuario.Attributes.Add("onkeypress", "button_click(this,'" + this.btIngresar.ClientID + "')");
@@ -96,6 +97,8 @@ namespace ControlAsistentes
 
                             Session["rol"] = rol;
                             Session["nombreCompleto"] = nombreCompleto;
+
+
                             String url = Page.ResolveUrl("~/Default.aspx");
                             Response.Redirect(url);
                         }

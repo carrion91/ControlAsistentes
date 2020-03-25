@@ -19,6 +19,9 @@ namespace ControlAsistentes.CatalogoEncargado
         PeriodoServicios periodoServicios = new PeriodoServicios();
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
         ArchivoServicios archivoServicios = new ArchivoServicios();
+        UnidadServicios unidadServicios = new UnidadServicios();
+        Unidad unidadEncargado = new Unidad();
+       
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
@@ -47,6 +50,11 @@ namespace ControlAsistentes.CatalogoEncargado
             object[] rolesPermitidos = { 1, 2, 5 };
             Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
+            
+            if (Session["nombreCompleto"]!=null)
+            {
+                unidadEncargado = unidadServicios.ObtenerUnidadPorEncargado(Session["nombreCompleto"].ToString());
+            }
 
             if (!IsPostBack)
             {
@@ -225,7 +233,7 @@ namespace ControlAsistentes.CatalogoEncargado
             }
 
         }
-
+       
         /// <summary>
         ///Mariela Calvo
         /// marzo/2020
@@ -314,7 +322,6 @@ namespace ControlAsistentes.CatalogoEncargado
              if (String.IsNullOrEmpty(txtTelefono.Text) || txtTelefono.Text.Trim() == String.Empty || txtTelefono.Text.Length > 255)
             {
                 txtTelefono.CssClass = "form-control alert-danger";
-                div3.Style.Add("display", "block");
                 valido = false;
             }
 

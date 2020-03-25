@@ -22,7 +22,7 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Unidad> unidades = new List<Unidad>();
             SqlCommand sqlCommand = new SqlCommand("SELECT U.id_unidad, U.nombre, U.descripcion,E.nombre_completo FROM Unidad U JOIN Encargado_Unidad EU ON U.id_unidad=EU.id_unidad"
-                + " JOIN Encargado E ON EU.id_encargado = E.id_encargado; ", sqlConnection);
+                + " JOIN Encargado E ON EU.id_encargado = E.id_encargado WHERE disponible=1; ", sqlConnection);
 
             SqlDataReader reader;
             sqlConnection.Open();
@@ -114,7 +114,7 @@ namespace AccesoDatos
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
 
-            SqlCommand sqlCommand = new SqlCommand("DELETE FROM Unidad where id_unidad=@id_unidad_;", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("UPDATE Unidad SET disponible=0 where id_unidad=@id_unidad_;", sqlConnection);
             sqlCommand.Parameters.AddWithValue("@id_unidad_", idUnidad);
 
             sqlConnection.Open();
@@ -147,6 +147,42 @@ namespace AccesoDatos
             sqlCommand.ExecuteScalar();
 
             sqlConnection.Close();
+        }
+
+        // <summary>
+        // Mariela Calvo
+        // Diciembre/2019
+        // Efecto: Retorna la información de la unidad de acuerdo a su id
+        // Requiere: Unidad
+        // Modifica: -
+        // Devuelve: -
+        // </summary>
+        // <param name="idUnidad"></param>
+        public Unidad ObtenerUnidadPorNombreEncargado(String nombreEncargado)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            Unidad unidad = new Unidad();
+            SqlCommand sqlCommand = new SqlCommand("SELECT U.id_unidad, U.nombre, U.descripcion,E.id_encargado,E.nombre_completo FROM Unidad U JOIN Encargado_Unidad EU ON U.id_unidad=EU.id_unidad"
+                + " JOIN Encargado E ON EU.id_encargado = E.id_encargado WHERE E.nombre_completo=@nombreEncargado_; ", sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@nombreEncargado_",nombreEncargado);
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                unidad.idUnidad = Convert.ToInt32(reader["id_unidad"].ToString());
+                unidad.nombre = reader["nombre"].ToString();
+                unidad.descripcion = reader["descripcion"].ToString();
+                Encargado encargado = new Encargado();
+                encargado.idEncargado = Convert.ToInt32(reader["id_encargado"].ToString());
+                encargado.nombreCompleto = reader["nombre_completo"].ToString();
+                unidad.encargado = encargado;
+
+            }
+            sqlConnection.Close();
+
+            return unidad;
         }
     }
 

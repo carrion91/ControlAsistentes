@@ -18,10 +18,7 @@ namespace Servicios
             return encargadoDatos.listaEncargados();
         }
 
-        public Encargado obtenerEncargadoPorId(int idEncargado)
-        {
-            return encargadoDatos.ObtenerEncargadoPorId(idEncargado); ;
-        }
+      
 
         public int insertarEncargado(Encargado encargado)
         {

@@ -72,7 +72,7 @@ namespace ControlAsistentes.Catalogos
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
             {
-                nombreUnidad = txtBuscarNombre.ToString();
+                nombreUnidad = txtBuscarNombre.Text;
             }
 
             List<Unidad> listaUnidadesFiltrada = (List<Unidad>)listaUnidades.Where(unidad => unidad.nombre.ToUpper().Contains(nombreUnidad.ToUpper())).ToList();

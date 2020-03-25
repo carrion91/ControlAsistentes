@@ -15,6 +15,8 @@ namespace ControlAsistentes
         public static string path= "C:\\Users\\aleir\\OneDrive\\Documentos\\Audacity\\";
         //public static string path = "\\\\gaia\\AppFiles\\RegistroSolicitudEnsayos\\Pruebas\\";
         public static string logs_path = path + "logs";
+        
+
 
         public static void SetLogDirectory()
         {

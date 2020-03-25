@@ -23,10 +23,14 @@ namespace Servicios
             return this.periodoDatos.ObtenerPeriodos();
         }
 
-
-        public bool HabilitarPeriodo(int anoPeriodo)
+        public Periodo ObtenerPeriodoPorId(int idPeriodo)
         {
-            return periodoDatos.HabilitarPeriodo(anoPeriodo);
+            return periodoDatos.ObtenerPeriodoPorId(idPeriodo);
+        }
+
+        public bool HabilitarPeriodo(Periodo periodo)
+        {
+            return periodoDatos.HabilitarPeriodo(periodo);
         }
 
 

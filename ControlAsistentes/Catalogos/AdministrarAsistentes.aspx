@@ -38,12 +38,15 @@
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
+
                 <div class="col-md-12 col-xs-6 col-sm-6">
 
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
                         <asp:Button ID="btnPendientes" runat="server" Text="Aprobaciones Pendientes" CssClass="btn btn-primary boton-nuevo" />
                     </div>
                 </div>
+
+
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <table class="table table-bordered">
                         <thead style="text-align: center !important; align-content: center">
@@ -62,7 +65,9 @@
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary"><span aria-hidden="true" class="glyphicon glyphicon-search" Onlick="filtrarAsistentes()"></span> </asp:LinkButton></td>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="filtrarAsistentes"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton>
+
+                            </td>
                             <td>
 
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true"></asp:TextBox>
@@ -90,8 +95,8 @@
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <%
-                                    
-                                     if (Convert.ToBoolean(1))
+
+                                        if (Convert.ToBoolean(1))
                                         {
                                     %>
                                     <td>
@@ -121,19 +126,8 @@
                                             <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
                                         </div>
                                     </td>
-                                   <td>
-            
-                                            
-                                       <div id="s" class="btn-g>
-                                            <asp:HiddenField runat="server" ID="HiddenField3" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="LinkButton1" runat="server" ToolTip="Aprobar" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-remove-sign"></span></asp:LinkButton>
-                                        </div>
-                                       <div id="n" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField4" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="LinkButton3" runat="server" ToolTip="Aprobar" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-remove-sign"></span></asp:LinkButton>
-                                        </div>
-                                   </td>
-                                    
+
+
 
                                 </tr>
 
@@ -143,6 +137,9 @@
                             </FooterTemplate>
                         </asp:Repeater>
                     </table>
+                </div>
+                <div style="text-align: right">
+                    <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
                 </div>
                 <%--paginación--%>
                 <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
@@ -179,7 +176,9 @@
                      </table>
                  </center>
                 </div>
+
                 <%--fn paginación--%>
+
                 <br />
                 <br />
                 <br />
@@ -189,7 +188,7 @@
             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 mt-2">
                 <hr />
             </div>
-            <div id="divDocsAsist" runat="server" visible="true">
+            <div id="divDocsAsist" runat="server" visible="false">
                 <br />
                 <br />
                 <br />

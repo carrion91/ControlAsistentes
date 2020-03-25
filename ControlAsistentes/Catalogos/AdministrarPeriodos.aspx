@@ -54,10 +54,10 @@
                                 <div class="btn-group">
                                     <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("anoPeriodo") %>' />
                                     <%--<asp:CheckBox ID="cbProyecto" runat="server" Text="" />--%>
-                                    <asp:LinkButton ID="btnSelccionar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("anoPeriodo") %>' OnClick="EstablecerPeriodoActual_Click"><span class="glyphicon glyphicon-ok"></span></asp:LinkButton>
+                                    <asp:LinkButton ID="btnSelccionar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idPeriodo") %>' OnClick="EstablecerPeriodoActual_Click"><span class="glyphicon glyphicon-ok"></span></asp:LinkButton>
                                 </div>
                             </td>
-                            <td><%# Eval("AnoPeriodo") %> <%# (Eval("habilitado").ToString() == "True")? "(Actual)" : "" %></td>
+                            <td><%# Eval("anoPeriodo") %> <%# (Eval("habilitado").ToString() == "True")? "(Actual)" : "" %></td>
                             <td><%# Eval("semestre") %></td>
                             <td>
                                 <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("anoPeriodo") %>' OnClick="btnEliminar_Click"><span class="btn glyphicon glyphicon-trash" ></span></asp:LinkButton>

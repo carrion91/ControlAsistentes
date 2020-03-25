@@ -37,6 +37,10 @@ namespace Servicios
             return unidadDatos.ObtenerUnidadPorId(idUnidad);
         }
 
+        public Unidad ObtenerUnidadPorEncargado(string nombreEncargado)
+        {
+            return unidadDatos.ObtenerUnidadPorNombreEncargado(nombreEncargado);
+        }
 
         public void eliminarUnidad(int idUnidad)
         {

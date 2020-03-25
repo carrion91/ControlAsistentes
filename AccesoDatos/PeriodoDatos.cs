@@ -45,6 +45,28 @@ namespace AccesoDatos
             return periodos;
         }
 
+        public Periodo ObtenerPeriodoPorId(int idPeriodo)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            Periodo periodo = new Periodo();
+            SqlCommand sqlCommand = new SqlCommand("SELECT id_periodo,ano_periodo, habilitado,semestre FROM Periodo WHERE disponible=1 AND id_periodo=@id_periodo_; ", sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@id_periodo_",idPeriodo);
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                periodo.idPeriodo = Convert.ToInt32(reader["id_periodo"].ToString());
+                periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
+                periodo.habilitado = Convert.ToBoolean(reader["habilitado"].ToString());
+                periodo.semestre = reader["semestre"].ToString();
+            }
+            sqlConnection.Close();
+
+            return periodo;
+        }
+
         public Periodo ObtenerPeriodoActual()
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
@@ -69,15 +91,16 @@ namespace AccesoDatos
         /// </summary>
         /// <param name="anoPeriodo">Valor de tipo <code>int</code> que representa el año del periodo que se desea habilitar</param>
         /// <returns>Retorna si el periodo fue habilitado</returns>
-        public bool HabilitarPeriodo(int anoPeriodo)
+        public bool HabilitarPeriodo(Periodo periodo)
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             bool habilitado = false;
             SqlCommand sqlCommandDeshabilitarTodos = new SqlCommand("update Periodo set habilitado=@habilitado_;", sqlConnection);
             sqlCommandDeshabilitarTodos.Parameters.AddWithValue("@habilitado_", 0);
 
-            SqlCommand sqlCommandHabilitarPeriodo = new SqlCommand("update Periodo set habilitado=@habilitado_ output INSERTED.ano_periodo where ano_periodo=@ano_periodo_;", sqlConnection);
-            sqlCommandHabilitarPeriodo.Parameters.AddWithValue("@ano_periodo_", anoPeriodo);
+            SqlCommand sqlCommandHabilitarPeriodo = new SqlCommand("update Periodo set habilitado=@habilitado_ output INSERTED.ano_periodo where ano_periodo=@ano_periodo_ and semestre=@semestre_;", sqlConnection);
+            sqlCommandHabilitarPeriodo.Parameters.AddWithValue("@ano_periodo_", periodo.anoPeriodo);
+            sqlCommandHabilitarPeriodo.Parameters.AddWithValue("@semestre_", periodo.semestre);
             sqlCommandHabilitarPeriodo.Parameters.AddWithValue("@habilitado_", 1);
 
             sqlConnection.Open();
