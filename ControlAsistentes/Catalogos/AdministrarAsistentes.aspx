@@ -94,29 +94,12 @@
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <%
-
-                                        if (Convert.ToBoolean(1))
-                                        {
-                                    %>
                                     <td>
                                         <div class="btn-group">
                                             <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnAprobar" runat="server" ToolTip="Aprobado" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-ok-sign"></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
                                         </div>
                                     </td>
-                                    <% }
-                                        else
-                                        {
-                                    %>
-                                    <td>
-                                        <div class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="LinkButton2" runat="server" ToolTip="Aprobar" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-remove-sign"></span></asp:LinkButton>
-                                        </div>
-                                    </td>
-                                    <% }
-                                    %>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                     <td><%# Eval("cantidadHorasNombrado") %></td>
                                     <td><%# Eval("cantidadPeriodosNombrado") %></td>
