@@ -12,7 +12,7 @@ namespace ControlAsistentes
     {
         public static Dictionary<int, string> roles { get; set; }
         public static List<System.Web.UI.WebControls.HyperLink> aplicaciones { get; set; }
-        public static string path= "C:\\Users\\aleir\\OneDrive\\Documentos\\Audacity\\";
+        public static string path= @"C:\archivos\control\";
         //public static string path = "\\\\gaia\\AppFiles\\RegistroSolicitudEnsayos\\Pruebas\\";
         public static string logs_path = path + "logs";
         

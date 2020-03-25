@@ -14,6 +14,8 @@ namespace Entidades
         public String nombreArchivo { get; set; }
         public String rutaArchivo { get; set; }
         public int tipoArchivo { get; set; }
+
+        public string creadoPor { get; set; }
         
     }
 }

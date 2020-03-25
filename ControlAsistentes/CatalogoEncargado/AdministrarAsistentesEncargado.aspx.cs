@@ -95,7 +95,7 @@ namespace ControlAsistentes.CatalogoEncargado
             var dt = listaAsistentesFiltrada;
             pgsource.DataSource = dt;
             pgsource.AllowPaging = true;
-            //numero de items que se muestran en el Repeater
+            //numero de items que se Asistenten en el Repeater
             pgsource.PageSize = elmentosMostrar;
             pgsource.CurrentPageIndex = paginaActual;
             //mantiene el total de paginas en View State
@@ -175,7 +175,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 asistente.carnet = txtCarnet.Text;
                 asistente.telefono = txtTelefono.Text;
                 asistente.cantidadPeriodosNombrado = 0;
-                idAsistente = asistenteServicios.insertarAsistente(asistente);
+                //idAsistente = asistenteServicios.insertarAsistente(asistente);
                 asistente.idAsistente = idAsistente;
 
                 /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
@@ -193,14 +193,10 @@ namespace ControlAsistentes.CatalogoEncargado
               
                 nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHoras.Text);
 
-                nombramientoServicios.insertarNombramiento(nombramiento);
+                //nombramientoServicios.insertarNombramiento(nombramiento);
 
 
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente  "+asistente.nombreCompleto+" fue  registrado con éxito');", true);
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
-                Session["listaAsistentes"] = listaAsistentes;
-                MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
+               
 
                 /* INSERCIÓN ARCHIVOS ASISTENTE */
 
@@ -225,6 +221,8 @@ namespace ControlAsistentes.CatalogoEncargado
                         tipo++;
                     }
                 }
+
+
             }
             else
             {
@@ -273,7 +271,7 @@ namespace ControlAsistentes.CatalogoEncargado
                     {
                         Archivo archivoNuevo = new Archivo();
                         archivoNuevo.nombreArchivo = nombreArchivo;
-                        archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
+                        archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + @"\" + carpeta +@"\" + nombreArchivo;
                         archivoNuevo.fechaCreacion = fechaHoy;
                         listaArchivos.Add(archivoNuevo);
                     }
@@ -287,6 +285,48 @@ namespace ControlAsistentes.CatalogoEncargado
 
 
 
+
+            return listaArchivos;
+        }
+
+
+        public List<Archivo> guardarArchivos(Asistente asistente, FileUpload fuArchivos)
+        {
+            List<Archivo> listaArchivos = new List<Archivo>();
+
+            String archivosRepetidos = "";
+
+            foreach (HttpPostedFile file in fuArchivos.PostedFiles)
+            {
+                String nombreArchivo = Path.GetFileName(file.FileName);
+                nombreArchivo = nombreArchivo.Replace(' ', '_');
+                DateTime fechaHoy = DateTime.Now;
+                String carpeta = asistente.carnet + "-" + asistente.periodo.semestre + " " + asistente.periodo.anoPeriodo;
+
+                int guardado = Utilidades.SaveFile(file, fechaHoy.Year, nombreArchivo, carpeta);
+
+                if (guardado == 0)
+                {
+                    Archivo Archivo = new Archivo();
+                    Archivo.nombreArchivo = nombreArchivo;
+                    Archivo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
+                    Archivo.fechaCreacion = fechaHoy;
+                    Archivo.creadoPor = (String)Session["nombreCompleto"];
+
+                    listaArchivos.Add(Archivo);
+                }
+                else
+                {
+                    archivosRepetidos += "* " + nombreArchivo + ", \n";
+                }
+            }
+
+            if (archivosRepetidos.Trim() != "")
+            {
+                archivosRepetidos = archivosRepetidos.Remove(archivosRepetidos.Length - 3);
+                //(this.Master as SiteMaster).Mensaje("Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre", "¡Alerta!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre" + "');", true);
+            }
 
             return listaArchivos;
         }
@@ -378,7 +418,7 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <summary>
         /// Mariela Calvo
         /// marzo/2020
-        /// Efecto: se devuelve a la primera pagina y muestra los datos de la misma
+        /// Efecto: se devuelve a la primera pagina y Asistente los datos de la misma
         /// Requiere: dar clic al boton de "Primer pagina"
         /// Modifica: elementos mostrados en la tabla de contactos
         /// Devuelve: -
@@ -394,7 +434,7 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <summary>
         /// Mariela Calvo
         /// marzo/2020
-        /// Efecto: se devuelve a la pagina anterior y muestra los datos de la misma
+        /// Efecto: se devuelve a la pagina anterior y Asistente los datos de la misma
         /// Requiere: dar clic al boton de "Anterior pagina"
         /// Modifica: elementos mostrados en la tabla de contactos
         /// Devuelve: -
@@ -410,7 +450,7 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <summary>
         /// Mariela Calvo
         /// marzo/2020
-        /// Efecto: se devuelve a la pagina siguiente y muestra los datos de la misma
+        /// Efecto: se devuelve a la pagina siguiente y Asistente los datos de la misma
         /// Requiere: dar clic al boton de "Siguiente pagina"
         /// Modifica: elementos mostrados en la tabla de contactos
         /// Devuelve: -
@@ -426,7 +466,7 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <summary>
         /// Mariela Calvo
         /// marzo/2020
-        /// Efecto: se devuelve a la ultima pagina y muestra los datos de la misma
+        /// Efecto: se devuelve a la ultima pagina y Asistente los datos de la misma
         /// Requiere: dar clic al boton de "Ultima pagina"
         /// Modifica: elementos mostrados en la tabla de contactos
         /// Devuelve: -
@@ -442,7 +482,7 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <summary>
         /// Mariela Calvo 
         /// marzo/2020
-        /// Efecto: actualiza la la pagina actual y muestra los datos de la misma
+        /// Efecto: actualiza la la pagina actual y Asistente los datos de la misma
         /// Requiere: -
         /// Modifica: elementos de la tabla
         /// Devuelve: -
