@@ -55,7 +55,20 @@ body {
     background-color: #005da4;
 }
 
+.True, .False{
+    top:3px;
+    left:5px;
+}
 
+.True:before {
+    font-family: "FontAwesome";
+    content: "\f00c";
+}
+
+.False:before {
+    font-family: "FontAwesome";
+    content: "\f00d";
+}
 
 .logoUCR {
     margin-top: 5%;
