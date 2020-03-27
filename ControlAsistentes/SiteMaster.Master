@@ -211,7 +211,7 @@
                         </a>
                     </div>
                     <div class="grid_3">
-                        <a id="usuariosU"  runat="server">
+                        <a id="usuariosU"  runat="server" href="~/CatalogoUTI/Usuarios/AdministrarUsuarios.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">

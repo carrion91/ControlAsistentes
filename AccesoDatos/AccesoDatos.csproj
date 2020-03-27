@@ -124,6 +124,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TarjetaDatos.cs" />
     <Compile Include="UnidadDatos.cs" />
+    <Compile Include="UsuarioDatos.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entidades\Entidades.csproj">
