@@ -62,7 +62,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         #region events
         protected void mostrarTarjetas()
         {
-            List<Tarjeta> listaTarjetas = (List<Tarjeta>)Session["listaTarjetasFiltrada"];
+            List<Tarjeta> listaTarjetas = (List<Tarjeta>)Session["listaTarjetas"];
             String filtro = "";
             if (!String.IsNullOrEmpty(txtBuscarTarjeta.Text))
             {
@@ -88,6 +88,22 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             rpTarjetas.DataSource = pgsource;
             rpTarjetas.DataBind();
             Paginacion();
+        }
+
+        /// <summary>
+        /// Leonardo Carrion
+        /// 12/jun/2019
+        /// Efecto: filtra la tabla segun los datos ingresados en los filtros
+        /// Requiere: dar clic en el boton de flitrar e ingresar datos en los filtros
+        /// Modifica: datos de la tabla
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            paginaActual = 0;
+            mostrarTarjetas();
         }
 
         protected void btnNuevo_Click(object sender, EventArgs e)
