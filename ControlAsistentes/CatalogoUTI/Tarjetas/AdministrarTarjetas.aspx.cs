@@ -17,6 +17,9 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         #region variables globales
 
         private TarjetaServicios tarjetaServicios = new TarjetaServicios();
+        private const string NUEVO = "NUEVO";
+        private const string EDITAR = "EDITAR";
+        private const string ELIMINAR = "ELIMINAR";
 
         #region variables globales paginacion tarjetas
         readonly PagedDataSource pgsource = new PagedDataSource();
@@ -38,7 +41,6 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             }
         }
         #endregion
-
         #endregion
 
         #region page load
@@ -59,7 +61,72 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         }
         #endregion
 
+        #region logica
+
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Habilita y restablece los campos del formulario
+        /// Requiere: -
+        /// Modifica: Campos del formulario
+        /// Devuelve: -
+        /// </summary>
+        private void HabilitarFormulario()
+        {
+            txtNumeroTarjeta.CssClass = "form-control chat-input";
+            txtNumeroTarjeta.Enabled = true;
+            txtNumeroTarjeta.Text = "";
+            cbxDisponible.Enabled = true;
+            cbxDisponible.Checked = false;
+            cbxExtraviada.Enabled = true;
+            cbxExtraviada.Checked = false;
+        }
+
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Deshabilita los campos del formulario
+        /// Requiere: -
+        /// Modifica: Campos del formulario
+        /// Devuelve: -
+        /// </summary>
+        private void DeshabilitarFormulario()
+        {
+            txtNumeroTarjeta.Enabled = false;
+            cbxDisponible.Enabled = false;
+            cbxExtraviada.Enabled = false;
+        }
+
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Valida que los campos del formulario tengan el formato requerido
+        /// Requiere: -
+        /// Modifica: -
+        /// Devuelve : True si esta correcto, False si hay un campo que no cumple con los requisitos
+        /// </summary>
+        private bool ValidaFormulario()
+        {
+            List<Tarjeta> tarjetas = (List<Tarjeta>)Session["listaTarjetas"];
+            bool result = true;
+            if (String.IsNullOrEmpty(txtNumeroTarjeta.Text) || tarjetas.Any(tarjeta => tarjeta.numeroTarjeta.Equals(txtNumeroTarjeta.Text)))
+            {
+                result = false;
+                txtNumeroTarjeta.CssClass = "form-control alert-danger";
+            }
+            return result;
+        }
+        #endregion
+
         #region events
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 01/11/2019
+        /// Efecto: carga los datos filtrados en la tabla y realiza la paginacion correspondiente
+        /// Requiere: -
+        /// Modifica: los datos mostrados en pantalla
+        /// Devuelve: -
+        /// </summary>
         protected void mostrarTarjetas()
         {
             List<Tarjeta> listaTarjetas = (List<Tarjeta>)Session["listaTarjetas"];
@@ -106,30 +173,138 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             mostrarTarjetas();
         }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Muestra un modal para agregar una tarjeta nueva
+        /// Requiere: Clickear el boton "Nueva Tarjeta" del formulario
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
-
+            HabilitarFormulario();
+            modalTitle.Text = "Nueva Tarjeta";
+            btnConfirmar.Text = "Guardar";
+            cbxDisponible.Checked = true;
+            cbxExtraviada.Checked = false;
+            Session["action"] = NUEVO;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "openModalTarjetas();", true);
         }
-        
+
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Muestra un modal para editar una tarjeta 
+        /// Requiere: Clickear el boton "Editar" de la tabla de tarjetas
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnEditar_Click(object sender, EventArgs e)
         {
-
+            HabilitarFormulario();
+            int id = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            List<Tarjeta> tarjetas = (List<Tarjeta>)Session["listaTarjetasFiltrada"];
+            Tarjeta tarjetaSeleccionada = tarjetas.FirstOrDefault(tarjeta => tarjeta.idTarjeta == id);
+            modalTitle.Text = "Editar Tarjeta";
+            btnConfirmar.Text = "Actualizar";
+            txtNumeroTarjeta.Text = tarjetaSeleccionada.numeroTarjeta;
+            cbxDisponible.Checked = tarjetaSeleccionada.disponible;
+            cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
+            Session["action"] = EDITAR;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "openModalTarjetas();", true);
         }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Muestra un modal para eliminar una tarjeta
+        /// Requiere: Clickear el boton "Eliminar" de la tabla de tarjetas
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
+            DeshabilitarFormulario();
+            int id = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            List<Tarjeta> tarjetas = (List<Tarjeta>)Session["listaTarjetasFiltrada"];
+            Tarjeta tarjetaSeleccionada = tarjetas.FirstOrDefault(tarjeta => tarjeta.idTarjeta == id);
+            modalTitle.Text = "Eliminar Tarjeta";
+            btnConfirmar.Text = "Eliminar";
+            txtNumeroTarjeta.Text = tarjetaSeleccionada.numeroTarjeta;
+            cbxDisponible.Checked = tarjetaSeleccionada.disponible;
+            cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
+            Session["action"] = ELIMINAR;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "openModalTarjetas();", true);
+        }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Confirma la accion del usuario
+        /// Requiere: Clickear el boton Guardar, Actualizar o Eliminar del modal
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnConfirmar_Click(object sender, EventArgs e)
+        {
+            if (ValidaFormulario())
+            {
+                Tarjeta tarjeta = new Tarjeta();
+                tarjeta.numeroTarjeta = txtNumeroTarjeta.Text;
+                tarjeta.tarjetaExtraviada = cbxExtraviada.Checked;
+                tarjeta.disponible = cbxDisponible.Checked;
+                tarjeta.asistente = new Asistente();
+                switch ((Session["action"]))
+                {
+                    case NUEVO:
+                        tarjetaServicios.InsertarTarjeta(tarjeta);
+                        Toastr("success", "Se agregó correctamente la tarjeta " + tarjeta.numeroTarjeta);
+                        break;
+                    case EDITAR:
+                        tarjetaServicios.ActualizarTarjeta(tarjeta);
+                        Toastr("success", "Se actualizó correctamente la tarjeta " + tarjeta.numeroTarjeta);
+                        break;
+                    case ELIMINAR:
+                        tarjetaServicios.EliminarTarjeta(tarjeta);
+                        Toastr("success", "Se eliminó correctamente la tarjeta " + tarjeta.numeroTarjeta);
+                        break;
+                    default:
+                        Toastr("error", "Algo sucedió, vuelva a intentarlo");
+                        break;
+                }
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "closeModalTarjetas();", true);
+            }
+            else
+            {
+                Toastr("error", "Verifique que el formulario este completo");
+            }
         }
 
         protected void btnAtras_Click(object sender, EventArgs e)
         {
 
         }
-
-
         #endregion
 
         #region paginacion
+
+        /// <summary>
+        /// Leonardo Carrion
+        /// 14/jun/2019
+        /// Efecto: realiza la paginacion
+        /// Requiere: -
+        /// Modifica: paginacion mostrada en pantalla
+        /// Devuelve: -
+        /// </summary>
         public void Paginacion()
         {
             var dt = new DataTable();
@@ -265,5 +440,15 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         }
         #endregion
 
+        #region mensaje toast
+        private void Toastr(string tipo, string mensaje)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr." + tipo + "('" + mensaje + "');", true);
+        }
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            ViewState["CheckRefresh"] = Session["CheckRefresh"];
+        }
+        #endregion
     }
 }
