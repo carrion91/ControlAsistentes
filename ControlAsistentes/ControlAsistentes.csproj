@@ -136,6 +136,7 @@
     <Content Include="Catalogos\AdministrarPeriodos.aspx" />
     <Content Include="Catalogos\AdministrarUnidades.aspx" />
     <Content Include="CatalogoUTI\AdministrarUsuarios.aspx" />
+    <Content Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx" />
     <Content Include="Content\DataTables\datatables.min.css" />
     <Content Include="Content\DataTables\images\details_close.png" />
     <Content Include="Content\DataTables\images\details_open.png" />
@@ -232,6 +233,13 @@
     </Compile>
     <Compile Include="CatalogoUTI\AdministrarUsuarios.aspx.designer.cs">
       <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx.cs">
+      <DependentUpon>AdministrarTarjetas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx.designer.cs">
+      <DependentUpon>AdministrarTarjetas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
