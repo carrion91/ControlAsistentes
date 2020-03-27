@@ -41,6 +41,11 @@
                         <asp:Button ID="btnNuevoAsistente" runat="server" Text="Nuevo Asistente" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
                     </div>
                 </div>
+                <div class="col-md-12 col-xs-6 col-sm-6">
+                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
+                        <asp:Button ID="Button1" runat="server" Text="Nuevo Asistente" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
+                    </div>
+                </div>
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <table class="table table-bordered">
                         <thead style="text-align: center !important; align-content: center">
@@ -85,27 +90,12 @@
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <% if (true == true)
-                                        {
-                                    %>
                                     <td>
                                         <div class="btn-group">
                                             <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-ok-sign"></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
                                         </div>
                                     </td>
-                                    <% }
-                                        else
-                                        {
-                                    %>
-                                    <td>
-                                        <div class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDettalesX" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><span class="btn glyphicon glyphicon-remove-sign"></span></asp:LinkButton>
-                                        </div>
-                                    </td>
-                                    <% }
-                                    %>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                     <td><%# Eval("cantidadHorasNombrado") %></td>
                                     <td><%# Eval("cantidadPeriodosNombrado") %></td>
@@ -174,62 +164,7 @@
                 <hr />
             </div>
 
-            <!-- Modal nuevo asistente -->
-            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                <ContentTemplate>
-                    <div id="modalNuevoAsistente1" class="modal fade" role="alertdialog">
-                        <%-- titulo accion--%>
-                        <div class="col-md-12 col-xs-12 col-sm-12">
-                            <center>
-                        <asp:Label ID="lblNuevoAsistente" runat="server" Text="Nuevo Asistente" Font-Size="Large" ForeColor="Black"></asp:Label>
-                    </center>
-                        </div>
-                        <%-- fin titulo accion --%>
 
-                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                            <hr />
-                        </div>
-
-                        <%-- campos a llenar --%>
-
-
-
-
-
-
-
-                        <!-- Archivos Muestra -->
-                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                            <div class="col-md-3 col-xs-3 col-sm-3">
-                                <asp:Label ID="lblArchivos" runat="server" Text="Archivos " Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
-                            </div>
-                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                <asp:FileUpload ID="fuArchivos" runat="server" AllowMultiple="true" oninput="validarArchivos(this);" onchange="validarArchivos(this);" />
-                            </div>
-                            <div class="col-md-5 col-xs-5 col-sm-5" id="divArchivosVacio" runat="server" style="display: none;">
-                                <asp:Label ID="lblArchivosVacio" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
-                            </div>
-                        </div>
-                        <!-- Fin Archivos Muestra -->
-
-
-
-                        <%-- fin campos a llenar --%>
-
-                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                            <hr />
-                        </div>
-
-                        <%-- botones --%>
-                        <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
-                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" />
-                            <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-danger" />
-                        </div>
-                        <%-- fin botones --%>
-                    </div>
-
-                </ContentTemplate>
-            </asp:UpdatePanel>
 
 
 
@@ -409,12 +344,29 @@
                                             </div>
                                         </div>
                                         <!-- Fin Archivos Cuenta -->
-
+                                        <!-- Archivos Muestra -->
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblArchivos" runat="server" Text="Archivos " Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
+                                            </div>
+                                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                                                <ContentTemplate>
+                                                    <asp:FileUpload ID="fuArchivos" runat="server" AllowMultiple="true" CssClass="form-control" />
+                                                </ContentTemplate>
+                                                <Triggers>
+                                                    <asp:PostBackTrigger ControlID="btnNuevoAsistenteModal" />
+                                                </Triggers>
+                                            </asp:UpdatePanel>
+                                            <div class="col-md-5 col-xs-5 col-sm-5" id="divArchivosVacio" runat="server" style="display: none;">
+                                                <asp:Label ID="lblArchivosVacio" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
+                                            </div>
+                                        </div>
+                                        <!-- Fin Archivos Muestra -->
 
                                     </div>
                                 </div>
                                 <div class="modal-footer" style="text-align: center">
-                                    <asp:Button ID="btnNuevoPeriodoModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="guardarNuevoAsistente_Click" />
+                                    <asp:Button ID="btnNuevoAsistenteModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="guardar" />
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                                 </div>
                             </div>
@@ -446,6 +398,7 @@
                 divArchivoIncorrecta.style.display = "block";
             }
         };
+
     </script>
     <!-- Script fin -->
 </asp:Content>

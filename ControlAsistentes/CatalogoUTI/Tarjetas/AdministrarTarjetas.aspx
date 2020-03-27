@@ -6,7 +6,6 @@
     <asp:UpdatePanel ID="PanelTarjetas" runat="server">
         <ContentTemplate>
             <div class="row">
-
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
@@ -26,7 +25,7 @@
 
                 <%--boton nuevo--%>
                 <div class="col-md-2 col-xs-2 col-md-offset-10">
-                    <asp:Button ID="btnNuevo" runat="server" Text="Nueva Tarjeta" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevo_Click" />
+                    <asp:Button runat="server" Text="Nueva Tarjeta" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevo_Click" />
                 </div>
 
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -51,7 +50,7 @@
                                 <td>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                                        <asp:TextBox ID="txtBuscarTarjeta" runat="server" CssClass="form-control chat-input" placeholder="filtro número de tarjeta" AutoPostBack="true"></asp:TextBox>
+                                        <asp:TextBox ID="txtBuscarTarjeta" runat="server" CssClass="form-control chat-input" placeholder="filtro número de tarjeta" AutoPostBack="true" OnTextChanged="btnFiltrar_Click"></asp:TextBox>
                                     </div>
                                 </td>
                                 <td></td>
@@ -81,7 +80,7 @@
                                     </asp:UpdatePanel>
                                 </ItemTemplate>
                                 <FooterTemplate></FooterTemplate>
-                                
+
                             </asp:Repeater>
                         </tbody>
                     </table>
@@ -125,15 +124,73 @@
                         </tr>
                     </table>
                 </div>
-
-
-
-
             </div>
-
         </ContentTemplate>
-
     </asp:UpdatePanel>
+    <%--modal nuevo--%>
+    <div id="modalNuevo" class="modal fade" role="alertdialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <asp:UpdatePanel ID="UpdatePanel3" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <asp:Label ID="modalTitle" runat="server" ForeColor="Black" Font-Size="Medium"></asp:Label></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <%--campos a llenar--%>
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label runat="server" Text="Número de Tarjeta <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <asp:TextBox ID="txtNumeroTarjeta" runat="server" CssClass="form-control chat-input" placeholder="Número de tarjeta"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                    <br />
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-3">
+                                        <asp:Label runat="server" Text="Disponible" Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <asp:CheckBox ID="cbxDisponible" runat="server" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                    <br />
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-3">
+                                        <asp:Label runat="server" Text="Tarjeta extraviada" Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <asp:CheckBox ID="cbxExtraviada" runat="server" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-xs-3 col-xs-offset-9">
+                                <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-primary boton-nuevo" OnClick="btnConfirmar_Click" />
+                                <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptContent" runat="server">
+    <script type="text/javascript">
+        function openModalTarjetas() {
+            $('#modalNuevo').modal('show');
+        }
+        function closeModalTarjetas() {
+            $('#modalNuevo').modal('hide');
+        }
+    </script>
 </asp:Content>

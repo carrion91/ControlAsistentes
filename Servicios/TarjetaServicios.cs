@@ -66,7 +66,7 @@ namespace Servicios
         /// Devuelve : -
         /// </summary>
         /// <<param name="tarjeta"></param>
-        public void insertarMaterial(Tarjeta tarjeta)
+        public void InsertarTarjeta(Tarjeta tarjeta)
         {
             tarjetaDatos.InsertarTarjeta(tarjeta);
         }
