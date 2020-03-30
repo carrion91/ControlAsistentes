@@ -13,7 +13,6 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
 {
     public partial class AdministrarTarjetas : System.Web.UI.Page
     {
-
         #region variables globales
 
         private TarjetaServicios tarjetaServicios = new TarjetaServicios();
@@ -216,6 +215,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             cbxDisponible.Checked = tarjetaSeleccionada.disponible;
             cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
             Session["action"] = EDITAR;
+            Session["idSeleccionado"] = id;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "openModalTarjetas();", true);
         }
 
@@ -241,6 +241,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             cbxDisponible.Checked = tarjetaSeleccionada.disponible;
             cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
             Session["action"] = ELIMINAR;
+            Session["idSeleccionado"] = id;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "openModalTarjetas();", true);
         }
 
@@ -270,10 +271,12 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
                         Toastr("success", "Se agregó correctamente la tarjeta " + tarjeta.numeroTarjeta);
                         break;
                     case EDITAR:
+                        tarjeta.idTarjeta =  Convert.ToInt32(Session["idSeleccionado"]);
                         tarjetaServicios.ActualizarTarjeta(tarjeta);
                         Toastr("success", "Se actualizó correctamente la tarjeta " + tarjeta.numeroTarjeta);
                         break;
                     case ELIMINAR:
+                        tarjeta.idTarjeta = Convert.ToInt32(Session["idSeleccionado"]);
                         tarjetaServicios.EliminarTarjeta(tarjeta);
                         Toastr("success", "Se eliminó correctamente la tarjeta " + tarjeta.numeroTarjeta);
                         break;

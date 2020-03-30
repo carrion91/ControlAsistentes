@@ -31,20 +31,23 @@ namespace AccesoDatos
             List<Tarjeta> tarjetas = new List<Tarjeta>();
             String consulta = @"SELECT t.id_tarjeta, t.numeroTarjeta, t.disponible, t.tarjeta_extraviada, 
 a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado 
-FROM Tarjeta t JOIN Asistente a ON t.id_asistente = a.id_asistente;";
+FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             SqlDataReader reader;
             sqlConnection.Open();
             reader = sqlCommand.ExecuteReader();
             while (reader.Read())
             {
-                Asistente asistente = new Asistente();
-                asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
-                asistente.nombreCompleto = reader["nombre_completo"].ToString();
-                asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
-                asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
                 Tarjeta tarjeta = new Tarjeta();
+                Asistente asistente = new Asistente();
+                if (!(reader["id_Asistente"] == System.DBNull.Value))
+                {
+                    asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"]);
+                    asistente.nombreCompleto = reader["nombre_completo"].ToString();
+                    asistente.carnet = reader["carnet"].ToString();
+                    asistente.telefono = reader["telefono"].ToString();
+                    asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+                }
                 tarjeta.idTarjeta = Convert.ToInt32(reader["id_tarjeta"].ToString());
                 tarjeta.numeroTarjeta = reader["numeroTarjeta"].ToString();
                 tarjeta.disponible = Convert.ToBoolean(reader["disponible"]);
@@ -125,7 +128,7 @@ FROM Tarjeta t JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             sqlCommand.Parameters.AddWithValue("@numeroTarjeta", tarjeta.numeroTarjeta);
             sqlCommand.Parameters.AddWithValue("@disponible", tarjeta.disponible);
             sqlCommand.Parameters.AddWithValue("@tarjetaExtraviada", tarjeta.tarjetaExtraviada);
-            sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente);
+            sqlCommand.Parameters.AddWithValue("@idAsistente", DBNull.Value);
             sqlCommand.CommandType = System.Data.CommandType.Text;
             sqlConnection.Open();
             sqlCommand.ExecuteReader();
