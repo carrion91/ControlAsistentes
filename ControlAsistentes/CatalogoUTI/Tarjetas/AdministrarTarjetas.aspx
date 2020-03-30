@@ -178,7 +178,7 @@
                                         <asp:Label runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
                                     <div class="col-xs-9">
-                                        <asp:DropDownList ID="ddlAsistentes" runat="server" CssClass="form-control"></asp:DropDownList>
+                                        <asp:DropDownList ID="ddlAsistentes" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlAsistentes_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>

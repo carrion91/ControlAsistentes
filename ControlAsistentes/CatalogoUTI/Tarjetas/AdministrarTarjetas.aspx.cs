@@ -303,9 +303,35 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             mostrarTarjetas();
         }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez 
+        /// 30/03/2020
+        /// Efecto: Regresa al menu principal de la aplicacion
+        /// Requiere: Clickear el boton "Atras" del formulario
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnAtras_Click(object sender, EventArgs e)
         {
+            String url = Page.ResolveUrl("~/Default.aspx");
+            Response.Redirect(url);
+        }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 30/03/2020
+        /// Efecto: Modifica la disponibilidad de la tarjeta en el formulario
+        /// Requiere: Cambiar la seleccion del ddlAsistentes del formulario
+        /// Modifica: cbxDisponible
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void ddlAsistentes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbxDisponible.Checked = (ddlAsistentes.SelectedValue.ToString().Equals("0"));
         }
         #endregion
 
@@ -459,6 +485,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr." + tipo + "('" + mensaje + "');", true);
         }
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
             ViewState["CheckRefresh"] = Session["CheckRefresh"];
