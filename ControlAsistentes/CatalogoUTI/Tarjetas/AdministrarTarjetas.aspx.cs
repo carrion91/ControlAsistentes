@@ -16,6 +16,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         #region variables globales
 
         private TarjetaServicios tarjetaServicios = new TarjetaServicios();
+        private AsistenteServicios asistenteServicios = new AsistenteServicios();
         private const string NUEVO = "NUEVO";
         private const string EDITAR = "EDITAR";
         private const string ELIMINAR = "ELIMINAR";
@@ -52,10 +53,16 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
 
             if (!IsPostBack)
             {
+                List<Asistente> asistentes = asistenteServicios.ObtenerAsistentes();
                 List<Tarjeta> tarjetas = tarjetaServicios.ObtenerTarjetas();
                 Session["listaTarjetas"] = tarjetas;
                 Session["listaTarjetasFiltrada"] = tarjetas;
                 mostrarTarjetas();
+                ddlAsistentes.DataSource = asistentes;
+                ddlAsistentes.DataValueField = "idAsistente";
+                ddlAsistentes.DataTextField = "nombreCompleto";
+                ddlAsistentes.DataBind();
+                ddlAsistentes.Items.Insert(0, new ListItem("Ninguno", "0"));
             }
         }
         #endregion
@@ -106,9 +113,10 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         /// </summary>
         private bool ValidaFormulario()
         {
+            string action = (string)Session["action"];
             List<Tarjeta> tarjetas = (List<Tarjeta>)Session["listaTarjetas"];
             bool result = true;
-            if (String.IsNullOrEmpty(txtNumeroTarjeta.Text) || tarjetas.Any(tarjeta => tarjeta.numeroTarjeta.Equals(txtNumeroTarjeta.Text)))
+            if (String.IsNullOrEmpty(txtNumeroTarjeta.Text) || (tarjetas.Any(tarjeta => tarjeta.numeroTarjeta.Equals(txtNumeroTarjeta.Text)) && action!= EDITAR && action!= ELIMINAR))
             {
                 result = false;
                 txtNumeroTarjeta.CssClass = "form-control alert-danger";
@@ -263,7 +271,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
                 tarjeta.numeroTarjeta = txtNumeroTarjeta.Text;
                 tarjeta.tarjetaExtraviada = cbxExtraviada.Checked;
                 tarjeta.disponible = cbxDisponible.Checked;
-                tarjeta.asistente = new Asistente();
+                tarjeta.asistente = asistenteServicios.ObtenerAsistentes().FirstOrDefault(a => a.idAsistente == Convert.ToInt32(ddlAsistentes.SelectedValue));
                 switch ((Session["action"]))
                 {
                     case NUEVO:
@@ -290,6 +298,9 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             {
                 Toastr("error", "Verifique que el formulario este completo");
             }
+            List<Tarjeta> tarjetas = tarjetaServicios.ObtenerTarjetas();
+            Session["listaTarjetas"] = tarjetas;
+            mostrarTarjetas();
         }
 
         protected void btnAtras_Click(object sender, EventArgs e)

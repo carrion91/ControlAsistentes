@@ -68,8 +68,8 @@
                                                     <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" OnClick="btnEliminar_Click" CommandArgument='<%# Eval("idTarjeta") %>'><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
                                                 </td>
                                                 <td><%# Eval("numeroTarjeta") %></td>
-                                                <td><%# Eval("disponible") %></td>
-                                                <td><%# Eval("tarjetaExtraviada") %></td>
+                                                <td style="color: #337ab7;"><div class='<%# Eval("disponible") %>'></div></td>
+                                                <td style="color: #337ab7;"><div class='<%# Eval("tarjetaExtraviada") %>'></div></td>
                                                 <td><%# Eval("asistente.nombreCompleto") %></td>
                                             </tr>
                                         </ContentTemplate>
@@ -168,6 +168,17 @@
                                     </div>
                                     <div class="col-xs-9">
                                         <asp:CheckBox ID="cbxExtraviada" runat="server" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                    <br />
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="col-xs-3">
+                                        <asp:Label runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                    </div>
+                                    <div class="col-xs-9">
+                                        <asp:DropDownList ID="ddlAsistentes" runat="server" CssClass="form-control"></asp:DropDownList>
                                     </div>
                                 </div>
                             </div>

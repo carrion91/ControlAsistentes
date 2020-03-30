@@ -199,7 +199,7 @@
                         </a>
                     </div>
                       <div class="grid_3">
-                        <a id="tarjetasU"  runat="server">
+                        <a id="tarjetasU"  runat="server" href="~/CatalogoUTI/Tarjetas/AdministrarTarjetas.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">
