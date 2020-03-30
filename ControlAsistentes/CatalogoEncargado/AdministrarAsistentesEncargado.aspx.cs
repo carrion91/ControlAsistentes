@@ -21,7 +21,7 @@ namespace ControlAsistentes.CatalogoEncargado
         ArchivoServicios archivoServicios = new ArchivoServicios();
         UnidadServicios unidadServicios = new UnidadServicios();
         Unidad unidadEncargado = new Unidad();
-       
+
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
@@ -50,8 +50,8 @@ namespace ControlAsistentes.CatalogoEncargado
             object[] rolesPermitidos = { 1, 2, 5 };
             Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
-            
-            if (Session["nombreCompleto"]!=null)
+
+            if (Session["nombreCompleto"] != null)
             {
                 unidadEncargado = unidadServicios.ObtenerUnidadPorEncargado(Session["nombreCompleto"].ToString());
             }
@@ -67,13 +67,25 @@ namespace ControlAsistentes.CatalogoEncargado
 
                 //Sesión de Archivos
                 Session["archivos"] = null;
-                //Fin Sesión Archivos
-                Session["listaArchivos"] = new List<Archivo>();
+
 
                 MostrarAsistentes();
                 ddlPeriodos();
 
 
+            }
+            else
+            {
+                if (fuArchivos.HasFiles)
+                {
+                    Session["archivos"] = fuArchivos;
+                    lblArchivos.Text = fuArchivos.PostedFile.FileName;
+                }
+                if (Session["archivos"] != null)
+                {
+                    fuArchivos = (FileUpload)Session["archivos"];
+                    lblArchivos.Text = fuArchivos.PostedFiles.Count + " Archivo(s) Seleccionado(s)";
+                }
             }
         }
 
@@ -190,18 +202,18 @@ namespace ControlAsistentes.CatalogoEncargado
                 nombramiento.unidad = unidad;
                 nombramiento.aprobado = false;
                 nombramiento.recibeInduccion = Convert.ToBoolean(ChckBxInduccion.Checked);
-              
+
                 nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHoras.Text);
 
                 //nombramientoServicios.insertarNombramiento(nombramiento);
 
 
-               
+
 
                 /* INSERCIÓN ARCHIVOS ASISTENTE */
 
 
-                int tipo = 1;
+                /*int tipo = 1;
 
                 if (fileExpediente.HasFile)
                 {
@@ -220,8 +232,17 @@ namespace ControlAsistentes.CatalogoEncargado
                         archivoServicios.insertarArchivoAsistente(idArchivo, asistente.idAsistente);
                         tipo++;
                     }
-                }
+                }*/
+                if (fuArchivos.FileName != "")
+                {
+                    List<Archivo> listaArchivos = guardarArchivos1(asistente, fileExpediente, 1);
 
+                    foreach (Archivo archivo in listaArchivos)
+                    {
+                        archivo.tipoArchivo = 1;
+                        archivoServicios.insertarArchivo(archivo);
+                    }
+                }
 
             }
             else
@@ -231,7 +252,95 @@ namespace ControlAsistentes.CatalogoEncargado
             }
 
         }
-       
+
+
+
+
+        public void guardar(object sender, EventArgs e)
+        {
+            Asistente asistente = new Asistente();
+            asistente.nombreCompleto = "Ma Méndez";
+            asistente.carnet = "B41258";
+            Session["archivos"] = fuArchivos.PostedFiles;
+
+            if (fuArchivos.HasFile)
+            {
+
+                List<Archivo> listaArchivos = guardarArchivos1(asistente, fileExpediente, 1);
+
+                foreach (Archivo archivo in listaArchivos)
+                {
+                    archivo.tipoArchivo = 1;
+                    archivoServicios.insertarArchivo(archivo);
+                }
+            }
+
+        }
+
+
+
+
+
+        public List<Archivo> guardarArchivos1(Asistente asistente, FileUpload fuArchivos, int tipoArchivo)
+        {
+            List<Archivo> listaArchivos = new List<Archivo>();
+
+            String archivosRepetidos = "";
+
+            foreach (HttpPostedFile file in fuArchivos.PostedFiles)
+            {
+                String nombreArchivo = "";
+                if (tipoArchivo == 1)
+                {
+                    nombreArchivo = Path.GetFileName("Expediente");
+                }
+                else if (tipoArchivo == 2)
+                {
+                    nombreArchivo = Path.GetFileName("Informe");
+                }
+                else if (tipoArchivo == 3)
+                {
+                    nombreArchivo = Path.GetFileName("CV");
+                }
+                else
+                {
+                    nombreArchivo = Path.GetFileName("Cuenta");
+                }
+                nombreArchivo = nombreArchivo.Replace(' ', '_');
+                DateTime fechaHoy = DateTime.Now;
+                String carpeta = Convert.ToString(asistente.carnet);
+
+                int guardado = Utilidades.SaveFile(file, fechaHoy.Year, nombreArchivo, carpeta);
+
+                if (guardado == 0)
+                {
+
+                    Archivo archivo = new Archivo();
+                    Archivo archivoNuevo = new Archivo();
+                    archivoNuevo.nombreArchivo = nombreArchivo;
+                    archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
+                    archivoNuevo.fechaCreacion = fechaHoy;
+                    listaArchivos.Add(archivoNuevo);
+                    archivo.creadoPor = "Mariela Calvo";//Session["nombreCompleto"].ToString();
+
+                    listaArchivos.Add(archivo);
+                }
+                else
+                {
+                    archivosRepetidos += "* " + nombreArchivo + ", \n";
+                }
+            }
+
+            if (archivosRepetidos.Trim() != "")
+            {
+                archivosRepetidos = archivosRepetidos.Remove(archivosRepetidos.Length - 3);
+                //(this.Master as SiteMaster).Mensaje("Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre", "¡Alerta!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre" + "');", true);
+            }
+
+            return listaArchivos;
+        }
+
         /// <summary>
         ///Mariela Calvo
         /// marzo/2020
@@ -271,7 +380,7 @@ namespace ControlAsistentes.CatalogoEncargado
                     {
                         Archivo archivoNuevo = new Archivo();
                         archivoNuevo.nombreArchivo = nombreArchivo;
-                        archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + @"\" + carpeta +@"\" + nombreArchivo;
+                        archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
                         archivoNuevo.fechaCreacion = fechaHoy;
                         listaArchivos.Add(archivoNuevo);
                     }
@@ -282,13 +391,8 @@ namespace ControlAsistentes.CatalogoEncargado
                 }
 
             }
-
-
-
-
             return listaArchivos;
         }
-
 
         public List<Archivo> guardarArchivos(Asistente asistente, FileUpload fuArchivos)
         {
@@ -331,6 +435,8 @@ namespace ControlAsistentes.CatalogoEncargado
             return listaArchivos;
         }
 
+
+
         /// <summary>
         /// Mariela Calvo
         /// Marzo/2020
@@ -347,7 +453,7 @@ namespace ControlAsistentes.CatalogoEncargado
             txtCarnet.CssClass = "form-control";
             txtTelefono.CssClass = "form-control";
             txtHoras.CssClass = "form-control";
-           
+
             #region nombre
             if (String.IsNullOrEmpty(txtNombre.Text) || txtNombre.Text.Trim() == String.Empty || txtNombre.Text.Length > 255)
             {
@@ -359,13 +465,13 @@ namespace ControlAsistentes.CatalogoEncargado
                 txtCarnet.CssClass = "form-control alert-danger";
                 valido = false;
             }
-             if (String.IsNullOrEmpty(txtTelefono.Text) || txtTelefono.Text.Trim() == String.Empty || txtTelefono.Text.Length > 255)
+            if (String.IsNullOrEmpty(txtTelefono.Text) || txtTelefono.Text.Trim() == String.Empty || txtTelefono.Text.Length > 255)
             {
                 txtTelefono.CssClass = "form-control alert-danger";
                 valido = false;
             }
 
-            if(String.IsNullOrEmpty(txtHoras.Text) || txtHoras.Text.Trim() == String.Empty || txtHoras.Text.Length > 255)
+            if (String.IsNullOrEmpty(txtHoras.Text) || txtHoras.Text.Trim() == String.Empty || txtHoras.Text.Length > 255)
             {
                 txtHoras.CssClass = "form-control alert-danger";
                 valido = false;

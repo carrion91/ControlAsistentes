@@ -135,8 +135,8 @@
     <Content Include="Catalogos\AdministrarAsistentes.aspx" />
     <Content Include="Catalogos\AdministrarPeriodos.aspx" />
     <Content Include="Catalogos\AdministrarUnidades.aspx" />
-    <Content Include="CatalogoUTI\AdministrarUsuarios.aspx" />
     <Content Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx" />
+    <Content Include="CatalogoUTI\Usuarios\AdministrarUsuarios.aspx" />
     <Content Include="Content\DataTables\datatables.min.css" />
     <Content Include="Content\DataTables\images\details_close.png" />
     <Content Include="Content\DataTables\images\details_open.png" />
@@ -196,7 +196,9 @@
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastrConfig.js" />
     <Content Include="Scripts\transition.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatalogoEncargado\AdministrarAsistentesEncargado.aspx.cs">
@@ -227,19 +229,19 @@
     <Compile Include="Catalogos\AdministrarUnidades.aspx.designer.cs">
       <DependentUpon>AdministrarUnidades.aspx</DependentUpon>
     </Compile>
-    <Compile Include="CatalogoUTI\AdministrarUsuarios.aspx.cs">
-      <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CatalogoUTI\AdministrarUsuarios.aspx.designer.cs">
-      <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
-    </Compile>
     <Compile Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx.cs">
       <DependentUpon>AdministrarTarjetas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx.designer.cs">
       <DependentUpon>AdministrarTarjetas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoUTI\Usuarios\AdministrarUsuarios.aspx.cs">
+      <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoUTI\Usuarios\AdministrarUsuarios.aspx.designer.cs">
+      <DependentUpon>AdministrarUsuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
