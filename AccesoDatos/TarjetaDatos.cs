@@ -102,7 +102,10 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             sqlCommand.Parameters.AddWithValue("@numeroTarjeta", tarjeta.numeroTarjeta);
             sqlCommand.Parameters.AddWithValue("@disponible", tarjeta.disponible);
             sqlCommand.Parameters.AddWithValue("@extraviada", tarjeta.tarjetaExtraviada);
-            sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente == 0 ? (int?)null : tarjeta.asistente.idAsistente);
+            if (tarjeta.asistente != null)
+                sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente);
+            else
+                sqlCommand.Parameters.AddWithValue("@idAsistente", DBNull.Value);
             sqlCommand.CommandType = System.Data.CommandType.Text;
             sqlConnection.Open();
             sqlCommand.ExecuteNonQuery();
@@ -128,7 +131,10 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             sqlCommand.Parameters.AddWithValue("@numeroTarjeta", tarjeta.numeroTarjeta);
             sqlCommand.Parameters.AddWithValue("@disponible", tarjeta.disponible);
             sqlCommand.Parameters.AddWithValue("@tarjetaExtraviada", tarjeta.tarjetaExtraviada);
-            sqlCommand.Parameters.AddWithValue("@idAsistente", DBNull.Value);
+            if(tarjeta.asistente != null)
+                sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente);
+            else
+                sqlCommand.Parameters.AddWithValue("@idAsistente", DBNull.Value);
             sqlCommand.CommandType = System.Data.CommandType.Text;
             sqlConnection.Open();
             sqlCommand.ExecuteReader();

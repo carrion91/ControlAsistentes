@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteMaster.Master" AutoEventWireup="true" CodeBehind="AdministrarTarjetas.aspx.cs" Inherits="ControlAsistentes.CatalogoUTI.Tarjetas.AdministrarTarjetas" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -60,24 +61,20 @@
                             <asp:Repeater ID="rpTarjetas" runat="server">
                                 <HeaderTemplate></HeaderTemplate>
                                 <ItemTemplate>
-                                    <asp:UpdatePanel ID="PanelRepeater" runat="server">
-                                        <ContentTemplate>
-                                            <tr>
-                                                <td>
-                                                    <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" OnClick="btnEditar_Click" CommandArgument='<%# Eval("idTarjeta") %>'><span class="glyphicon glyphicon-pencil"></span></asp:LinkButton>
-                                                    <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" OnClick="btnEliminar_Click" CommandArgument='<%# Eval("idTarjeta") %>'><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
-                                                </td>
-                                                <td><%# Eval("numeroTarjeta") %></td>
-                                                <td style="color: #337ab7;"><div class='<%# Eval("disponible") %>'></div></td>
-                                                <td style="color: #337ab7;"><div class='<%# Eval("tarjetaExtraviada") %>'></div></td>
-                                                <td><%# Eval("asistente.nombreCompleto") %></td>
-                                            </tr>
-                                        </ContentTemplate>
-                                        <Triggers>
-                                            <asp:AsyncPostBackTrigger ControlID="btnEliminar" EventName="Click" />
-                                            <asp:AsyncPostBackTrigger ControlID="btnEditar" EventName="Click" />
-                                        </Triggers>
-                                    </asp:UpdatePanel>
+                                    <tr>
+                                        <td>
+                                            <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" OnClick="btnEditar_Click" CommandArgument='<%# Eval("idTarjeta") %>' CssClass="glyphicon glyphicon-pencil btn"></asp:LinkButton>
+                                            <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" OnClick="btnEliminar_Click" CommandArgument='<%# Eval("idTarjeta") %>' CssClass="glyphicon glyphicon-trash btn"></asp:LinkButton>
+                                        </td>
+                                        <td><%# Eval("numeroTarjeta") %></td>
+                                        <td style="color: #337ab7;">
+                                            <div class='<%# Eval("disponible") %>'></div>
+                                        </td>
+                                        <td style="color: #337ab7;">
+                                            <div class='<%# Eval("tarjetaExtraviada") %>'></div>
+                                        </td>
+                                        <td><%# Eval("asistente.nombreCompleto") %></td>
+                                    </tr>
                                 </ItemTemplate>
                                 <FooterTemplate></FooterTemplate>
 
@@ -92,7 +89,8 @@
                 </div>
 
                 <%--paginacion--%>
-                <div class="col-md-12 col-xs-12 col-sm-12 center" style="text-align: center; align-content: center; overflow-y: auto">
+                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+                    <center>
                     <table class="table" style="max-width: 664px;">
                         <tr style="padding: 1px !important">
                             <td style="padding: 1px !important">
@@ -123,10 +121,12 @@
                             </td>
                         </tr>
                     </table>
+                                                </center>
                 </div>
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+
     <%--modal nuevo--%>
     <div id="modalNuevo" class="modal fade" role="alertdialog" data-backdrop="static">
         <div class="modal-dialog modal-lg">
@@ -173,12 +173,16 @@
                                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                     <br />
                                 </div>
-                                <div class="col-xs-12">
+                                <div class="col-xs-12 form-group">
                                     <div class="col-xs-3">
                                         <asp:Label runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
-                                    <div class="col-xs-9">
-                                        <asp:DropDownList ID="ddlAsistentes" runat="server" CssClass="form-control" OnSelectedIndexChanged="ddlAsistentes_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                    <div class="col-xs-9 input-group">
+                                        <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon" OnClick="btnEliminarAsistente_Click">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </asp:LinkButton>
+                                        <asp:TextBox ID="txtAsistente" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                                        <span id="spanAgregarAsistenes" runat="server" style="cursor:pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -186,6 +190,105 @@
                         <div class="modal-footer">
                             <div class="col-xs-3 col-xs-offset-9">
                                 <asp:Button ID="btnConfirmar" runat="server" CssClass="btn btn-primary boton-nuevo" OnClick="btnConfirmar_Click" />
+                                <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+        </div>
+    </div>
+
+    <%--modal asistentes--%>
+    <div id="modalAsistentes" class="modal fade" role="alertdialog" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <asp:UpdatePanel ID="PanelAsistentes" runat="server">
+                    <ContentTemplate>
+                        <div class="modal-header">
+                            <h4 class="modal-title">
+                                <asp:Label runat="server" ForeColor="Black" Font-Size="Medium">Seleccione un asistente</asp:Label></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                    <ContentTemplate>
+                                        <%-- Tabla--%>
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+                                            <table id="tbAsistentes" class="table table-bordered">
+                                                <thead>
+                                                    <tr style="text-align: center" class="btn-primary">
+                                                        <th></th>
+                                                        <th>Carnét</th>
+                                                        <th>Nombre Asistente</th>
+                                                    </tr>
+                                                </thead>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <asp:TextBox ID="txtBuscarAsistente" runat="server" CssClass="form-control chat-input" placeholder="Buscar Asistente" AutoPostBack="true" OnTextChanged="btnFiltrarAsistentes_Click"></asp:TextBox>
+                                                    </td>
+                                                </tr>
+                                                <asp:Repeater ID="rpAsistentes" runat="server">
+                                                    <HeaderTemplate></HeaderTemplate>
+                                                    <ItemTemplate>
+                                                        <tr>
+                                                            <td>
+                                                                <asp:LinkButton runat="server" ToolTip="Seleccionar" OnClick="btnSeleccionarAsistente_Click" CommandArgument='<%# Eval("idAsistente") %>' CssClass="btn glyphicon glyphicon-ok"></asp:LinkButton>
+                                                            </td>
+                                                            <td>
+                                                                <%# Eval("carnet") %>
+                                                            </td>
+                                                            <td>
+                                                                <%# Eval("nombreCompleto") %>
+                                                            </td>
+                                                        </tr>
+                                                    </ItemTemplate>
+                                                    <FooterTemplate></FooterTemplate>
+                                                </asp:Repeater>
+                                            </table>
+                                        </div>
+                                        <%--paginacion--%>
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+                                            <center>
+                    <table class="table" style="max-width:664px;">
+                        <tr style="padding:1px !important">
+                            <td style="padding:1px !important">
+                                <asp:LinkButton ID="lbPrimeroAsistentes" runat="server" CssClass="btn btn-primary" OnClick="lbPrimeroAsistentes_Click"><span class="glyphicon glyphicon-fast-backward"></span></asp:LinkButton>
+                                </td>
+                            <td style="padding:1px !important">
+                                <asp:LinkButton ID="lbAnteriorAsistentes" runat="server" CssClass="btn btn-default" OnClick="lbAnteriorAsistentes_Click"><span class="glyphicon glyphicon-backward"></asp:LinkButton>
+                            </td>
+                            <td style="padding:1px !important">
+                                <asp:DataList ID="rptPaginacionAsistentes" runat="server" OnAsistenteCommand="rptPaginacionAsistentes_AsistenteCommand"
+                                    OnAsistenteDataBound="rptPaginacionAsistentes_AsistenteDataBound"  RepeatDirection="Horizontal">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lbPaginacionAsistentes" runat="server" CssClass="btn btn-default"
+                                            CommandArgument='<%# Eval("IndexPagina") %>' CommandName="nuevaPagina"
+                                            Text='<%# Eval("PaginaText") %>' ></asp:LinkButton>
+                                    </ItemTemplate>
+                                </asp:DataList>
+                            </td>
+                            <td style="padding:1px !important">
+                                <asp:LinkButton ID="lbSiguienteAsistentes" CssClass="btn btn-default" runat="server" OnClick="lbSiguienteAsistentes_Click"><span class="glyphicon glyphicon-forward"></asp:LinkButton>
+                                </td>
+                            <td style="padding:1px !important">
+                                <asp:LinkButton ID="lbUltimoAsistentes" CssClass="btn btn-primary" runat="server" OnClick="lbUltimoAsistentes_Click"><span class="glyphicon glyphicon-fast-forward"></asp:LinkButton>
+                                </td>
+                            <td style="padding:1px !important">
+                                <asp:Label ID="lblpaginaAsistentes" runat="server" Text=""></asp:Label>
+                            </td>
+                        </tr>
+                    </table>
+                        </center>
+                                        </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="col-xs-3 col-xs-offset-9">
                                 <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
@@ -202,6 +305,9 @@
         }
         function closeModalTarjetas() {
             $('#modalNuevo').modal('hide');
+        }
+        function closeModalAsistentes() {
+            $('#modalAsistentes').modal('hide');
         }
     </script>
 </asp:Content>

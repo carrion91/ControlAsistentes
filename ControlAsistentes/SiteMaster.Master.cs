@@ -35,5 +35,17 @@ namespace ControlAsistentes
             Response.Redirect(url);
         }
         #endregion
+
+        #region mensaje toast
+        public void Toastr(string tipo, string mensaje)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr." + tipo + "('" + mensaje + "');", true);
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            ViewState["CheckRefresh"] = Session["CheckRefresh"];
+        }
+        #endregion
     }
 }
