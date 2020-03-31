@@ -228,5 +228,62 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		}
 		#endregion
 
+		#region eventos
+		public void btnDevolverse(object sender, EventArgs e)
+		{
+			String url = Page.ResolveUrl("~/Default.aspx");
+			Response.Redirect(url);
+		}
+
+
+		/// <summary>
+		/// Jesús Torres
+		/// 30/03/2020
+		/// Efecto: Activar modal nuevo usuario
+		/// Requiere: Presionar boton nuevo usuario
+		/// Modifica: Tabla Usuarios
+		/// Devuelve: -
+		/// </summary>
+		protected void btnNuevoUsuario_Click(object sender, EventArgs e)
+		{
+			txtNuevoUsuario.CssClass = "form-control";
+			txtNuevoUsuario.Text = "";
+			//txtContraseñaNueva.CssClass = "form-control";
+			//txtContraseñaNueva.Text = "";
+			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
+		}
+
+		/// <summary>
+		/// Jesús Torres
+		/// 30/03/2020
+		/// Efecto: Guarda un nuevo usuario ingresado
+		/// Requiere: Presionar boton guardar usuario
+		/// Modifica: Tabla Usuarios
+		/// Devuelve: -
+		/// </summary>
+		protected void btnGuardarNuevoUsuario(object sender, EventArgs e)
+		{
+			
+		}
+
+		protected void verContraseña(object sender, EventArgs e)
+		{
+			if (txtContrasena.Attributes["Type"] == "password")
+			{
+				txtContrasena.Attributes["Type"] = "text";
+				btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-close>";
+			}
+			else
+			{
+				txtContrasena.Attributes["Type"] = "password";
+				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-open>";
+			}
+			ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
+			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
+
+		}
+
+		#endregion
+
 	}
 }
