@@ -170,10 +170,12 @@
 										<div class="input-group">
 											<asp:TextBox ID="txtContrasena" type="password" runat="server" CssClass="form-control"></asp:TextBox>
 											<asp:LinkButton ID="btnVerContrasena"
-												CssClass="input-group-addon btn btn-primary "
+												CssClass="input-group-addon btn btn-primary"
 												runat="server"
 												AutoPostBack="true"
-												Onclick="verContraseña"><span class="glyphicon glyphicon-eye-open"></asp:LinkButton>
+												OnClick="verContraseña">
+												<span class="glyphicon glyphicon-eye-close icon">
+											</asp:LinkButton>
 										</div>
 
 									

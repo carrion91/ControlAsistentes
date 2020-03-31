@@ -248,8 +248,8 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		{
 			txtNuevoUsuario.CssClass = "form-control";
 			txtNuevoUsuario.Text = "";
-			//txtContraseñaNueva.CssClass = "form-control";
-			//txtContraseñaNueva.Text = "";
+			txtContrasena.CssClass = "form-control";
+			txtContrasena.Text = "";
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
 		}
 
@@ -271,12 +271,14 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 			if (txtContrasena.Attributes["Type"] == "password")
 			{
 				txtContrasena.Attributes["Type"] = "text";
-				btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-close>";
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-close').addClass('glyphicon glyphicon-eye-open');", true);
+				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary fa fa-eye>";
 			}
 			else
 			{
 				txtContrasena.Attributes["Type"] = "password";
-				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-open>";
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');", true);
+				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary fa fa-eye-slash>";
 			}
 			ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
