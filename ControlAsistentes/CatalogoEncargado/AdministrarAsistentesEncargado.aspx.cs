@@ -151,8 +151,10 @@ namespace ControlAsistentes.CatalogoEncargado
 
             foreach (Periodo periodo in periodos)
             {
-                ListItem itemPeriodos = new ListItem(periodo.semestre + " Semestre -" + periodo.anoPeriodo, periodo.idPeriodo + "");
-                periodosDDL.Items.Add(itemPeriodos);
+                if (periodo.habilitado) {
+                    ListItem itemPeriodos = new ListItem(periodo.semestre + " Semestre -" + periodo.anoPeriodo, periodo.idPeriodo + "(Actual)");
+                    periodosDDL.Items.Add(itemPeriodos);
+                }
             }
 
         }
