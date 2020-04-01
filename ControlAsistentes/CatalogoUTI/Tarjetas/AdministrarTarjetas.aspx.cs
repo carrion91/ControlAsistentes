@@ -312,6 +312,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             btnConfirmar.Text = "Guardar";
             cbxDisponible.Checked = true;
             cbxExtraviada.Checked = false;
+            btnConfirmar.CssClass = "btn btn-primary boton-nuevo";
             Session["idAsistenteSeleccionado"] = 0;
             Session["action"] = NUEVO;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "openModalTarjetas();", true);
@@ -339,6 +340,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             cbxDisponible.Checked = tarjetaSeleccionada.disponible;
             cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
             txtAsistente.Text = tarjetaSeleccionada.asistente.nombreCompleto;
+            btnConfirmar.CssClass = "btn btn-primary boton-editar";
             Session["idAsistenteSeleccionado"] = tarjetaSeleccionada.asistente.idAsistente;
             Session["action"] = EDITAR;
             Session["idSeleccionado"] = id;
@@ -367,6 +369,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             cbxDisponible.Checked = tarjetaSeleccionada.disponible;
             cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
             txtAsistente.Text = tarjetaSeleccionada.asistente.nombreCompleto;
+            btnConfirmar.CssClass = "btn btn-primary boton-eliminar";
             Session["idAsistenteSeleccionado"] = tarjetaSeleccionada.asistente.idAsistente;
             Session["action"] = ELIMINAR;
             Session["idSeleccionado"] = id;

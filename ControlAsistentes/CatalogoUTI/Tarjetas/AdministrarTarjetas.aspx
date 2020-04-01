@@ -70,8 +70,8 @@
                                         <td style="color: #337ab7;">
                                             <div class='<%# Eval("disponible") %>'></div>
                                         </td>
-                                        <td style="color: #337ab7;">
-                                            <div class='<%# Eval("tarjetaExtraviada") %>'></div>
+                                        <td>
+                                            <a href="#" data-toggle="tooltip" title='<%# Eval("tarjetaExtraviada") %>'><div class='<%# Eval("tarjetaExtraviada") %>'></div></a>
                                         </td>
                                         <td><%# Eval("asistente.nombreCompleto") %></td>
                                     </tr>
@@ -178,11 +178,11 @@
                                         <asp:Label runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
                                     <div class="col-xs-9 input-group">
-                                        <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon" OnClick="btnEliminarAsistente_Click">
+                                        <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon boton-eliminar" OnClick="btnEliminarAsistente_Click">
                                             <i class="glyphicon glyphicon-trash"></i>
                                         </asp:LinkButton>
                                         <asp:TextBox ID="txtAsistente" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
-                                        <span id="spanAgregarAsistenes" runat="server" style="cursor:pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                        <span id="spanAgregarAsistenes" runat="server" style="cursor:pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon boton-nuevo"><i class="glyphicon glyphicon-plus-sign"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -309,5 +309,8 @@
         function closeModalAsistentes() {
             $('#modalAsistentes').modal('hide');
         }
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 </asp:Content>
