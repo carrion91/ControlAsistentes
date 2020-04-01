@@ -69,7 +69,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
