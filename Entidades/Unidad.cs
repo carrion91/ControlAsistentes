@@ -14,6 +14,8 @@ namespace Entidades
         public int idUnidad { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
+
+        public Boolean disponible { get; set; }
         public Encargado encargado { get; set; }
 
     }

@@ -54,13 +54,13 @@
                                 <div class="btn-group">
                                     <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("anoPeriodo") %>' />
                                     <%--<asp:CheckBox ID="cbProyecto" runat="server" Text="" />--%>
-                                    <asp:LinkButton ID="btnSelccionar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idPeriodo") %>' OnClick="EstablecerPeriodoActual_Click"><span class="glyphicon glyphicon-ok"></span></asp:LinkButton>
+                                    <asp:LinkButton ID="btnSelccionar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idPeriodo") %>' OnClick="EstablecerPeriodoActual_Click" class="glyphicon glyphicon-ok"></asp:LinkButton>
                                 </div>
                             </td>
                             <td><%# Eval("anoPeriodo") %> <%# (Eval("habilitado").ToString() == "True")? "(Actual)" : "" %></td>
                             <td><%# Eval("semestre") %></td>
                             <td>
-                                <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("anoPeriodo") %>' OnClick="btnEliminar_Click"><span class="btn glyphicon glyphicon-trash" ></span></asp:LinkButton>
+                                <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("anoPeriodo") %>' OnClick="btnEliminar_Click" class="btn glyphicon glyphicon-trash"></asp:LinkButton>
                             </td>
                         </tr>
 
@@ -178,9 +178,9 @@
 
                             </div>
                         </div>
-                        <div class="modal-footer" style="text-align: center">
-                            <asp:Button ID="btnNuevoPeriodoModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnNuevoPeriodoModal_Click" />
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <div class="modal-footer" >
+                            <asp:Button ID="btnNuevoPeriodoModal" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoPeriodoModal_Click" />
+                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
 
@@ -239,8 +239,8 @@
 
                             </div>
                             <div class="modal-footer" style="text-align: center">
-                                <asp:Button ID="btnEliminarModal" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnConfirmarEliminarPeriodo_Click" />
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <asp:Button ID="btnEliminarModal" runat="server" Text="Eliminar" CssClass="btn btn-primary boton-eliminar" OnClick="btnConfirmarEliminarPeriodo_Click" />
+                                <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
 

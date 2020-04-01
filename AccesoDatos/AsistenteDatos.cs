@@ -116,14 +116,15 @@ namespace AccesoDatos
             SqlConnection connection = conexion.ConexionControlAsistentes();
 
             String consulta
-                = @"INSERT Asistente (nombre_completo,carnet,telefono) 
-                    VALUES (@nombre,@carne,@telefono);
+                = @"INSERT Asistente (nombre_completo,carnet,telefono,cantidad_periodos_nombrado) 
+                    VALUES (@nombre,@carne,@telefono,@cantidadP);
                     SELECT SCOPE_IDENTITY();";
 
             SqlCommand command = new SqlCommand(consulta, connection);
             command.Parameters.AddWithValue("@nombre", asistente.nombreCompleto);
             command.Parameters.AddWithValue("@carne", asistente.carnet);
             command.Parameters.AddWithValue("@telefono", asistente.telefono);
+            command.Parameters.AddWithValue("@cantidadP", asistente.cantidadPeriodosNombrado);
 
             connection.Open();
             int idAsistente = Convert.ToInt32(command.ExecuteScalar());

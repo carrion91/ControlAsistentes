@@ -22,18 +22,20 @@ namespace AccesoDatos
 
         public int insertarArchivo(Archivo archivo)
         {
+            
             SqlConnection connection = conexion.ConexionControlAsistentes();
 
             String consulta
-                = @"INSERT Archivo (fecha_creacion,nombre_archivo,ruta_archivo,tipo_archivo) 
-                    VALUES (@fechaCreacion,@nombreArchivo,@rutaArchivo,@tipoArchivo);
+                = @"INSERT Archivo (fecha_creacion,nombre_archivo,ruta_archivo,tipo_archivo,creado_por) 
+                    VALUES (GETDATE(),@nombreArchivo,@rutaArchivo,@tipoArchivo,@creado_por);
                     SELECT SCOPE_IDENTITY();";
 
             SqlCommand command = new SqlCommand(consulta, connection);
-            command.Parameters.AddWithValue("@fechaCreacion", archivo.fechaCreacion);
+            //command.Parameters.AddWithValue("@fechaCreacion",archivo.fechaCreacion);
             command.Parameters.AddWithValue("@nombreArchivo", archivo.nombreArchivo);
             command.Parameters.AddWithValue("@rutaArchivo", archivo.rutaArchivo);
             command.Parameters.AddWithValue("@tipoArchivo", archivo.tipoArchivo);
+            command.Parameters.AddWithValue("@creado_por", archivo.creadoPor);
 
             connection.Open();
             int idArchivo = Convert.ToInt32(command.ExecuteScalar());
@@ -49,15 +51,14 @@ namespace AccesoDatos
 
             String consulta
                 = @"INSERT Archivo_Asistente(id_archivo,id_asistente) 
-                    VALUES (@idArchivo,@idAsistente);
-                    SELECT SCOPE_IDENTITY();";
+                    VALUES (@idArchivo,@idAsistente);";
 
             SqlCommand command = new SqlCommand(consulta, connection);
             command.Parameters.AddWithValue("@idArchivo", idArchivo);
             command.Parameters.AddWithValue("@idAsistente", idAsistente);
-           
-
             connection.Open();
+            command.ExecuteScalar();
+            
             connection.Close();
 
             return idArchivo;
