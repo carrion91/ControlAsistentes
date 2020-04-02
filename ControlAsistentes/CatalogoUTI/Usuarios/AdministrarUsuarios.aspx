@@ -174,7 +174,7 @@
 												runat="server"
 												AutoPostBack="true"
 												OnClick="verContraseña">
-												<span class="glyphicon glyphicon-eye-close icon">
+												<span class="glyphicon glyphicon-eye-open icon">
 											</asp:LinkButton>
 										</div>
 

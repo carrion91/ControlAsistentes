@@ -271,13 +271,13 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 			if (txtContrasena.Attributes["Type"] == "password")
 			{
 				txtContrasena.Attributes["Type"] = "text";
-				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-close').addClass('glyphicon glyphicon-eye-open');", true);
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');", true);
 				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary fa fa-eye>";
 			}
 			else
 			{
 				txtContrasena.Attributes["Type"] = "password";
-				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');", true);
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-close').addClass('glyphicon glyphicon-eye-open');", true);
 				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary fa fa-eye-slash>";
 			}
 			ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
