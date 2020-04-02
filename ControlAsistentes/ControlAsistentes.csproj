@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CatalogoEncargado\AdministrarAsistentesEncargado.aspx" />
+    <Content Include="CatalogoEncargado\AdministrarNombramientoAsistente.aspx" />
     <Content Include="Catalogos\AdministrarAsistentes.aspx" />
     <Content Include="Catalogos\AdministrarPeriodos.aspx" />
     <Content Include="Catalogos\AdministrarUnidades.aspx" />
@@ -207,6 +208,13 @@
     </Compile>
     <Compile Include="CatalogoEncargado\AdministrarAsistentesEncargado.aspx.designer.cs">
       <DependentUpon>AdministrarAsistentesEncargado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CatalogoEncargado\AdministrarNombramientoAsistente.aspx.cs">
+      <DependentUpon>AdministrarNombramientoAsistente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CatalogoEncargado\AdministrarNombramientoAsistente.aspx.designer.cs">
+      <DependentUpon>AdministrarNombramientoAsistente.aspx</DependentUpon>
     </Compile>
     <Compile Include="Catalogos\AdministrarAsistentes.aspx.cs">
       <DependentUpon>AdministrarAsistentes.aspx</DependentUpon>

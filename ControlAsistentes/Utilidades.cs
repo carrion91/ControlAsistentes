@@ -87,8 +87,11 @@ namespace ControlAsistentes
                 if (rolesPermitidos.Contains(rol))
                 {
                     page.Master.FindControl("MenuUTI").Visible = true;
+                    page.Master.FindControl("MenuNavBarUTI").Visible = true;
                     page.Master.FindControl("MenuSecretaria").Visible = false;
+                    page.Master.FindControl("MenuNavBarSecretaria").Visible = false;
                     page.Master.FindControl("MenuEncargado").Visible = false;
+                    page.Master.FindControl("MenuNavBarEncargado").Visible = false;
                 }
                 else
                 {
@@ -104,8 +107,11 @@ namespace ControlAsistentes
                 if (rolesPermitidos.Contains(rol))
                 {
                     page.Master.FindControl("MenuUTI").Visible = false;
+                    page.Master.FindControl("MenuNavBarUTI").Visible = false;
                     page.Master.FindControl("MenuSecretaria").Visible = true;
+                    page.Master.FindControl("MenuNavBarSecretaria").Visible = true;
                     page.Master.FindControl("MenuEncargado").Visible = false;
+                    page.Master.FindControl("MenuNavBarEncargado").Visible = false;
                 }
                 else
                 {
@@ -121,8 +127,11 @@ namespace ControlAsistentes
                 if (rolesPermitidos.Contains(rol))
                 {
                     page.Master.FindControl("MenuUTI").Visible = false;
+                    page.Master.FindControl("MenuNavBarUTI").Visible = false;
                     page.Master.FindControl("MenuSecretaria").Visible = false;
+                    page.Master.FindControl("MenuNavBarSecretaria").Visible = false;
                     page.Master.FindControl("MenuEncargado").Visible = true;
+                    page.Master.FindControl("MenuNavBarEncargado").Visible = true;
                 }
                 else
                 {

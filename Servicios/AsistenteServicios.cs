@@ -28,5 +28,19 @@ namespace Servicios
         {
             return asistenteDatos.insertarAsistente(asistente);
         }
-    }
+
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos 
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerAsistentesSinUsuarios()
+		{
+			return asistenteDatos.ObtenerAsistentesSinUsuarios();
+		}
+		
+	}
 }

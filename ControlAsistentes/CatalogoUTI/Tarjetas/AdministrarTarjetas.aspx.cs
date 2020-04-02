@@ -69,7 +69,6 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
         {
             int[] rolesPermitidos = { 1 };
             Utilidades.escogerMenu(Page, rolesPermitidos);
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
 
             if (!IsPostBack)

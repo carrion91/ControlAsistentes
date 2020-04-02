@@ -20,7 +20,9 @@ namespace ControlAsistentes.CatalogoEncargado
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
         ArchivoServicios archivoServicios = new ArchivoServicios();
         UnidadServicios unidadServicios = new UnidadServicios();
+        EncargadoAsistenteServicios encargadoAsistenteServicios = new EncargadoAsistenteServicios();
         Unidad unidadEncargado = new Unidad();
+        Asistente asistenteSeleccionado = new Asistente();
 
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
@@ -73,26 +75,11 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
-                //Sesión de Archivos
-                Session["archivos"] = null;
-
-
                 MostrarAsistentes();
-                ddlPeriodos();
                 Page.Form.Attributes.Add("enctype", "multipart/form-data");
 
             }
-            else
-            {
-                if (fileExpediente.HasFiles)
-                {
-                    Session["archivos"] = fileExpediente;
-                }
-                if (Session["archivos"] != null)
-                {
-                    fileExpediente = (FileUpload)Session["archivos"];
-                }
-            }
+            
         }
 
 
@@ -135,29 +122,7 @@ namespace ControlAsistentes.CatalogoEncargado
             Response.Redirect(url);
         }
 
-        /// <summary>
-        /// Mariela Calvo
-        /// Marzo20
-        /// Efecto: llean el DropDownList con los encargados que se encuentran en la base de datos
-        /// Requiere: - 
-        /// Modifica: DropDownList
-        /// Devuelve: -
-        /// </summary>
-        protected void ddlPeriodos()
-        {
-            List<Periodo> periodos = new List<Periodo>();
-            periodosDDL.Items.Clear();
-            periodos = periodoServicios.ObtenerPeriodos();
-
-            foreach (Periodo periodo in periodos)
-            {
-                if (periodo.habilitado) {
-                    ListItem itemPeriodos = new ListItem(periodo.semestre + " Semestre -" + periodo.anoPeriodo, periodo.idPeriodo + "(Actual)");
-                    periodosDDL.Items.Add(itemPeriodos);
-                }
-            }
-
-        }
+        
 
 
         /// <summary>
@@ -177,12 +142,8 @@ namespace ControlAsistentes.CatalogoEncargado
             txtCarnet.CssClass = "form-control";
             txtCarnet.Text = "";
 
-            txtHoras.CssClass = "form-control";
-            txtHoras.Text = "";
-
-            txtUnidadNA.CssClass = "form-control";
-            txtUnidadNA.Text = unidadEncargado.nombre;
-
+            txtUnidadNA.Text="  "+unidadEncargado.nombre;
+            txtEncargado.Text = " " + unidadEncargado.encargado.nombreCompleto;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoAsistente();", true);
         }
@@ -191,10 +152,7 @@ namespace ControlAsistentes.CatalogoEncargado
         {
             if (validarAsistenteNuevo())
             {
-                string periodoSemestre = periodosDDL.SelectedValue.ToString();
                 int idAsistente = 0;
-                int idPeriodo = Convert.ToInt32(periodosDDL.SelectedValue);
-                Periodo periodo = periodoServicios.ObtenerPeriodoPorId(idPeriodo);
 
 
                 /* INSERCIÓN ASISTENTE */
@@ -205,36 +163,14 @@ namespace ControlAsistentes.CatalogoEncargado
                 asistente.cantidadPeriodosNombrado = 0;
                 idAsistente = asistenteServicios.insertarAsistente(asistente);
                 asistente.idAsistente = idAsistente;
-
-                /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
-                Nombramiento nombramiento = new Nombramiento();
-                nombramiento.asistente = asistente;
-                nombramiento.periodo = periodo;
-                Unidad unidad = new Unidad();
-                unidad.idUnidad = unidadEncargado.idUnidad;
-                nombramiento.unidad = unidad;
-                nombramiento.aprobado = false;
-                nombramiento.recibeInduccion = Convert.ToBoolean(ChckBxInduccion.Checked);
-                nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHoras.Text);
-                nombramientoServicios.insertarNombramiento(nombramiento);
-
-                /* INSERCIÓN ARCHIVOS ASISTENTE */
-                int tipo = 1;
-                List<FileUpload> listaArchivosInsertar = new List<FileUpload>();
-                listaArchivosInsertar.Add(fileExpediente);
-                listaArchivosInsertar.Add(fileInforme);
-                listaArchivosInsertar.Add(fileCV);
-
-                List<Archivo> listaArchivos = guardarArchivos(nombramiento, listaArchivosInsertar);
-
-                foreach (Archivo archivo in listaArchivos)
-                {
-                    archivo.tipoArchivo = tipo;
-                    int idArchivo = archivoServicios.insertarArchivo(archivo);
-                    archivoServicios.insertarArchivoAsistente(idArchivo, asistente.idAsistente);
-                    tipo++;
-                }
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente "+asistente.nombreCompleto+" exitosamente!" + "');", true);
+                encargadoAsistenteServicios.insertarEncargadoAsistente(unidadEncargado.encargado.idEncargado,idAsistente);
+                
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                Session["listaAsistentes"] = listaAsistentes;
+                Session["listaAsistentesFiltrada"] = listaAsistentes;
+                MostrarAsistentes();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!" + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
             }
             else
             {
@@ -245,47 +181,7 @@ namespace ControlAsistentes.CatalogoEncargado
 
         }
 
-        public List<Archivo> guardarArchivos(Nombramiento nombramiento, List<FileUpload> files)
-        {
-            List<Archivo> listaArchivos = new List<Archivo>();
 
-            String archivosRepetidos = "";
-            foreach (FileUpload archivo in files)
-            {
-                foreach (HttpPostedFile file in archivo.PostedFiles)
-                {
-                    String nombreArchivo = Path.GetFileName(file.FileName);
-                    nombreArchivo = nombreArchivo.Replace(' ', '_');
-                    DateTime fechaHoy = new DateTime();
-                    fechaHoy = DateTime.Now;
-                    String carpeta = nombramiento.asistente.nombreCompleto+ "-" + nombramiento.periodo.semestre+"_"+ nombramiento.periodo.anoPeriodo;
-
-                    int guardado = Utilidades.SaveFile(file, fechaHoy.Year, nombreArchivo, carpeta);
-
-                    if (guardado == 0)
-                    {
-                        Archivo archivoNuevo = new Archivo();
-                        archivoNuevo.nombreArchivo = nombreArchivo;
-                        archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
-                        archivoNuevo.fechaCreacion = fechaHoy;
-                        archivoNuevo.creadoPor = "Mariela Calvo";//Session["nombreCompleto"].ToString();
-                        listaArchivos.Add(archivoNuevo);
-                    }
-                    else
-                    {
-                        archivosRepetidos += "* " + nombreArchivo + ", \n";
-                    }
-                }
-            }
-
-            if (archivosRepetidos.Trim() != "")
-            {
-                archivosRepetidos = archivosRepetidos.Remove(archivosRepetidos.Length - 3);
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre" + "');", true);
-            }
-
-            return listaArchivos;
-        }
 
 
         /// <summary>
@@ -307,9 +203,9 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <summary>
         /// Mariela Calvo
         /// Marzo/2020
-        /// Efecto: Validar que los datos del nuevo periodo sean ingresados
+        /// Efecto: Validar que los datos del nuevo asistente sean ingresados
         /// Requiere: -
-        /// Modifica: Tabla Periodos
+        /// Modifica: Tabla Asistentes
         /// Devuelve: -
         /// </summary>
         public Boolean validarAsistenteNuevo()
@@ -319,14 +215,6 @@ namespace ControlAsistentes.CatalogoEncargado
             txtNombre.CssClass = "form-control";
             txtCarnet.CssClass = "form-control";
             txtTelefono.CssClass = "form-control";
-            txtHoras.CssClass = "form-control";
-
-            fileExpediente.CssClass = "form-control";
-            fileInforme.CssClass = "form-control";
-            fileCV.CssClass = "form-control";
-            fileCuenta.CssClass = "form-control";
-
-
 
             #region nombre
             if (String.IsNullOrEmpty(txtNombre.Text) || txtNombre.Text.Trim() == String.Empty || txtNombre.Text.Length > 255)
@@ -344,45 +232,143 @@ namespace ControlAsistentes.CatalogoEncargado
                 txtTelefono.CssClass = "form-control alert-danger";
                 valido = false;
             }
-
-            if (String.IsNullOrEmpty(txtHoras.Text) || txtHoras.Text.Trim() == String.Empty || txtHoras.Text.Length > 255)
-            {
-                txtHoras.CssClass = "form-control alert-danger";
-                valido = false;
-            }
-            if (!fileExpediente.HasFile)
-            {
-                valido = false;
-                fileExpediente.CssClass = "form-control alert-danger";
-            }
-            if (!fileInforme.HasFile)
-            {
-                valido = false;
-                fileInforme.CssClass = "form-control alert-danger";
-            }
-            if (!fileCV.HasFile)
-            {
-                valido = false;
-                fileCV.CssClass = "form-control alert-danger";
-            }
-            if (!fileCuenta.HasFile)
-            {
-                valido = false;
-                fileCuenta.CssClass = "form-control alert-danger";
-            }
             #endregion
 
             return valido;
         }
 
+        /// <summary>
+        /// Mariela Calvo
+        /// Abril/2020
+        /// Efecto: Validar que los datos del nuevo asistente sean ingresados
+        /// Requiere: -
+        /// Modifica: Tabla Asistentes
+        /// Devuelve: -
+        /// </summary>
+        public Boolean validarAsistenteNuevoEditar()
+        {
+            Boolean valido = true;
 
-        protected void btnEditarAsistente(object sender, EventArgs e)
-        { 
+            txtNombreAsistenteEditar.CssClass = "form-control";
+            txtCarnetEd.CssClass = "form-control";
+            txtTelefonoEd.CssClass = "form-control";
+
+            #region nombre
+            if (String.IsNullOrEmpty(txtNombreAsistenteEditar.Text) || txtNombreAsistenteEditar.Text.Trim() == String.Empty || txtNombreAsistenteEditar.Text.Length > 255)
+            {
+                txtNombreAsistenteEditar.CssClass = "form-control alert-danger";
+                valido = false;
+            }
+            if (String.IsNullOrEmpty(txtCarnetEd.Text) || txtCarnetEd.Text.Trim() == String.Empty || txtCarnetEd.Text.Length > 255)
+            {
+                txtCarnetEd.CssClass = "form-control alert-danger";
+                valido = false;
+            }
+            if (String.IsNullOrEmpty(txtTelefonoEd.Text) || txtTelefonoEd.Text.Trim() == String.Empty || txtTelefonoEd.Text.Length > 255)
+            {
+                txtTelefonoEd.CssClass = "form-control alert-danger";
+                valido = false;
+            }
+
+            return valido;
         }
+        protected void btnEditarAsistente(object sender, EventArgs e)
+        {
+            int idAsistente = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            List<Asistente> asistentes = asistenteServicios.ObtenerAsistentes();
+            asistenteSeleccionado = asistentes.FirstOrDefault(a => a.idAsistente == idAsistente);
 
+            txtCarnetEd.CssClass = "form-control";
+            txtTelefonoEd.CssClass = "form-control";
+            txtNombreAsistenteEditar.CssClass = "form-control";
+
+            txtCarnetEd.Text = asistenteSeleccionado.carnet;
+            txtTelefonoEd.Text = asistenteSeleccionado.telefono;
+            txtNombreAsistenteEditar.Text = asistenteSeleccionado.nombreCompleto;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarAsistente();", true);
+        }
+        public void editarAsistente(object sender, EventArgs e)
+        {
+            if (validarAsistenteNuevoEditar())
+            {
+                int idAsistente = asistenteSeleccionado.idAsistente;
+
+                Asistente asistenteEditar = new Asistente();
+                asistenteEditar.idAsistente = idAsistente;
+                asistenteEditar.nombreCompleto = txtNombreAsistenteEditar.Text;
+                asistenteEditar.carnet = txtCarnetEd.Text;
+                asistenteEditar.telefono = txtTelefonoEd.Text;
+                //asistenteServicios.editarAsistente(asistenteEditar);
+                txtNombreAsistenteEditar.Text = "";
+                txtCarnetEd.Text = "";
+                txtTelefono.Text = "";
+
+                List<Asistente> listaAsistentees = asistenteServicios.ObtenerAsistentes();
+
+                Session["listaAsistentes"] = listaAsistentees;
+                Session["listaAsistentesFiltrada"] = listaAsistentees;
+
+                MostrarAsistentes();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + asistenteEditar.nombreCompleto + "  fue modificada con éxito!" + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarAsistente').hide();", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarAsistente').hide();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarAsistente();", true);
+            }
+        }
 
         protected void btnEliminarAsistente(object sender, EventArgs e)
         {
+            int idAsistente = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            List<Asistente> asistentes = asistenteServicios.ObtenerAsistentes();
+            asistenteSeleccionado = asistentes.FirstOrDefault(a => a.idAsistente == idAsistente);
+
+            txtCarneE.CssClass = "form-control";
+            txtTelefonoE.CssClass = "form-control";
+
+            txtCarneE.Text = asistenteSeleccionado.carnet;
+            txtTelefonoE.Text = asistenteSeleccionado.telefono;
+            lbNombreAsistente.Text = asistenteSeleccionado.nombreCompleto;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEliminarAsistente();", true);
+        }
+
+        public void btnConfirmarEliminarAsistente(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarAsistente').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalConfirmarAsistente()", true);
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Noviembre/2019
+        /// Efecto: Se encarga eliminar una unidad seleccionada
+        /// Requiere:Seleccionar icono de basurero en alguna de las unidades
+        /// Modifica: Tabla Unidades
+        /// Devuelve: -
+        /// </summary>
+        ///
+        public void eliminarAsistente(object sender, EventArgs e)
+        {
+            int idAsistente = asistenteSeleccionado.idAsistente;
+            //asistenteServicios.eliminarAsistente(idAsistente);
+            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
+
+            if (!listaAsistentes.Contains(asistenteSeleccionado))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad " + asistenteSeleccionado.nombreCompleto + " fue eliminada exitosamente!" + "');", true);
+                Session["listaAsistentes"] = listaAsistentes;
+                Session["listaAsistentesFiltrada"] = listaAsistentes;
+                MostrarAsistentes();
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarAsistente').hide();", true);
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no pudo ser eliminada, intente de nuevo" + "');", true);
+            }
         }
         #endregion
 
@@ -525,3 +511,4 @@ namespace ControlAsistentes.CatalogoEncargado
 
     }
 }
+#endregion
