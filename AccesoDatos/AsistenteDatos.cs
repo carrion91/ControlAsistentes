@@ -29,7 +29,7 @@ namespace AccesoDatos
             List<Asistente> asistentes = new List<Asistente>();
 
             String consulta = @"SELECT a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado" +
-            " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado; ";
+            " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado where p.habilitado=1; ";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 
@@ -133,6 +133,42 @@ namespace AccesoDatos
             return idAsistente;
         }
 
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes que no tienen usuarios asociados 
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerAsistentesSinUsuarios()
+		{
+			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+			List<Asistente> asistentes = new List<Asistente>();
 
-    }
+			String consulta = @"SELECT id_Asistente,nombre_completo,carnet FROM Asistente WHERE id_asistente NOT IN (SELECT a.id_asistente FROM Asistente a JOIN Usuario u ON a.id_asistente = u.id_asistente)";
+
+			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+
+
+			SqlDataReader reader;
+			sqlConnection.Open();
+			reader = sqlCommand.ExecuteReader();
+
+			while (reader.Read())
+			{
+				Asistente asistente = new Asistente();
+				asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
+				asistente.nombreCompleto = reader["nombre_completo"].ToString();
+				asistente.carnet = reader["carnet"].ToString();
+				asistentes.Add(asistente);
+			}
+
+			sqlConnection.Close();
+
+			return asistentes;
+		}
+
+
+	}
 }
