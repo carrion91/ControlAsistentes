@@ -42,7 +42,7 @@
                 <div class="col-md-12 col-xs-6 col-sm-6">
 
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                        <asp:Button ID="btnPendientes" runat="server" Text="Aprobaciones Pendientes" CssClass="btn btn-primary boton-nuevo" />
+                        <asp:Button ID="btnPendientes" runat="server" Text="Aprobaciones Pendientes" CssClass="btn btn-primary boton-nuevo" OnClick="btnPendientes_Click" />
                     </div>
                 </div>
 
@@ -230,9 +230,170 @@
                 </div>
 
             </div>
+              <!-- Modal Observacion-->
+            <asp:UpdatePanel ID="UpdatePanel8" runat="server">
+                <ContentTemplate>
+                    <div id="modalObservacionesAsistente" class="modal fade" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Observaciones Asistente</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <%-- fin titulo accion --%>
+
+                                        <%-- campos a llenar --%>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblNombreAsistente" runat="server" Text="Nombre Asistente <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:TextBox class="form-control" ID="txtNombreAsistente" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblCarnet" runat="server" Text="Numero de Carné <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:TextBox class="form-control" ID="txtNumeroCarné" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Cantidad de horas nombrado <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:DropDownList ID="ddlHorasNombrado" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
+                                            </div>
+                                        </div>
+
+                                        <%-- botones --%>
+                                       <%-- <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
+                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="btnGuardarNuevaUnidad" />
+                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                                        </div>--%>
+                                        <%-- fin botones --%>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </ContentTemplate>
+            </asp:UpdatePanel>
+              <!-- Modal AsistentesAprobacionesPendientes-->
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <div id="modalAsistentesAprobacionesPendientes" class="modal fade" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Asistentes pendientes de Aprobación</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+                                            <table class="table table-bordered">
+                                                <thead style="text-align: center !important; align-content: center">
+                                                    <tr style="text-align: center" class="btn-primary">
+                                                        <th>Nombramiento Aprobado</th>
+                                                        <th>Nombre</th>
+                                                        <th>Carné</th>
+                                                        <th>Unidad Asistencia</th>
+                                                        <th>Último Período Nombrado</th>
+                                                        <th>Cantidad de Horas Nombrado</th>
+                                                        <th>Cantidad de Períodos Nombrado</th>
+                                                        <th>Documentos</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tr>
+                                                     
+                                                    <td></td>
+                                                    <td>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                                        <asp:TextBox ID="txtBuscarNombre1" runat="server" CssClass="form-control chat-input" placeholder="Filtro nombre asistente" AutoPostBack="true" OnTextChanged="filtrarAsistentesPendintes"></asp:TextBox>
+                                                    </div>
+                                                        </td>
+                                                   
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    
+                                                </tr>
+                                                <asp:Repeater ID="RpAprovaciones" runat="server">
+                                                    <HeaderTemplate>
+                                                    </HeaderTemplate>
+
+                                                    <ItemTemplate>
+                                                        <tr style="text-align: center">
+
+                                                             <td>
+                                                                <div class="btn-group">
+                                                                    <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
+                                                                    <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
+                                                                </div>
+                                                            </td>
+                                                            <td><%# Eval("nombreCompleto") %></td>
+                                                            <td><%# Eval("carnet") %></td>
+                                                            <td><%# Eval("unidad.nombre") %></td>
+                                                           
+                                                            <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
+                                                            <td><%# Eval("cantidadHorasNombrado") %></td>
+                                                            <td><%# Eval("cantidadPeriodosNombrado") %></td>
+                                                            <td>
+                                                                <div id="btnDocs" class="btn-group">
+                                                                    <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
+                                                                    <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
+                                                                </div>
+                                                            </td>
+
+
+
+                                                        </tr>
+
+                                                    </ItemTemplate>
+
+                                                    <FooterTemplate>
+                                                    </FooterTemplate>
+                                                </asp:Repeater>
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
         </ContentTemplate>
     </asp:UpdatePanel>
-
+    <script type="text/javascript">
+        function observacionesAsistentes() {
+            $('#modalObservacionesAsistente').modal('show');
+        };
+         function activarModalAsistentesAprobacionesPendientes() {
+            $('#modalAsistentesAprobacionesPendientes').modal('show');
+        };
+      </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptContent" runat="server">
 </asp:Content>
