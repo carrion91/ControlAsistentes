@@ -115,6 +115,7 @@
     <Compile Include="ArchivoServicios.cs" />
     <Compile Include="AsistenteServicios.cs" />
     <Compile Include="ConexionServicios.cs" />
+    <Compile Include="EncargadoAsistenteServicios.cs" />
     <Compile Include="EncargadoServicios.cs" />
     <Compile Include="EncargadoUnidadServicios.cs" />
     <Compile Include="NombramientoServicios.cs" />

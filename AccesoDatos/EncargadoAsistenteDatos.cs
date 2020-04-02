@@ -11,12 +11,13 @@ namespace AccesoDatos
     {
         private ConexionDatos conexion = new ConexionDatos();
 
+
         public int insertarEncargadoAsistente(int idEncargado, int idAsistente)
         {
             SqlConnection connection = conexion.ConexionControlAsistentes();
 
             String consulta
-                = @"INSERT Encargado_Asistente(id_encargado,id_asistente) 
+                = @"INSERT Encargado_Asistente(id_Encargado,id_asistente) 
                     VALUES (@idEncargado,@idAsistente);";
 
             SqlCommand command = new SqlCommand(consulta, connection);
@@ -29,5 +30,7 @@ namespace AccesoDatos
 
             return idEncargado;
         }
+
+
     }
 }
