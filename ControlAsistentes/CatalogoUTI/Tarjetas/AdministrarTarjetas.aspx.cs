@@ -105,6 +105,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             cbxDisponible.Checked = false;
             cbxExtraviada.Enabled = true;
             cbxExtraviada.Checked = false;
+            panelTarjetaPagada.Visible = false;
             txtAsistente.Text = "";
             spanAgregarAsistenes.Visible = true;
             btnEliminarAsistente.Visible = true;
@@ -125,6 +126,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             cbxExtraviada.Enabled = false;
             spanAgregarAsistenes.Visible = false;
             btnEliminarAsistente.Visible = false;
+            cbxPagada.Enabled = false;
         }
 
         /// <summary>
@@ -339,6 +341,8 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             txtNumeroTarjeta.Text = tarjetaSeleccionada.numeroTarjeta;
             cbxDisponible.Checked = tarjetaSeleccionada.disponible;
             cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
+            panelTarjetaPagada.Visible = cbxExtraviada.Checked;
+            cbxPagada.Checked = tarjetaSeleccionada.pagada;
             txtAsistente.Text = tarjetaSeleccionada.asistente.nombreCompleto;
             btnConfirmar.CssClass = "btn btn-primary boton-editar";
             Session["idAsistenteSeleccionado"] = tarjetaSeleccionada.asistente.idAsistente;
@@ -368,6 +372,8 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             txtNumeroTarjeta.Text = tarjetaSeleccionada.numeroTarjeta;
             cbxDisponible.Checked = tarjetaSeleccionada.disponible;
             cbxExtraviada.Checked = tarjetaSeleccionada.tarjetaExtraviada;
+            panelTarjetaPagada.Visible = cbxExtraviada.Checked;
+            cbxPagada.Checked = tarjetaSeleccionada.pagada;
             txtAsistente.Text = tarjetaSeleccionada.asistente.nombreCompleto;
             btnConfirmar.CssClass = "btn btn-primary boton-eliminar";
             Session["idAsistenteSeleccionado"] = tarjetaSeleccionada.asistente.idAsistente;
@@ -394,6 +400,7 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
                 tarjeta.numeroTarjeta = txtNumeroTarjeta.Text;
                 tarjeta.tarjetaExtraviada = cbxExtraviada.Checked;
                 tarjeta.disponible = cbxDisponible.Checked;
+                tarjeta.pagada = cbxPagada.Checked;
                 tarjeta.asistente = asistenteServicios.ObtenerAsistentes().FirstOrDefault(a => a.idAsistente == Convert.ToInt32(Session["idAsistenteSeleccionado"]));
                 switch ((Session["action"]))
                 {
@@ -441,20 +448,35 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
             String url = Page.ResolveUrl("~/Default.aspx");
             Response.Redirect(url);
         }
+
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 02/04/2020
+        /// Efecto: Oculta o muestra el panel de tarjeta pagada
+        /// Requiere: Cambiar la selecccion del cbxExtraviada
+        /// Modifica: Formulario
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void cbxExtraviada_CheckedChanged(object sender, EventArgs e)
+        {
+                panelTarjetaPagada.Visible = cbxExtraviada.Checked;
+        }
         #endregion
 
         #region paginacion
 
         #region tarjetas
-        /// <summary>
-        /// Leonardo Carrion
-        /// 14/jun/2019
-        /// Efecto: realiza la paginacion
-        /// Requiere: -
-        /// Modifica: paginacion mostrada en pantalla
-        /// Devuelve: -
-        /// </summary>
-        public void Paginacion()
+            /// <summary>
+            /// Leonardo Carrion
+            /// 14/jun/2019
+            /// Efecto: realiza la paginacion
+            /// Requiere: -
+            /// Modifica: paginacion mostrada en pantalla
+            /// Devuelve: -
+            /// </summary>
+            public void Paginacion()
         {
             var dt = new DataTable();
             dt.Columns.Add("IndexPagina"); //Inicia en 0

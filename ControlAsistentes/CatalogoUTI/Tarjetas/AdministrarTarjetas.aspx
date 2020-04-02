@@ -71,7 +71,7 @@
                                             <div class='<%# Eval("disponible") %>'></div>
                                         </td>
                                         <td>
-                                            <a href="#" data-toggle="tooltip" title='<%# Eval("tarjetaExtraviada") %>'><div class='<%# Eval("tarjetaExtraviada") %>'></div></a>
+                                            <div style="cursor:pointer; color: #337ab7;" data-toggle="tooltip" title='<%# ((bool)Eval("pagada")) ? "Pagada" : "Sin pagar" %>'><div class='<%# Eval("tarjetaExtraviada") %>'></div></div>
                                         </td>
                                         <td><%# Eval("asistente.nombreCompleto") %></td>
                                     </tr>
@@ -166,9 +166,19 @@
                                     <div class="col-xs-3">
                                         <asp:Label runat="server" Text="Tarjeta extraviada" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
-                                    <div class="col-xs-9">
-                                        <asp:CheckBox ID="cbxExtraviada" runat="server" />
+                                    <div class="col-xs-3">
+                                        <asp:CheckBox ID="cbxExtraviada" runat="server" OnCheckedChanged="cbxExtraviada_CheckedChanged" AutoPostBack="true"/>
                                     </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <asp:Panel ID="panelTarjetaPagada" runat="server" Visible="false">
+                                        <div class="col-xs-3">
+                                            <asp:Label runat="server" Text="Pagada?" Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <asp:CheckBox ID="cbxPagada" runat="server" />
+                                        </div>
+                                    </asp:Panel>
                                 </div>
                                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                     <br />
