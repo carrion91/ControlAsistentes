@@ -69,7 +69,9 @@
 													<asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("idUsuario") %>'><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
 												</td>
 												<td><%# Eval("nombre") %></td>
-												<td><%# Eval("disponible") %></td>
+												<td style="color: #337ab7;">
+													<asp:LinkButton ID="LBDisponibilidad" runat="server" ToolTip="Cambiar disponibilidad" CommandArgument='<%# Eval("idUsuario") %>'><span class='<%# Eval("disponible") %>'></span></asp:LinkButton>
+												</td>
 												<td><%# Eval("asistente.nombreCompleto") %></td>
 												<td><%# Eval("asistente.carnet") %></td>
 											</tr>

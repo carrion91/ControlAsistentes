@@ -20,7 +20,7 @@ namespace ControlAsistentes.CatalogoEncargado
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
         ArchivoServicios archivoServicios = new ArchivoServicios();
         UnidadServicios unidadServicios = new UnidadServicios();
-        EncargadoAsistenteServicios encargadoAsistenteServicios = new EncargadoAsistenteServicios();
+        //EncargadoAsistenteServicios encargadoAsistenteServicios = new EncargadoAsistenteServicios();
         Unidad unidadEncargado = new Unidad();
         Asistente asistenteSeleccionado = new Asistente();
 
@@ -163,7 +163,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 asistente.cantidadPeriodosNombrado = 0;
                 idAsistente = asistenteServicios.insertarAsistente(asistente);
                 asistente.idAsistente = idAsistente;
-                encargadoAsistenteServicios.insertarEncargadoAsistente(unidadEncargado.encargado.idEncargado,idAsistente);
+                //encargadoAsistenteServicios.insertarEncargadoAsistente(unidadEncargado.encargado.idEncargado,idAsistente);
                 
                 List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
