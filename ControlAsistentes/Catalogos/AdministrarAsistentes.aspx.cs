@@ -199,7 +199,37 @@ namespace ControlAsistentes.Catalogos
 
             MostrarAsistentes();
         }
-        
+
+        protected void AprobarAsistente_OnChanged(object sender, EventArgs e)
+        {
+
+
+            String numeroCarné = ((LinkButton)(sender)).CommandArgument.ToString();
+            AsistentesAprobar(numeroCarné);
+
+
+        }
+        protected void AsistentesAprobar(string numeroCarné)
+        {
+            int idAsistente;
+            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
+   
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.carnet==numeroCarné).ToList();
+            foreach (Asistente asistente in listaAsistentesFiltrada)
+            {
+                txtNombreAsistente.Text = asistente.nombreCompleto;
+                txtNombreAsistente.Enabled = false;
+                txtNumeroCarné.Text = asistente.carnet;
+                txtNumeroCarné.Enabled = false;
+                CantidadHoras.Text = Convert.ToString(asistente.cantidadHorasNombrado);
+                CantidadHoras.Enabled = false;
+                idAsistente = asistente.idAsistente;
+
+            }
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalObservacionesAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalObservacionesAsistente').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "observacionesAsistentes();", true);
+        }
 
         #region metodos paginacion
         public void Paginacion()

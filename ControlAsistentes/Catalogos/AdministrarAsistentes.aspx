@@ -249,7 +249,7 @@
                                         <%-- campos a llenar --%>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblNombreAsistente" runat="server" Text="Nombre Asistente <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblNombreAsistente" runat="server" Text="Nombre Asistente <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:TextBox class="form-control" ID="txtNombreAsistente" runat="server"></asp:TextBox>
@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblCarnet" runat="server" Text="Numero de Carné <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblCarnet" runat="server" Text="Numero de Carné <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:TextBox class="form-control" ID="txtNumeroCarné" runat="server"></asp:TextBox>
@@ -265,10 +265,16 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Cantidad de horas nombrado <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Cantidad de horas nombrado <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:DropDownList ID="ddlHorasNombrado" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
+                                                <asp:TextBox class="form-control" ID="CantidadHoras" runat="server"></asp:TextBox>
+                                            </div>
+                                             <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="Label1" runat="server" Text="Observaciones <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:TextBox class="form-control" ID="txtObservaciones" runat="server"></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -346,7 +352,7 @@
                                                              <td>
                                                                 <div class="btn-group">
                                                                     <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                                                    <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
+                                                                   <asp:LinkButton ID="btnAsistentes" runat="server" ToolTip="seleccionar" CommandArgument='<%# Eval("carnet") %>' OnClick="AprobarAsistente_OnChanged" CssClass="btn glyphicon glyphicon-remove" />
                                                                 </div>
                                                             </td>
                                                             <td><%# Eval("nombreCompleto") %></td>
