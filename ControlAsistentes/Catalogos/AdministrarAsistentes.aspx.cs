@@ -93,8 +93,49 @@ namespace ControlAsistentes.Catalogos
             rpAsistentes.DataBind();
             Paginacion();
         }
+        protected void MostrarAsistentesPendienteAprovacion()
+        {
+            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
+            String nombreasistente = "";
 
+             if (!String.IsNullOrEmpty(txtBuscarNombre1.Text))
+            {
+                nombreasistente = txtBuscarNombre1.Text;
+            }
 
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
+
+            Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
+
+            var dt = listaAsistentesFiltrada;
+            pgsource.DataSource = dt;
+            pgsource.AllowPaging = true;
+            //numero de items que se muestran en el Repeater
+            pgsource.PageSize = elmentosMostrar;
+            pgsource.CurrentPageIndex = paginaActual;
+            //mantiene el total de paginas en View State
+            //ViewState["TotalPaginas"] = pgsource.PageCount;
+            ////Ejemplo: "Página 1 al 10"
+            //lblpagina.Text = "Página " + (paginaActual + 1) + " de " + pgsource.PageCount + " (" + dt.Count + " - elementos)";
+            ////Habilitar los botones primero, último, anterior y siguiente
+            //lbAnterior.Enabled = !pgsource.IsFirstPage;
+            //lbSiguiente.Enabled = !pgsource.IsLastPage;
+            //lbPrimero.Enabled = !pgsource.IsFirstPage;
+            //lbUltimo.Enabled = !pgsource.IsLastPage;
+            RpAprovaciones.DataSource = pgsource;
+
+            RpAprovaciones.DataBind();
+            //Paginacion();
+        }
+
+        public void filtrarAsistentesPendintes(object sender, EventArgs e)
+        {
+            paginaActual = 0;
+            MostrarAsistentesPendienteAprovacion();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
+
+        }
         /// <summary>
         ///Mariela Calvo
         /// marzo/2020
@@ -242,6 +283,13 @@ namespace ControlAsistentes.Catalogos
         {
             paginaActual += 1;
             MostrarAsistentes();
+        }
+
+        protected void btnPendientes_Click(object sender, EventArgs e)
+        {
+            MostrarAsistentesPendienteAprovacion();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
         }
 
         /// <summary>
