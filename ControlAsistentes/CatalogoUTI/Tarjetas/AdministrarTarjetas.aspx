@@ -70,8 +70,8 @@
                                         <td style="color: #337ab7;">
                                             <div class='<%# Eval("disponible") %>'></div>
                                         </td>
-                                        <td style="color: #337ab7;">
-                                            <div class='<%# Eval("tarjetaExtraviada") %>'></div>
+                                        <td>
+                                            <div style="cursor:pointer; color: #337ab7;" data-toggle="tooltip" title='<%# ((bool)Eval("pagada")) ? "Pagada" : "Sin pagar" %>'><div class='<%# Eval("tarjetaExtraviada") %>'></div></div>
                                         </td>
                                         <td><%# Eval("asistente.nombreCompleto") %></td>
                                     </tr>
@@ -166,9 +166,19 @@
                                     <div class="col-xs-3">
                                         <asp:Label runat="server" Text="Tarjeta extraviada" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
-                                    <div class="col-xs-9">
-                                        <asp:CheckBox ID="cbxExtraviada" runat="server" />
+                                    <div class="col-xs-3">
+                                        <asp:CheckBox ID="cbxExtraviada" runat="server" OnCheckedChanged="cbxExtraviada_CheckedChanged" AutoPostBack="true"/>
                                     </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <asp:Panel ID="panelTarjetaPagada" runat="server" Visible="false">
+                                        <div class="col-xs-3">
+                                            <asp:Label runat="server" Text="Pagada?" Font-Size="Medium" ForeColor="Black"></asp:Label>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <asp:CheckBox ID="cbxPagada" runat="server" />
+                                        </div>
+                                    </asp:Panel>
                                 </div>
                                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                     <br />
@@ -178,11 +188,11 @@
                                         <asp:Label runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
                                     <div class="col-xs-9 input-group">
-                                        <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon" OnClick="btnEliminarAsistente_Click">
+                                        <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon boton-eliminar" OnClick="btnEliminarAsistente_Click">
                                             <i class="glyphicon glyphicon-trash"></i>
                                         </asp:LinkButton>
                                         <asp:TextBox ID="txtAsistente" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
-                                        <span id="spanAgregarAsistenes" runat="server" style="cursor:pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                        <span id="spanAgregarAsistenes" runat="server" style="cursor:pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon boton-nuevo"><i class="glyphicon glyphicon-plus-sign"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -309,5 +319,8 @@
         function closeModalAsistentes() {
             $('#modalAsistentes').modal('hide');
         }
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 </asp:Content>

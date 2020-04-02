@@ -248,8 +248,8 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		{
 			txtNuevoUsuario.CssClass = "form-control";
 			txtNuevoUsuario.Text = "";
-			//txtContraseñaNueva.CssClass = "form-control";
-			//txtContraseñaNueva.Text = "";
+			txtContrasena.CssClass = "form-control";
+			txtContrasena.Text = "";
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
 		}
 
@@ -265,18 +265,25 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		{
 			
 		}
-
+		/// <summary>
+		/// Jesús Torres
+		/// 30/03/2020
+		/// Efecto: Permite al usuario ver o ocultar la contraseña a ingresar
+		/// Requiere: Presionar para ver o ocultar contraseña
+		/// Modifica: 
+		/// Devuelve: -
+		/// </summary>
 		protected void verContraseña(object sender, EventArgs e)
 		{
 			if (txtContrasena.Attributes["Type"] == "password")
 			{
 				txtContrasena.Attributes["Type"] = "text";
-				btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-close>";
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');", true);
 			}
 			else
 			{
 				txtContrasena.Attributes["Type"] = "password";
-				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-open>";
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-close').addClass('glyphicon glyphicon-eye-open');", true);
 			}
 			ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
