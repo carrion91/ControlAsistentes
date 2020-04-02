@@ -51,6 +51,42 @@ namespace ControlAsistentes
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menu;
 
         /// <summary>
+        /// btnInformacion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnInformacion;
+
+        /// <summary>
+        /// MenuNavBarSecretaria control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuNavBarSecretaria;
+
+        /// <summary>
+        /// MenuNavBarEncargado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuNavBarEncargado;
+
+        /// <summary>
+        /// MenuNavBarUTI control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuNavBarUTI;
+
+        /// <summary>
         /// username control.
         /// </summary>
         /// <remarks>
