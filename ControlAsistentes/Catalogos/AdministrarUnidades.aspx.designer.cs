@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ControlAsistentes.Catalogos {
-    
-    
-    public partial class AdministrarUnidades {
-        
+namespace ControlAsistentes.Catalogos
+{
+
+
+    public partial class AdministrarUnidades
+    {
+
         /// <summary>
         /// Control MainScriptManager.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager MainScriptManager;
-        
+
         /// <summary>
         /// Control PanelUnidades.
         /// </summary>
@@ -29,25 +31,16 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel PanelUnidades;
-        
+
         /// <summary>
-        /// Control label.
+        /// Control btnNuevaUnidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label label;
-        
-        /// <summary>
-        /// Control Button1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
-        
+        protected global::System.Web.UI.WebControls.Button btnNuevaUnidad;
+
         /// <summary>
         /// Control btnFiltrar.
         /// </summary>
@@ -56,7 +49,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnFiltrar;
-        
+
         /// <summary>
         /// Control txtBuscarNombre.
         /// </summary>
@@ -65,7 +58,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBuscarNombre;
-        
+
         /// <summary>
         /// Control rpUnidades.
         /// </summary>
@@ -74,7 +67,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rpUnidades;
-        
+
         /// <summary>
         /// Control btnAtras.
         /// </summary>
@@ -83,7 +76,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAtras;
-        
+
         /// <summary>
         /// Control lbPrimero.
         /// </summary>
@@ -92,7 +85,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbPrimero;
-        
+
         /// <summary>
         /// Control lbAnterior.
         /// </summary>
@@ -101,7 +94,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnterior;
-        
+
         /// <summary>
         /// Control rptPaginacion.
         /// </summary>
@@ -110,7 +103,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList rptPaginacion;
-        
+
         /// <summary>
         /// Control lbSiguiente.
         /// </summary>
@@ -119,7 +112,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSiguiente;
-        
+
         /// <summary>
         /// Control lbUltimo.
         /// </summary>
@@ -128,7 +121,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbUltimo;
-        
+
         /// <summary>
         /// Control lblpagina.
         /// </summary>
@@ -137,7 +130,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblpagina;
-        
+
         /// <summary>
         /// Control UpdatePanel8.
         /// </summary>
@@ -146,7 +139,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel8;
-        
+
         /// <summary>
         /// Control lblNuevaUnidad.
         /// </summary>
@@ -155,7 +148,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblNuevaUnidad;
-        
+
         /// <summary>
         /// Control txtNuevaUnidad.
         /// </summary>
@@ -164,7 +157,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNuevaUnidad;
-        
+
         /// <summary>
         /// Control lblDescNueva.
         /// </summary>
@@ -173,7 +166,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDescNueva;
-        
+
         /// <summary>
         /// Control txtDescNueva.
         /// </summary>
@@ -182,7 +175,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDescNueva;
-        
+
         /// <summary>
         /// Control lblEncagadoNueva.
         /// </summary>
@@ -191,7 +184,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEncagadoNueva;
-        
+
         /// <summary>
         /// Control ddlEncargadoNueva.
         /// </summary>
@@ -200,7 +193,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEncargadoNueva;
-        
+
         /// <summary>
         /// Control btnGuardar.
         /// </summary>
@@ -209,7 +202,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardar;
-        
+
         /// <summary>
         /// Control UpdatePanel6.
         /// </summary>
@@ -218,7 +211,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel6;
-        
+
         /// <summary>
         /// Control lbUnidadE1.
         /// </summary>
@@ -227,7 +220,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbUnidadE1;
-        
+
         /// <summary>
         /// Control lbUnidadE2.
         /// </summary>
@@ -236,7 +229,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbUnidadE2;
-        
+
         /// <summary>
         /// Control lbDescripcionUnidadEliminar.
         /// </summary>
@@ -245,7 +238,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbDescripcionUnidadEliminar;
-        
+
         /// <summary>
         /// Control txtDescripcionEliminar.
         /// </summary>
@@ -254,7 +247,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDescripcionEliminar;
-        
+
         /// <summary>
         /// Control lbEncragado.
         /// </summary>
@@ -263,7 +256,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbEncragado;
-        
+
         /// <summary>
         /// Control txtEncargadoEliminar.
         /// </summary>
@@ -272,7 +265,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEncargadoEliminar;
-        
+
         /// <summary>
         /// Control btnEliminarUnidadP.
         /// </summary>
@@ -281,7 +274,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnEliminarUnidadP;
-        
+
         /// <summary>
         /// Control UPconfirmarEliminarUnidad.
         /// </summary>
@@ -290,7 +283,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UPconfirmarEliminarUnidad;
-        
+
         /// <summary>
         /// Control lbConfUnidad.
         /// </summary>
@@ -299,7 +292,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbConfUnidad;
-        
+
         /// <summary>
         /// Control btnConfirmar.
         /// </summary>
@@ -308,7 +301,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnConfirmar;
-        
+
         /// <summary>
         /// Control UpdatePanelEditarUnidad.
         /// </summary>
@@ -317,7 +310,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanelEditarUnidad;
-        
+
         /// <summary>
         /// Control lbUnidadEdi.
         /// </summary>
@@ -326,7 +319,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbUnidadEdi;
-        
+
         /// <summary>
         /// Control txtNombreUnidadEditar.
         /// </summary>
@@ -335,7 +328,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNombreUnidadEditar;
-        
+
         /// <summary>
         /// Control lbDescEditar.
         /// </summary>
@@ -344,7 +337,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbDescEditar;
-        
+
         /// <summary>
         /// Control txtDescEditar.
         /// </summary>
@@ -353,7 +346,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDescEditar;
-        
+
         /// <summary>
         /// Control lbEncargadoEditar1.
         /// </summary>
@@ -362,7 +355,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbEncargadoEditar1;
-        
+
         /// <summary>
         /// Control lbEncargadoEditar2.
         /// </summary>
@@ -371,7 +364,7 @@ namespace ControlAsistentes.Catalogos {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbEncargadoEditar2;
-        
+
         /// <summary>
         /// Control btnEditarUnidad1.
         /// </summary>

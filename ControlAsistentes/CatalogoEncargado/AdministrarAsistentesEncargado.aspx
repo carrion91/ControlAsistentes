@@ -15,7 +15,12 @@
                 <center>
              <div class="col-md-12 col-xs-12 col-sm-12">
             <center>
-                <asp:Label runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:Label>
+                <asp:Label id="titulo" runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:Label>
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <br />
+                </div>
+
+                <asp:Label id="tituloAS" runat="server" Text="" Font-Size="Large" ForeColor="Black"></asp:Label>
                 <p class="mt-1">En esta sección podrá aprobar los nombramientos de los asistentes</p>
             </center>
         </div>
@@ -35,15 +40,16 @@
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
-                <div class="col-md-12 col-xs-6 col-sm-6">
-
-                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                        <asp:Button ID="btnNuevoAsistente" runat="server" Text="Nuevo Asistente" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
-                    </div>
-                </div>
+               
                 <div class="col-md-12 col-xs-6 col-sm-6">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
                         <asp:Button ID="Button1" runat="server" Text="Nuevo Asistente" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
+                    </div>
+                </div>
+                 <div class="col-md-12 col-xs-6 col-sm-6">
+
+                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
+                        <asp:Button ID="btnNuevoAsistente" runat="server" Text="Enviar Nombramientos" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
                     </div>
                 </div>
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
@@ -55,19 +61,18 @@
                                 <th>Carné</th>
                                 <th>Unidad Asistencia</th>
                                 <th>Nombramiento Aprobado</th>
-                                <th>Último Período Nombrado</th>
+                                <th>Período Nombramiento</th>
                                 <th>Cantidad de Horas Nombrado</th>
                                 <th>Cantidad de Períodos Nombrado</th>
-                                <th>Documentos</th>
 
 
                             </tr>
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="filtrarAsistentes"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton></td>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary glyphicon glyphicon-search" OnClick="filtrarAsistentes" aria-hidden="true"></asp:LinkButton></td>
                             <td>
-                                <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true"></asp:TextBox>
+                                <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" onkeypress="enter_click()"></asp:TextBox>
                             </td>
                             <td>
                                 <asp:TextBox ID="txBool" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" Visible="false"></asp:TextBox></td>
@@ -84,9 +89,10 @@
 
                             <ItemTemplate>
                                 <tr style="text-align: center">
-
-
-                                    <td></td>
+                                    <td>
+                                        <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idAsistente") %>' OnClick="btnEditarAsistente" class="btn glyphicon glyphicon-pencil"></asp:LinkButton>
+                                        <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idAsistente") %>' OnClick="btnEliminarAsistente" class="btn glyphicon glyphicon-trash"></asp:LinkButton>
+                                    </td>
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
@@ -99,12 +105,7 @@
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                     <td><%# Eval("cantidadHorasNombrado") %></td>
                                     <td><%# Eval("cantidadPeriodosNombrado") %></td>
-                                    <td>
-                                        <div id="btnDocs" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
-                                        </div>
-                                    </td>
+                                    
 
                                 </tr>
 
@@ -168,9 +169,9 @@
 
 
 
-            <!-- Modal nuevo periodo -->
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
+            <!-- Modal nuevo asistente -->
+
+            <contenttemplate>
 
                     <div id="modalNuevoAsistente" class="modal fade" role="alertdialog">
                         <div class="modal-dialog modal-lg">
@@ -182,80 +183,88 @@
                                     <h4 class="modal-title">Nuevo Asistente</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <%-- campos a llenar --%>
                                     <div class="row">
-
-                                        <%-- fin campos a llenar --%>
-
                                         <div class="col-md-12 col-xs-12 col-sm-12">
                                             <br />
                                         </div>
 
-                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="label4" runat="server" Text="Nombre Completo <span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                                <asp:Label ID="label4" runat="server" Text="Nombre Completo <span style='color:red'></span>" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
                                                 <div class="input-group">
-                                                    <asp:TextBox class="form-control" ID="txtNombre" runat="server"></asp:TextBox>
+                                                    <asp:TextBox class="form-control" ID="txtNombre" runat="server" Width="325 px"></asp:TextBox>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                             <br />
                                         </div>
-                                        <div class="col-xs-12">
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-xs-3">
-                                                <asp:Label ID="lbCarnet" runat="server" Text="Carné <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                                <asp:Label ID="lbCarnet" runat="server" Text="Carné <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
+                                             <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
                                                 <asp:TextBox class="form-control" ID="txtCarnet" runat="server"></asp:TextBox>
-                                            </div>
-                                            <div id="div5" runat="server" style="display: none" class="col-xs-5">
-                                                <asp:Label ID="lbCarne" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
+                                            </div>                                            
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                             <br />
                                         </div>
-                                        <div class="col-xs-12">
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-xs-3">
-                                                <asp:Label ID="lbTelefono" runat="server" Text="Numéro Teléfono <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                                <asp:Label ID="lbTelefono" runat="server" Text="Numéro Teléfono <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
                                                 <asp:TextBox class="form-control" ID="txtTelefono" runat="server"></asp:TextBox>
-                                            </div>
-                                            <div id="div3" runat="server" style="display: none" class="col-xs-5">
-                                                <asp:Label ID="lblTelefono" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
+                                            </div>    
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                             <br />
                                         </div>
-                                        <div class="col-xs-12">
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-xs-3">
-                                                <asp:Label ID="lbHoras" runat="server" Text="Horas Nombramiento<span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                                <asp:Label ID="lbUnidadNombramiento" runat="server" Text="Unidad Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" ></asp:Label>
                                             </div>
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
+                                            <div class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtUnidadNA" runat="server" Width="320px" Enabled="false"></asp:TextBox>
+                                            </div>
+                                           
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                         <br />
+                                        </div>
+                                       <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <div class="col-xs-3">
+                                                <asp:Label ID="lbHoras" runat="server" Text="Horas Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                            </div>
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
                                                 <asp:TextBox class="form-control" ID="txtHoras" runat="server"></asp:TextBox>
                                             </div>
-                                            <div id="div7" runat="server" style="display: none" class="col-xs-5">
-                                                <asp:Label ID="lblHoras" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
+                                           
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                             <br />
                                         </div>
-                                        <div class="col-xs-12">
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-xs-3">
-                                                <asp:Label ID="lbPeriodoN" runat="server" Text="Período  Nombramiento<span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                                <asp:Label ID="lbPeriodoN" runat="server" Text="Período Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-xs-4">
-                                                <asp:DropDownList ID="periodosDDL" runat="server" CssClass="form-control">
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
+                                            <div class="input-group">
+                                                <asp:DropDownList ID="periodosDDL" runat="server" CssClass="form-control" Width="200px">
                                                 </asp:DropDownList>
                                             </div>
-                                            <div id="div8" runat="server" style="display: none" class="col-xs-5">
-                                                <asp:Label ID="lblPeriodoN" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Espacio obligatorio" ForeColor="Red"></asp:Label>
+                                            
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -265,30 +274,32 @@
                                             <br />
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
-
+                                            <div class="col-xs-3">
                                                 <asp:Label ID="lblInducción" runat="server" Text="Recibe Inducción " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                             <div class="col-md-6 col-xs-4 col-sm-4">
+                                            <div class="input-group">
                                                 <asp:CheckBox ID="ChckBxInduccion" runat="server" />
                                             </div>
-
+                                                 </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                             <br />
                                         </div>
                                         <!-- Archivo Expediente -->
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lbExpe" runat="server" Text="Expediente" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
+                                         <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <div class="col-xs-3">
+                                                <asp:Label ID="lbExpediente" runat="server" Text="Expediente Académico <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:FileUpload ID="fileExpediente" runat="server" AllowMultiple="true" oninput="validarArchivos(this);" onchange="validarArchivos(this);" />
-                                            </div>
-                                            <div class="col-md-5 col-xs-5 col-sm-5" id="div1" runat="server" style="display: none;">
-                                                <asp:Label ID="lbExpedienteVacio" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
-                                            </div>
+                                            <asp:UpdatePanel ID="updExpediente" runat="server">
+                                                <ContentTemplate>
+                                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                                        <div class="input-group">
+                                                            <asp:FileUpload ID="fileExpediente" runat="server" AllowMultiple="true" CssClass="form-control"  />
+                                                        </div>
+                                                    </div>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                         <!-- Fin Archivos Expediente -->
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -296,16 +307,19 @@
                                         </div>
 
                                         <!-- Archivo Informe-->
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lbInforme" runat="server" Text="Informe de Matícula" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
+                                         <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <div class="col-xs-3">
+                                                <asp:Label ID="lbInforme" runat="server" Text="Informe de Matrícula " Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:FileUpload ID="fileInforme" runat="server" AllowMultiple="true" oninput="validarArchivos(this);" onchange="validarArchivos(this);" />
-                                            </div>
-                                            <div class="col-md-5 col-xs-5 col-sm-5" id="div2" runat="server" style="display: none;">
-                                                <asp:Label ID="lbInf" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
-                                            </div>
+                                            <asp:UpdatePanel ID="UpInforme" runat="server">
+                                                <ContentTemplate>
+                                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                                        <div class="input-group">
+                                                            <asp:FileUpload ID="fileInforme" runat="server" AllowMultiple="true" CssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                         <!-- Fin Archivos   Informe -->
 
@@ -314,16 +328,19 @@
                                         </div>
 
                                         <!-- Archivo CV-->
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                       <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <div class="col-xs-3">
                                                 <asp:Label ID="lbCV" runat="server" Text="Curriculum VITAE" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:FileUpload ID="fileCV" runat="server" AllowMultiple="true" oninput="validarArchivos(this);" onchange="validarArchivos(this);" />
-                                            </div>
-                                            <div class="col-md-5 col-xs-5 col-sm-5" id="div6" runat="server" style="display: none;">
-                                                <asp:Label ID="lbCV1" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
-                                            </div>
+                                            <asp:UpdatePanel ID="upCV" runat="server">
+                                                <ContentTemplate>
+                                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                                        <div class="input-group">
+                                                            <asp:FileUpload ID="fileCV" runat="server" AllowMultiple="true" CssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                         <!-- Fin Archivos CV -->
 
@@ -332,26 +349,35 @@
                                         </div>
 
                                         <!-- Archivo Cuenta-->
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lbCuenta" runat="server" Text="Cuenta del Banco" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
+                                        <div id="prueba" class="col-md-12 col-xs-12 col-sm-12" Visible="false" >
+                                            <div class="col-xs-3">
+                                                <asp:Label ID="lbCuenta" runat="server" Text="Cuenta de Banco" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
                                             </div>
-                                            <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:FileUpload ID="fileCuenta" runat="server" AllowMultiple="true" oninput="validarArchivos(this);" onchange="validarArchivos(this);" />
-                                            </div>
-                                            <div class="col-md-5 col-xs-5 col-sm-5" id="div9" runat="server" style="display: none;">
-                                                <asp:Label ID="lblCuenta" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
-                                            </div>
+                                            <asp:UpdatePanel ID="upCuenta" runat="server">
+                                                <ContentTemplate>
+                                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                                        <div class="input-group">
+                                                            <asp:FileUpload ID="fileCuenta" runat="server" AllowMultiple="true" CssClass="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
                                         </div>
                                         <!-- Fin Archivos Cuenta -->
-                                        <!-- Archivos Muestra -->
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                            <br />
+                                        </div>
+                                        <!-- Archivos Muestra -->
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <div class="col-xs-3">
                                                 <asp:Label ID="lblArchivos" runat="server" Text="Archivos " Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
                                             </div>
                                             <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                                 <ContentTemplate>
+                                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                            <div class="input-group">
                                                     <asp:FileUpload ID="fuArchivos" runat="server" AllowMultiple="true" CssClass="form-control" />
+                                                </div></div>
                                                 </ContentTemplate>
                                                 <Triggers>
                                                     <asp:PostBackTrigger ControlID="btnNuevoAsistenteModal" />
@@ -365,19 +391,22 @@
 
                                     </div>
                                 </div>
-                                <div class="modal-footer" style="text-align: center">
-                                    <asp:Button ID="btnNuevoAsistenteModal" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="guardar" />
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <div class="modal-footer" >
+                                    <asp:Button ID="btnNuevoAsistenteModal" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="guardarNuevoAsistente_Click" />
+                                    <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                                 </div>
+
                             </div>
 
                         </div>
                     </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-            <!-- Fin modal nuevo periodo -->
-
+                </contenttemplate>
+            <triggers> 
+                <asp:PostBackTrigger ControlID="btnNuevoAsistenteModal" />
+          
+            <!-- Fin modal nuevo asistente -->
         </ContentTemplate>
+
     </asp:UpdatePanel>
 
 
@@ -398,6 +427,12 @@
                 divArchivoIncorrecta.style.display = "block";
             }
         };
+        function enter_click() {
+            if (window.event.keyCode == 13) {
+                document.getElementById('<%=btnFiltrar.ClientID%>').focus();
+                document.getElementById('<%=btnFiltrar.ClientID%>').click();
+            }
+        }
 
     </script>
     <!-- Script fin -->

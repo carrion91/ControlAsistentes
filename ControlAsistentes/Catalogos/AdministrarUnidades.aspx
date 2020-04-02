@@ -13,30 +13,30 @@
             <div class="row">
                 <%-- titulo pantalla --%>
                 <div class="col-md-12 col-xs-12 col-sm-12">
-                    <center>
-                        <asp:Label ID="label" runat="server" Text="Unidades" Font-Names="Bookman Old Style" Font-Size="Large" ForeColor="Black" Font-Bold="true" ></asp:Label>
-                    </center>
-                </div>
+            <center>
+                <asp:Label runat="server" Text="Administrar Unidades" Font-Size="Large" ForeColor="Black"></asp:Label>
+                <p class="mt-1">Puede ingresar una nueva unidad, modificarla o eliminarla</p>
+            </center>
+        </div>
                 <%-- fin titulo pantalla --%>
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <hr />
                 </div>
                 <br />
-               
-                
+
+
                 <div class="col-md-12 col-xs-6 col-sm-6">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                        <asp:Button ID="Button1" runat="server" Text="Nueva Unidad" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevaUnidad_Click" />
+                        <asp:Button ID="btnNuevaUnidad" runat="server" Text="Nueva Unidad" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevaUnidad_Click" />
                     </div>
                 </div>
-                
-                
+
+
                 <%-- tabla--%>
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <table class="table table-bordered">
                         <thead style="text-align: center !important; align-content: center">
                             <tr style="text-align: center" class="btn-primary">
-                                <th></th>
                                 <th></th>
                                 <th>Unidad</th>
                                 <th>Descripción</th>
@@ -45,13 +45,13 @@
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="btnFiltrarUnidad_Click"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton></td>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary glyphicon glyphicon-search" OnClick="btnFiltrarUnidad_Click" aria-hidden="true"></asp:LinkButton></td>
                             <td>
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro nombre unidad" onkeypress="enter_click()"></asp:TextBox>
                             </td>
                             <td></td>
                             <td></td>
-                            <td></td>
+
 
                         </tr>
                         <asp:Repeater ID="rpUnidades" runat="server">
@@ -60,10 +60,9 @@
                             <ItemTemplate>
                                 <tr style="text-align: center">
                                     <td>
-                                        <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idUnidad") %>' OnClick="btnEditarUnidad"><span class="btn glyphicon glyphicon-pencil"></span></asp:LinkButton>
-                                        <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idUnidad") %>' OnClick="btnEliminarUnidad"><span class="btn glyphicon glyphicon-trash"></span></asp:LinkButton>
+                                        <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idUnidad") %>' OnClick="btnEditarUnidad" class="btn glyphicon glyphicon-pencil"></asp:LinkButton>
+                                        <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idUnidad") %>' OnClick="btnEliminarUnidad" class="btn glyphicon glyphicon-trash"></asp:LinkButton>
                                     </td>
-                                    <td></td>
                                     <td><%# Eval("nombre") %></td>
                                     <td><%# Eval("descripcion") %></td>
                                     <td><%# Eval("encargado.nombreCompleto") %></td>
@@ -75,10 +74,10 @@
                     </table>
                 </div>
             </div>
-            <div  style="text-align: right">
-                 <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
-             </div>
-             <%--paginación--%>
+            <div style="text-align: right">
+                <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
+            </div>
+            <%--paginación--%>
             <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                 <center>
                      <table class="table" style="max-width:664px;">
@@ -113,14 +112,14 @@
                      </table>
                  </center>
             </div>
-             <%--fn paginación--%>
-             <br />
+            <%--fn paginación--%>
             <br />
-             <br />
             <br />
-            
+            <br />
+            <br />
 
-                    
+
+
 
             <!-- Modal Nueva Unidad-->
             <asp:UpdatePanel ID="UpdatePanel8" runat="server">
@@ -131,7 +130,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 style="font-family: 'Bookman Old Style'" class="modal-title">Nueva Unidad</h4>
+                                    <h4 class="modal-title">Nueva Unidad</h4>
                                 </div>
 
                                 <div class="modal-body">
@@ -141,7 +140,7 @@
                                         <%-- campos a llenar --%>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblNuevaUnidad" runat="server" Text="Nombre unidad <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblNuevaUnidad" runat="server" Text="Nombre unidad <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:TextBox class="form-control" ID="txtNuevaUnidad" runat="server"></asp:TextBox>
@@ -149,7 +148,7 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblDescNueva" runat="server" Text="Descripción Unidad <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblDescNueva" runat="server" Text="Descripción Unidad <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:TextBox class="form-control" ID="txtDescNueva" runat="server"></asp:TextBox>
@@ -157,7 +156,7 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblEncagadoNueva" runat="server" Text="Encargado unidad <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblEncagadoNueva" runat="server" Text="Encargado unidad <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:DropDownList ID="ddlEncargadoNueva" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
@@ -166,8 +165,8 @@
 
                                         <%-- botones --%>
                                         <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
-                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardarNuevaUnidad" />
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="btnGuardarNuevaUnidad" />
+                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                                         </div>
                                         <%-- fin botones --%>
                                     </div>
@@ -192,7 +191,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title" style="font-family:'Bookman Old Style'">Eliminar Unidad</h4>
+                                    <h4 class="modal-title">Eliminar Unidad</h4>
                                 </div>
                                 <br />
                                 <div class="modal-body">
@@ -202,21 +201,21 @@
 
                                         <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lbUnidadE1" runat="server" Text="Unidad: " Font-Size="Medium"  ForeColor="Black" CssClass="label" Font-Names="Bookman Old Style" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lbUnidadE1" runat="server" Text="Unidad: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
 
                                             <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:Label ID="lbUnidadE2" runat="server" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Names="Bookman Old Style" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lbUnidadE2" runat="server" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12">
                                             <br />
                                         </div>
-                                  
+
 
                                         <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lbDescripcionUnidadEliminar" runat="server" Text="Descripción Unidad: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Names="Bookman Old Style" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lbDescripcionUnidadEliminar" runat="server" Text="Descripción Unidad: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
 
                                             <div class="col-md-4 col-xs-4 col-sm-4">
@@ -231,11 +230,11 @@
 
                                         <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lbEncragado" runat="server" Text="Encargado: " Font-Size="Medium" ForeColor="Black" CssClass="label" ont-Names="Bookman Old Style" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lbEncragado" runat="server" Text="Encargado: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
 
                                             <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:TextBox class="form-control" ID="txtEncargadoEliminar" ReadOnly="true" runat="server" Font-Names="Bookman Old Style" Font-Bold="false"></asp:TextBox>
+                                                <asp:TextBox class="form-control" ID="txtEncargadoEliminar" ReadOnly="true" runat="server" Font-Bold="false"></asp:TextBox>
                                             </div>
                                         </div>
 
@@ -246,9 +245,9 @@
                                         </div>
 
                                         <%-- botones --%>
-                                        <div class="modal-footer" style="text-align: center">
-                                            <asp:Button ID="btnEliminarUnidadP" runat="server" Text="Eliminar" CssClass="btn btn-primary" OnClick="btnConfirmarEliminarUnidad"/>
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                        <div class="modal-footer" >
+                                            <asp:Button ID="btnEliminarUnidadP" runat="server" Text="Eliminar" CssClass="btn btn-primary boton-eliminar" OnClick="btnConfirmarEliminarUnidad" />
+                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                                         </div>
                                         <%-- fin botones --%>
                                     </div>
@@ -262,141 +261,142 @@
             <!-- FIN modal eliminar unidad -->
 
             <!-- Modal Confirmar Eliminar Proyecto-->
-                <asp:UpdatePanel ID="UPconfirmarEliminarUnidad" runat="server">
-                    <ContentTemplate>
-                        <div id="modalConfirmarUnidad" class="modal" role="alertdialog">
-                            <div class="modal-dialog modal-lg">
+            <asp:UpdatePanel ID="UPconfirmarEliminarUnidad" runat="server">
+                <ContentTemplate>
+                    <div id="modalConfirmarUnidad" class="modal" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
 
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Confirmar Eliminar Unidad</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <%-- campos a llenar --%>
-                                        <div class="row">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Confirmar Eliminar Unidad</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <%-- campos a llenar --%>
+                                    <div class="row">
 
-                                            <%-- fin campos a llenar --%>
+                                        <%-- fin campos a llenar --%>
 
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <br />
-                                            </div>
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <center>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <center>
                                              <asp:Label runat="server" Text="" Font-Size="Large" ForeColor="Black"></asp:Label>
                                              <p>¿Está seguro que desea eliminar la Unidad?</p> 
                                               <asp:Label ID="lbConfUnidad" runat="server" Text="" Font-Size="Large" ForeColor="Black" CssClass="label"></asp:Label>             
                                             </center>
-                                            </div>
+                                        </div>
 
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <br />
-                                            </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
                                         </div>
                                     </div>
-                                    <div class="modal-footer" style="text-align: center">
-                                        <asp:Button ID="btnConfirmar" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar" OnClick="eliminarUnidad"  />
-                                        <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
-                                    </div>
                                 </div>
-
+                                <div class="modal-footer" >
+                                    <asp:Button ID="btnConfirmar" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar" OnClick="eliminarUnidad" />
+                                    <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
+                                </div>
                             </div>
+
                         </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-                <!-- FIN Modal Confirmar Eliminar PECTO -->
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <!-- FIN Modal Confirmar Eliminar PECTO -->
 
             <!-- Modal editar unidad -->
-                <asp:UpdatePanel ID="UpdatePanelEditarUnidad" runat="server">
-                    <ContentTemplate>
-                        <div id="modalEditarUnidad" class="modal fade" role="alertdialog">
-                            <div class="modal-dialog modal-lg">
+            <asp:UpdatePanel ID="UpdatePanelEditarUnidad" runat="server">
+                <ContentTemplate>
+                    <div id="modalEditarUnidad" class="modal fade" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
 
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Editar Unidad</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <%-- campos a llenar --%>
-                                        <div class="row">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Editar Unidad</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <%-- campos a llenar --%>
+                                    <div class="row">
 
-                                            <%-- fin campos a llenar --%>
+                                        <%-- fin campos a llenar --%>
 
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <br />
-                                            </div>
-
-                                            <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
-                                                <div class="col-md-3 col-xs-3 col-sm-3">
-                                                    <asp:Label ID="lbUnidadEdi" runat="server" Text="Nombre Unidad<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false" Font-Names="Bookman Old Style"></asp:Label>
-                                                </div>
-
-                                                <div class="col-md-4 col-xs-4 col-sm-4">
-                                                    <asp:TextBox class="form-control" ID="txtNombreUnidadEditar" runat="server"></asp:TextBox>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <br />
-                                            </div>
-
-                                            <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
-                                                <div class="col-md-3 col-xs-3 col-sm-3">
-                                                    <asp:Label ID="lbDescEditar" runat="server" Text="Descripción Unidad<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false" Font-Names="Bookman Old Style"></asp:Label>
-                                                </div>
-
-                                                <div class="col-md-4 col-xs-4 col-sm-4">
-                                                    <asp:TextBox class="form-control" ID="txtDescEditar" runat="server"></asp:TextBox>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <br />
-                                            </div>
-
-                                            <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
-                                                <div class="col-md-3 col-xs-3 col-sm-3">
-                                                    <asp:Label ID="lbEncargadoEditar1" runat="server" Text="Encargado" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false" Font-Names="Bookman Old Style"></asp:Label>
-                                                </div>
-
-                                                <div class="col-md-3 col-xs-3 col-sm-3">
-                                                    <asp:Label ID="lbEncargadoEditar2" runat="server" Text="Encargado" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false" Font-Names="Bookman Old Style"></asp:Label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12 col-xs-12 col-sm-12">
-                                                <br />
-                                            </div>
-
-                                            <div class="col-xs-12">
-                                                <br />
-                                                <div class="col-xs-12">
-                                                    <h6 style="text-align: left">Los campos marcados con <span style='color: red'>*</span> son requeridos.</h6>
-                                                </div>
-                                            </div>
-
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
                                         </div>
-                                    </div>
-                                    <div class="modal-footer" style="text-align: center">
-                                        <asp:Button ID="btnEditarUnidad1" runat="server" Text="Actualizar" CssClass="btn btn-primary" OnClick="editarUnidad" />
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbUnidadEdi" runat="server" Text="Nombre Unidad<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtNombreUnidadEditar" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbDescEditar" runat="server" Text="Descripción Unidad<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtDescEditar" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbEncargadoEditar1" runat="server" Text="Encargado" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbEncargadoEditar2" runat="server" Text="Encargado" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+
+                                        <div class="col-xs-12">
+                                            <br />
+                                            <div class="col-xs-12">
+                                                <h6 style="text-align: left">Los campos marcados con <span style='color: red'>*</span> son requeridos.</h6>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
-
+                                <div class="modal-footer">
+                                    <asp:Button ID="btnEditarUnidad1" runat="server" Text="Actualizar" CssClass="btn btn-primary boton-editar" OnClick="editarUnidad" />
+                                    <button type="button" class="btn btn-primary boton-otro " data-dismiss="modal">Cerrar</button>
+                                </div>
                             </div>
                         </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-                <!-- FIN modal editar unidad -->
-
-
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <!-- FIN modal editar unidad -->
 
         </ContentTemplate>
 
     </asp:UpdatePanel>
+
+
+
     <script type="text/javascript">
         function activarModalNuevaUnidad() {
             $('#modalNuevaUnidad').modal('show');
@@ -413,7 +413,7 @@
         function enter_click() {
             if (window.event.keyCode == 13) {
                 document.getElementById('<%=btnFiltrar.ClientID%>').focus();
-                        document.getElementById('<%=btnFiltrar.ClientID%>').click();
+                document.getElementById('<%=btnFiltrar.ClientID%>').click();
             }
         }
     </script>

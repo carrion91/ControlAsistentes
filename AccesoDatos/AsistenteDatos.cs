@@ -71,9 +71,9 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Asistente> asistentes = new List<Asistente>();
 
-            String consulta = @"SELECT a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidadA,  e.nombre_completo as nombre_encargado" +
+            String consulta = @"SELECT distinct a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidadA,  e.nombre_completo as nombre_encargado" +
             " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado" +
-            " WHERE n.id_unidad=@id_unidad; ";
+            " WHERE n.id_unidad=@id_unidad and p.habilitado=1; ";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@id_unidad", idUnidad);
@@ -116,14 +116,15 @@ namespace AccesoDatos
             SqlConnection connection = conexion.ConexionControlAsistentes();
 
             String consulta
-                = @"INSERT Asistente (nombre_completo,carnet,telefono) 
-                    VALUES (@nombre,@carne,@telefono);
+                = @"INSERT Asistente (nombre_completo,carnet,telefono,cantidad_periodos_nombrado) 
+                    VALUES (@nombre,@carne,@telefono,@cantidadP);
                     SELECT SCOPE_IDENTITY();";
 
             SqlCommand command = new SqlCommand(consulta, connection);
             command.Parameters.AddWithValue("@nombre", asistente.nombreCompleto);
             command.Parameters.AddWithValue("@carne", asistente.carnet);
             command.Parameters.AddWithValue("@telefono", asistente.telefono);
+            command.Parameters.AddWithValue("@cantidadP", asistente.cantidadPeriodosNombrado);
 
             connection.Open();
             int idAsistente = Convert.ToInt32(command.ExecuteScalar());
