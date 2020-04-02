@@ -166,7 +166,6 @@
 										<asp:Label ID="lblContraseñaNueva" runat="server" Text="Contraseña <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
 									</div>
 									<div class="col-md-8 col-xs-8 col-sm-8">
-										<!--ACA DEBE SER UN CAMPO ESPECIAL-->
 										<div class="input-group">
 											<asp:TextBox ID="txtContrasena" type="password" runat="server" CssClass="form-control"></asp:TextBox>
 											<asp:LinkButton ID="btnVerContrasena"

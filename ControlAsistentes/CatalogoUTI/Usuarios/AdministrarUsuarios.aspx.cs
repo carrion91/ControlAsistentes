@@ -265,20 +265,25 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		{
 			
 		}
-
+		/// <summary>
+		/// Jesús Torres
+		/// 30/03/2020
+		/// Efecto: Permite al usuario ver o ocultar la contraseña a ingresar
+		/// Requiere: Presionar para ver o ocultar contraseña
+		/// Modifica: 
+		/// Devuelve: -
+		/// </summary>
 		protected void verContraseña(object sender, EventArgs e)
 		{
 			if (txtContrasena.Attributes["Type"] == "password")
 			{
 				txtContrasena.Attributes["Type"] = "text";
 				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');", true);
-				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary fa fa-eye>";
 			}
 			else
 			{
 				txtContrasena.Attributes["Type"] = "password";
 				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-close').addClass('glyphicon glyphicon-eye-open');", true);
-				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary fa fa-eye-slash>";
 			}
 			ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
