@@ -260,7 +260,7 @@
             </asp:UpdatePanel>
             <!-- FIN modal eliminar unidad -->
 
-            <!-- Modal Confirmar Eliminar Proyecto-->
+            <!-- Modal Confirmar Eliminar Unidad-->
             <asp:UpdatePanel ID="UPconfirmarEliminarUnidad" runat="server">
                 <ContentTemplate>
                     <div id="modalConfirmarUnidad" class="modal" role="alertdialog">
