@@ -147,6 +147,7 @@ namespace ControlAsistentes.Catalogos
                 Unidad unidad = new Unidad();
                 unidad.nombre = txtNuevaUnidad.Text;
                 unidad.descripcion = txtDescNueva.Text;
+                unidad.disponible = true;
                 Encargado encargado = new Encargado();
                 encargado.idEncargado = idEncargado;
 
@@ -238,15 +239,11 @@ namespace ControlAsistentes.Catalogos
             int idUnidad = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
             Unidad unidad = unidadServicios.ObtenerUnidadPorId(idUnidad);
             unidadSeleccionada = unidad;
-
             lbUnidadE2.Text = unidad.nombre;
             txtEncargadoEliminar.Text = unidad.encargado.nombreCompleto;
             txtDescripcionEliminar.Text = unidad.descripcion;
 
-
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEliminarUnidad();", true);
-            
-
         }
 
         public void btnConfirmarEliminarUnidad(object sender, EventArgs e)
@@ -300,21 +297,8 @@ namespace ControlAsistentes.Catalogos
         {
 
             int idUnidad = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
-
-           
-            List<Unidad> listaUnidades = (List<Unidad>)Session["listaUnidades"];
-
-
-
-            foreach (Unidad unidad in listaUnidades)
-            {
-                if (unidad.idUnidad == idUnidad)
-                {
-                    unidadSeleccionada = unidad;
-                    break;
-                }
-
-            }
+            unidadSeleccionada = unidadServicios.ObtenerUnidadPorId(idUnidad);
+            
             txtNombreUnidadEditar.CssClass = "form-control";
             txtDescEditar.CssClass = "form-control";
 
@@ -323,7 +307,7 @@ namespace ControlAsistentes.Catalogos
             lbEncargadoEditar2.Text = unidadSeleccionada.encargado.nombreCompleto;
 
 
-            ClientScript.RegisterStartupScript(GetType(), "activar", "activarModalEditarUnidad();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarUnidad();", true); 
 
 
         }

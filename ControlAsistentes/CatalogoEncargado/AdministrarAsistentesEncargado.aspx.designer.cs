@@ -33,13 +33,22 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.UpdatePanel UpdatePanel;
 
         /// <summary>
-        /// Control btnNuevoAsistente.
+        /// Control titulo.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevoAsistente;
+        protected global::System.Web.UI.WebControls.Label titulo;
+
+        /// <summary>
+        /// Control tituloAS.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label tituloAS;
 
         /// <summary>
         /// Control Button1.
@@ -49,6 +58,15 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button1;
+
+        /// <summary>
+        /// Control btnNuevoAsistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNuevoAsistente;
 
         /// <summary>
         /// Control btnFiltrar.
@@ -150,15 +168,6 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.Label lblpagina;
 
         /// <summary>
-        /// Control UpdatePanel1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
-        /// <summary>
         /// Control label4.
         /// </summary>
         /// <remarks>
@@ -195,24 +204,6 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.TextBox txtCarnet;
 
         /// <summary>
-        /// Control div5.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div5;
-
-        /// <summary>
-        /// Control lbCarne.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCarne;
-
-        /// <summary>
         /// Control lbTelefono.
         /// </summary>
         /// <remarks>
@@ -231,22 +222,22 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.TextBox txtTelefono;
 
         /// <summary>
-        /// Control div3.
+        /// Control lbUnidadNombramiento.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div3;
+        protected global::System.Web.UI.WebControls.Label lbUnidadNombramiento;
 
         /// <summary>
-        /// Control lblTelefono.
+        /// Control txtUnidadNA.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTelefono;
+        protected global::System.Web.UI.WebControls.TextBox txtUnidadNA;
 
         /// <summary>
         /// Control lbHoras.
@@ -267,24 +258,6 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.TextBox txtHoras;
 
         /// <summary>
-        /// Control div7.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div7;
-
-        /// <summary>
-        /// Control lblHoras.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHoras;
-
-        /// <summary>
         /// Control lbPeriodoN.
         /// </summary>
         /// <remarks>
@@ -301,24 +274,6 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList periodosDDL;
-
-        /// <summary>
-        /// Control div8.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div8;
-
-        /// <summary>
-        /// Control lblPeriodoN.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPeriodoN;
 
         /// <summary>
         /// Control lblInducción.
@@ -339,13 +294,22 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.CheckBox ChckBxInduccion;
 
         /// <summary>
-        /// Control lbExpe.
+        /// Control lbExpediente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbExpe;
+        protected global::System.Web.UI.WebControls.Label lbExpediente;
+
+        /// <summary>
+        /// Control updExpediente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel updExpediente;
 
         /// <summary>
         /// Control fileExpediente.
@@ -357,24 +321,6 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.FileUpload fileExpediente;
 
         /// <summary>
-        /// Control div1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div1;
-
-        /// <summary>
-        /// Control lbExpedienteVacio.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbExpedienteVacio;
-
-        /// <summary>
         /// Control lbInforme.
         /// </summary>
         /// <remarks>
@@ -382,6 +328,15 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbInforme;
+
+        /// <summary>
+        /// Control UpInforme.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpInforme;
 
         /// <summary>
         /// Control fileInforme.
@@ -393,24 +348,6 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.FileUpload fileInforme;
 
         /// <summary>
-        /// Control div2.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div2;
-
-        /// <summary>
-        /// Control lbInf.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbInf;
-
-        /// <summary>
         /// Control lbCV.
         /// </summary>
         /// <remarks>
@@ -418,6 +355,15 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbCV;
+
+        /// <summary>
+        /// Control upCV.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upCV;
 
         /// <summary>
         /// Control fileCV.
@@ -429,24 +375,6 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.FileUpload fileCV;
 
         /// <summary>
-        /// Control div6.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div6;
-
-        /// <summary>
-        /// Control lbCV1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbCV1;
-
-        /// <summary>
         /// Control lbCuenta.
         /// </summary>
         /// <remarks>
@@ -456,6 +384,15 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.Label lbCuenta;
 
         /// <summary>
+        /// Control upCuenta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upCuenta;
+
+        /// <summary>
         /// Control fileCuenta.
         /// </summary>
         /// <remarks>
@@ -463,24 +400,6 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileCuenta;
-
-        /// <summary>
-        /// Control div9.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div9;
-
-        /// <summary>
-        /// Control lblCuenta.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCuenta;
 
         /// <summary>
         /// Control lblArchivos.
