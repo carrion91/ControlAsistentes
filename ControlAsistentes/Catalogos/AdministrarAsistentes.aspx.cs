@@ -122,7 +122,7 @@ namespace ControlAsistentes.Catalogos
                 nombreasistente = txtBuscarNombre1.Text;
             }
 
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado==false).ToList();
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado==false && asistente.solicitud==0).ToList();
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 

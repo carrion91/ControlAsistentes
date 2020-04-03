@@ -26,7 +26,7 @@ namespace Entidades
         public Periodo periodo { get; set; }
     
         public Unidad unidad { get; set; }
-        
+        public int solicitud { get; set; }
 
 
 

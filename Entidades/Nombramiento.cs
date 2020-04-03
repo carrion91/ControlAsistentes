@@ -27,8 +27,8 @@ namespace Entidades
             public DateTime fechaAprobacion { get; set; }
 
             public string observaciones { get; set; }
-            
-            
+           
+
 
 
     }
