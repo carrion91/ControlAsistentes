@@ -16,5 +16,6 @@ namespace Entidades
         public bool disponible { get; set; }
         public bool tarjetaExtraviada { get; set; }
         public Asistente asistente { get; set; }
+        public bool pagada { get; set; }
     }
 }

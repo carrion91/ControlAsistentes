@@ -18,5 +18,9 @@ namespace Servicios
         {
             return nombramientoDatos.insertarNombramientoAsistente(nombramiento);
         }
+        public void ActualizarNombramientoAsistente(string numeroCarnet,string aprobado,string observaciones)
+        {
+             nombramientoDatos.actualizarAsistenteNombramiento(numeroCarnet,aprobado,observaciones);
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		#region variables globales
 
 		private UsuariosServicios usuariosServicios = new UsuariosServicios();
+		private AsistenteServicios asistenteSevicios = new AsistenteServicios();
 
 		#region variables globales paginacion tarjetas
 		readonly PagedDataSource pgsource = new PagedDataSource();
@@ -248,8 +249,9 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		{
 			txtNuevoUsuario.CssClass = "form-control";
 			txtNuevoUsuario.Text = "";
-			//txtContraseñaNueva.CssClass = "form-control";
-			//txtContraseñaNueva.Text = "";
+			txtContrasena.CssClass = "form-control";
+			txtContrasena.Text = "";
+			llenarDdlAsistentes();
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
 		}
 
@@ -263,26 +265,124 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		/// </summary>
 		protected void btnGuardarNuevoUsuario(object sender, EventArgs e)
 		{
-			
-		}
+			if (validaCamposUsuarios())//si campos estan llenos es igual a true
+			{
+				Usuario usuario = new Usuario();
+				usuario.nombre = txtNuevoUsuario.Text;
+				usuario.contraseña = txtContrasena.Text;
+				if (ddlSeleccionAsistenteNuevo.Text != "Seleccione una opción")
+				{
+					Asistente asistente = new Asistente();
+					asistente.idAsistente = Convert.ToInt32(ddlSeleccionAsistenteNuevo.SelectedValue);
+					usuario.asistente = asistente;
+					usuario.disponible = false;
+				}
+				else
+				{
+					usuario.asistente = null;
+					usuario.disponible = true;
+				}
+				try
+				{
+					usuariosServicios.insertarUsuarios(usuario);
+					List<Usuario> listaUsuarios = usuariosServicios.ObtenerUsuarios();
+					Session["listaUsuarios"] = listaUsuarios;
+					Session["listaUsuariosFiltrada"] = listaUsuarios;
+					mostrarUsuarios();
+					ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El usuario " + usuario.nombre + " fue registrado con éxito!" + "');", true);
+					ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 
+				}
+				catch
+				{
+					ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al insertar el Usuario intente nuevamente" + "');", true);
+					ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
+					ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
+				}
+
+			}
+			else
+			{
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
+				ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
+			}
+		}
+		/// <summary>
+		/// Jesús Torres
+		/// 30/03/2020
+		/// Efecto: Permite al usuario ver o ocultar la contraseña a ingresar
+		/// Requiere: Presionar para ver o ocultar contraseña
+		/// Modifica: 
+		/// Devuelve: -
+		/// </summary>
 		protected void verContraseña(object sender, EventArgs e)
 		{
 			if (txtContrasena.Attributes["Type"] == "password")
 			{
 				txtContrasena.Attributes["Type"] = "text";
-				btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-close>";
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-open').addClass('glyphicon glyphicon-eye-close');", true);
 			}
 			else
 			{
 				txtContrasena.Attributes["Type"] = "password";
-				//btnVerContrasena.CssClass = "input-group-addon btn btn-primary glyphicon glyphicon-eye-open>";
+				ScriptManager.RegisterStartupScript(this, this.GetType(), "modifica", "$('.icon').removeClass('glyphicon glyphicon-eye-close').addClass('glyphicon glyphicon-eye-open');", true);
 			}
 			ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 			ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
 
 		}
 
+		#endregion
+
+		#region metodos
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: llean el DropDownList con los Asistentes disponibles
+		/// Requiere: - 
+		/// Modifica: DropDownList
+		/// Devuelve: -
+		/// </summary>
+		protected void llenarDdlAsistentes()
+		{
+			List<Asistente> asistentes = new List<Asistente>();
+			ddlSeleccionAsistenteNuevo.Items.Clear();
+			asistentes = asistenteSevicios.ObtenerAsistentesSinUsuarios();
+			ddlSeleccionAsistenteNuevo.Items.Add("Seleccione una opción");
+			foreach (Asistente asistente in asistentes)
+			{
+				ListItem itemAsistente = new ListItem(asistente.nombreCompleto +"  "+ asistente.carnet, asistente.idAsistente +"");
+				ddlSeleccionAsistenteNuevo.Items.Add(itemAsistente);
+			}
+		}
+
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: valida los campos para ingresar nuevo usuario
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: -
+		/// </summary>
+		private bool validaCamposUsuarios()
+		{
+			bool condicion = true;
+			txtNuevoUsuario.CssClass = "form-control";
+			txtContrasena.CssClass = "form-control";
+			txtContrasena.Attributes["Type"] = "password";//se pasa a type password por recomendacion de seguridad
+			if (txtNuevoUsuario.Text.Trim().Equals("") )
+			{
+				txtNuevoUsuario.CssClass = "form-control alert-danger";
+				condicion = false;
+			}
+			if (txtContrasena.Text.Trim().Equals(""))
+			{
+				txtContrasena.CssClass = "form-control alert-danger";
+				condicion = false;
+			}
+			return condicion;
+		}
 		#endregion
 
 	}

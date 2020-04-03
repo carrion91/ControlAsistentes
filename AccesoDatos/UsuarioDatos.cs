@@ -24,7 +24,7 @@ namespace AccesoDatos
 		/// Modifica: -
 		/// Devuelve: Lista de usuarios
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>List</returns>
 		public List<Usuario> ObtenerUsuarios()
 		{
 			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
@@ -32,7 +32,7 @@ namespace AccesoDatos
 
 			String consulta = @"SELECT u.id_usuario, u.nombre_completo as usuario, u.contrasenia, u.disponible, 
 								a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado 
-								FROM Usuario u JOIN Asistente a ON u.id_asistente = a.id_asistente;";
+								FROM Usuario u LEFT JOIN Asistente a ON u.id_asistente = a.id_asistente;";
 
 			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 			SqlDataReader reader;
@@ -41,11 +41,21 @@ namespace AccesoDatos
 			while (reader.Read())
 			{
 				Asistente asistente = new Asistente();
-				asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
-				asistente.nombreCompleto = reader["nombre_completo"].ToString();
-				asistente.carnet = reader["carnet"].ToString();
-				asistente.telefono = reader["telefono"].ToString();
-				asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+
+				if ((reader["id_Asistente"].ToString()) == "")
+				{
+					asistente = null;
+				}
+				else
+				{
+					asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
+					asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
+					asistente.nombreCompleto = reader["nombre_completo"].ToString();
+					asistente.carnet = reader["carnet"].ToString();
+					asistente.telefono = reader["telefono"].ToString();
+					asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+				}
+				
 				Usuario usuario = new Usuario();
 				usuario.idUsuario = Convert.ToInt32(reader["id_usuario"].ToString());
 				usuario.nombre = reader["usuario"].ToString();
@@ -56,6 +66,44 @@ namespace AccesoDatos
 			}
 			sqlConnection.Close();
 			return usuarios;
+		}
+
+		/// <summary>
+		/// Jesús Torres R
+		/// 27/03/2020
+		/// Efecto: iserta un nuevo usuario
+		/// Requiere: -
+		/// Modifica: -
+		/// Devuelve: 
+		/// </summary>
+		public int insertarUsuarios(Usuario usuario)
+		{
+			SqlConnection connection = conexion.ConexionControlAsistentes();
+
+			String consulta
+				= @"INSERT Usuario (nombre_completo,contrasenia,disponible,id_asistente) 
+                    VALUES (@nombre_completo,@contrasenia,@disponible,@id_asistente);
+                    SELECT SCOPE_IDENTITY();";
+
+			SqlCommand command = new SqlCommand(consulta, connection);
+			command.Parameters.AddWithValue("@nombre_completo", usuario.nombre);
+			command.Parameters.AddWithValue("@contrasenia", usuario.contraseña);
+			command.Parameters.AddWithValue("@disponible", usuario.disponible);
+			if (usuario.asistente == null)
+			{
+				command.Parameters.AddWithValue("@id_asistente", System.Data.SqlTypes.SqlInt32.Null);
+
+			}
+			else
+			{
+				command.Parameters.AddWithValue("@id_asistente", usuario.asistente.idAsistente);
+			}
+
+			connection.Open();
+			int idUsuarios = Convert.ToInt32(command.ExecuteScalar());
+			connection.Close();
+
+			return idUsuarios;
 		}
 		#endregion
 	}

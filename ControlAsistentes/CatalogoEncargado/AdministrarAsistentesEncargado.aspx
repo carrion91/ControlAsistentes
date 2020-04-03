@@ -40,18 +40,13 @@
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
-               
+
                 <div class="col-md-12 col-xs-6 col-sm-6">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
                         <asp:Button ID="Button1" runat="server" Text="Nuevo Asistente" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
                     </div>
                 </div>
-                 <div class="col-md-12 col-xs-6 col-sm-6">
 
-                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                        <asp:Button ID="btnNuevoAsistente" runat="server" Text="Enviar Nombramientos" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
-                    </div>
-                </div>
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <table class="table table-bordered">
                         <thead style="text-align: center !important; align-content: center">
@@ -60,10 +55,8 @@
                                 <th>Nombre</th>
                                 <th>Carné</th>
                                 <th>Unidad Asistencia</th>
-                                <th>Nombramiento Aprobado</th>
-                                <th>Período Nombramiento</th>
-                                <th>Cantidad de Horas Nombrado</th>
-                                <th>Cantidad de Períodos Nombrado</th>
+                                <th>Telefono</th>
+
 
 
                             </tr>
@@ -72,15 +65,15 @@
                             <td>
                                 <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary glyphicon glyphicon-search" OnClick="filtrarAsistentes" aria-hidden="true"></asp:LinkButton></td>
                             <td>
-                                <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" onkeypress="enter_click()"></asp:TextBox>
+                                <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro nombre asistente" AutoPostBack="true" onkeypress="enter_click()"></asp:TextBox>
                             </td>
                             <td>
                                 <asp:TextBox ID="txBool" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" Visible="false"></asp:TextBox></td>
+
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+
+
 
                         </tr>
                         <asp:Repeater ID="rpAsistentes" runat="server">
@@ -96,16 +89,8 @@
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
-                                        </div>
-                                    </td>
-                                    <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
-                                    <td><%# Eval("cantidadHorasNombrado") %></td>
-                                    <td><%# Eval("cantidadPeriodosNombrado") %></td>
-                                    
+                                    <td><%# Eval("telefono") %></td>
+
 
                                 </tr>
 
@@ -164,9 +149,6 @@
             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 mt-2">
                 <hr />
             </div>
-
-
-
 
 
             <!-- Modal nuevo asistente -->
@@ -229,25 +211,11 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-xs-3">
-                                                <asp:Label ID="lbUnidadNombramiento" runat="server" Text="Unidad Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" ></asp:Label>
+                                                <asp:Label ID="lbUnidadNombramiento" runat="server" Text="Unidad Perteneciente <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" ></asp:Label>
                                             </div>
                                             <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
-                                                <asp:TextBox class="form-control" ID="txtUnidadNA" runat="server" Width="320px" Enabled="false"></asp:TextBox>
-                                            </div>
-                                           
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                         <br />
-                                        </div>
-                                       <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lbHoras" runat="server" Text="Horas Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
-                                            </div>
-                                            <div class="col-md-6 col-xs-4 col-sm-4">
-                                            <div class="input-group">
-                                                <asp:TextBox class="form-control" ID="txtHoras" runat="server"></asp:TextBox>
+                                                 <asp:TextBox class="form-control" ID="txtUnidadNA" runat="server" ReadOnly="true" Width="320px"></asp:TextBox>
                                             </div>
                                            
                                             </div>
@@ -255,140 +223,21 @@
                                         <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                             <br />
                                         </div>
-                                        <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lbPeriodoN" runat="server" Text="Período Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
-                                            </div>
-                                            <div class="col-md-6 col-xs-4 col-sm-4">
-                                            <div class="input-group">
-                                                <asp:DropDownList ID="periodosDDL" runat="server" CssClass="form-control" Width="200px">
-                                                </asp:DropDownList>
-                                            </div>
-                                            
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-                                        <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lblInducción" runat="server" Text="Recibe Inducción " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
-                                            </div>
-                                             <div class="col-md-6 col-xs-4 col-sm-4">
-                                            <div class="input-group">
-                                                <asp:CheckBox ID="ChckBxInduccion" runat="server" />
-                                            </div>
-                                                 </div>
-                                        </div>
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-                                        <!-- Archivo Expediente -->
-                                         <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lbExpediente" runat="server" Text="Expediente Académico <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
-                                            </div>
-                                            <asp:UpdatePanel ID="updExpediente" runat="server">
-                                                <ContentTemplate>
-                                                    <div class="col-md-6 col-xs-4 col-sm-4">
-                                                        <div class="input-group">
-                                                            <asp:FileUpload ID="fileExpediente" runat="server" AllowMultiple="true" CssClass="form-control"  />
-                                                        </div>
-                                                    </div>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
-                                        </div>
-                                        <!-- Fin Archivos Expediente -->
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-
-                                        <!-- Archivo Informe-->
-                                         <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lbInforme" runat="server" Text="Informe de Matrícula " Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
-                                            </div>
-                                            <asp:UpdatePanel ID="UpInforme" runat="server">
-                                                <ContentTemplate>
-                                                    <div class="col-md-6 col-xs-4 col-sm-4">
-                                                        <div class="input-group">
-                                                            <asp:FileUpload ID="fileInforme" runat="server" AllowMultiple="true" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
-                                        </div>
-                                        <!-- Fin Archivos   Informe -->
-
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-
-                                        <!-- Archivo CV-->
+                                       
+                                       
                                        <div class="col-md-12 col-xs-12 col-sm-12">
                                             <div class="col-xs-3">
-                                                <asp:Label ID="lbCV" runat="server" Text="Curriculum VITAE" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
+                                                <asp:Label ID="Label1" runat="server" Text="Encargado Asistente: <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" ></asp:Label>
                                             </div>
-                                            <asp:UpdatePanel ID="upCV" runat="server">
-                                                <ContentTemplate>
-                                                    <div class="col-md-6 col-xs-4 col-sm-4">
-                                                        <div class="input-group">
-                                                            <asp:FileUpload ID="fileCV" runat="server" AllowMultiple="true" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
-                                        </div>
-                                        <!-- Fin Archivos CV -->
 
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-
-                                        <!-- Archivo Cuenta-->
-                                        <div id="prueba" class="col-md-12 col-xs-12 col-sm-12" Visible="false" >
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lbCuenta" runat="server" Text="Cuenta de Banco" Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
-                                            </div>
-                                            <asp:UpdatePanel ID="upCuenta" runat="server">
-                                                <ContentTemplate>
-                                                    <div class="col-md-6 col-xs-4 col-sm-4">
-                                                        <div class="input-group">
-                                                            <asp:FileUpload ID="fileCuenta" runat="server" AllowMultiple="true" CssClass="form-control" />
-                                                        </div>
-                                                    </div>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
-                                        </div>
-                                        <!-- Fin Archivos Cuenta -->
-                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                                            <br />
-                                        </div>
-                                        <!-- Archivos Muestra -->
-                                        <div class="col-md-12 col-xs-12 col-sm-12">
-                                            <div class="col-xs-3">
-                                                <asp:Label ID="lblArchivos" runat="server" Text="Archivos " Font-Size="Medium" ForeColor="Black" Font-Bold="true" CssClass="label"></asp:Label>
-                                            </div>
-                                            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-                                                <ContentTemplate>
-                                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
-                                                    <asp:FileUpload ID="fuArchivos" runat="server" AllowMultiple="true" CssClass="form-control" />
-                                                </div></div>
-                                                </ContentTemplate>
-                                                <Triggers>
-                                                    <asp:PostBackTrigger ControlID="btnNuevoAsistenteModal" />
-                                                </Triggers>
-                                            </asp:UpdatePanel>
-                                            <div class="col-md-5 col-xs-5 col-sm-5" id="divArchivosVacio" runat="server" style="display: none;">
-                                                <asp:Label ID="lblArchivosVacio" runat="server" Font-Size="Small" CssClass="label alert-danger" Text="Debe seleccionar al menos un archivo" ForeColor="Red" Visible="false"></asp:Label>
+                                                 <asp:TextBox class="form-control" ID="txtEncargado" runat="server" ReadOnly="true" Width="320px"></asp:TextBox>
+                                            </div>
+                                           
                                             </div>
                                         </div>
-                                        <!-- Fin Archivos Muestra -->
-
+                                    
                                     </div>
                                 </div>
                                 <div class="modal-footer" >
@@ -403,30 +252,294 @@
                 </contenttemplate>
             <triggers> 
                 <asp:PostBackTrigger ControlID="btnNuevoAsistenteModal" />
-          
+          </triggers>
             <!-- Fin modal nuevo asistente -->
+
+            <!-- Modal Eliminar -->
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                <ContentTemplate>
+                    <div id="modalEliminarAsistente" class="modal fade" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Eliminar Asistente</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <%-- campos a llenar --%>
+                                    <div class="row">
+
+                                        <%-- fin campos a llenar --%>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbNombreAsistenteE" runat="server" Text="Nombre Asistente: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="lbNombreAsistente" runat="server" ReadOnly="true"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbCarne" runat="server" Text="Carné: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtCarneE" runat="server" ReadOnly="true"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbTelefonoE" runat="server" Text="Telefono: " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtTelefonoE" ReadOnly="true" runat="server" Font-Bold="false"></asp:TextBox>
+                                            </div>
+                                        </div>
+
+                                        <%-- fin campos a llenar --%>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="Label5" runat="server" Text="Unidad Perteneciente:<span style='color:red'></span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                    </div>
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
+                                                <div class="input-group">
+                                                    <asp:TextBox class="form-control" ID="txtUnidadEl" runat="server" ReadOnly="true" Width="320px"></asp:TextBox>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                            <br />
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                           <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="Label6" runat="server" Text="Encargado Asistente<span style='color:red'></span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                             </div>
+
+                                            <div class="col-md-6 col-xs-4 col-sm-4">
+                                                <div class="input-group">
+                                                    <asp:TextBox class="form-control" ID="txtEncargadoEl" runat="server" ReadOnly="true" Width="320px"></asp:TextBox>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <%-- botones --%>
+                                    <div class="modal-footer">
+                                        <asp:Button ID="btnEliminarAsistenteE" runat="server" Text="Eliminar" CssClass="btn btn-primary boton-eliminar" OnClick="btnConfirmarEliminarAsistente" />
+                                        <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                    <%-- fin botones --%>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <!-- FIN modal eliminar unidad -->
+
+            <!-- Modal Confirmar Eliminar Asistente-->
+            <asp:UpdatePanel ID="UPconfirmarEliminarAsistente" runat="server">
+                <ContentTemplate>
+                    <div id="modalConfirmarAsistente" class="modal" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Confirmar Eliminar Asistente</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <%-- campos a llenar --%>
+                                    <div class="row">
+
+                                        <%-- fin campos a llenar --%>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <center>
+                                             <asp:Label runat="server" Text="" Font-Size="Large" ForeColor="Black"></asp:Label>
+                                             <p>¿Está seguro que desea eliminar el Asistente?</p> 
+                                              <asp:Label ID="lbConfAsistente" runat="server" Text="" Font-Size="Large" ForeColor="Black" CssClass="label"></asp:Label>             
+                                            </center>
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:Button ID="btnConfirmar" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar" OnClick="eliminarAsistente" />
+                                    <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <!-- FIN Modal Confirmar Eliminar Asistente -->
         </ContentTemplate>
 
     </asp:UpdatePanel>
+    <!-- Modal editar unidad -->
+    <asp:UpdatePanel ID="UpdatePanelEditarAsistente" runat="server">
+        <ContentTemplate>
+            <div id="modalEditarAsistente" class="modal fade" role="alertdialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Editar Asistente</h4>
+                        </div>
+                        <div class="modal-body">
+                            <%-- campos a llenar --%>
+                            <div class="row">
 
+                                <%-- fin campos a llenar --%>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="lbAsistenteEd" runat="server" Text="Nombre Asistente<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 col-sm-4">
+                                        <asp:TextBox class="form-control" ID="txtNombreAsistenteEditar" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="lbCarnetEd" runat="server" Text="Carné<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 col-sm-4">
+                                        <asp:TextBox class="form-control" ID="txtCarnetEd" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="lbTelefonoEd" runat="server" Text="Telefono<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 col-sm-4">
+                                        <asp:TextBox class="form-control" ID="txtTelefonoEd" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <br />
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                    <br />
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="Label2" runat="server" Text="Unidad Perteneciente<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                    </div>
+                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                        <div class="input-group">
+                                            <asp:TextBox class="form-control" ID="txtUnidadPE" runat="server" ReadOnly="true" Width="320px"></asp:TextBox>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                    <br />
+                                </div>
+                                <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <div class="col-md-3 col-xs-3 col-sm-3">
+                                        <asp:Label ID="Label3" runat="server" Text="Encargado Asistente<span style='color:red'>*</span>" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                    </div>
+
+                                    <div class="col-md-6 col-xs-4 col-sm-4">
+                                        <div class="input-group">
+                                            <asp:TextBox class="form-control" ID="txtEncargadoEd" runat="server" ReadOnly="true" Width="320px"></asp:TextBox>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12">
+                                    <br />
+                                    <div class="col-xs-12">
+                                        <h6 style="text-align: left">Los campos marcados con <span style='color: red'>*</span> son requeridos.</h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnEditarAsistente1" runat="server" Text="Actualizar" CssClass="btn btn-primary boton-editar" OnClick="editarAsistente" />
+                            <button type="button" class="btn btn-primary boton-otro " data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ContentTemplate>
+    </asp:UpdatePanel>
+    <!-- FIN modal editar unidad -->
 
     <!-- Script inicio -->
     <script type="text/javascript">
         function activarModalNuevoAsistente() {
             $('#modalNuevoAsistente').modal('show');
         };
-
-        function validarArchivos(fileUpload) {
-            var id = fileUpload.id.substring(12);
-
-            var divArchivoIncorrecta = document.getElementById('<%= divArchivosVacio.ClientID %>');
-
-            if (fileUpload.files.length > 0) {
-                divArchivoIncorrecta.style.display = "none";
-            } else {
-                divArchivoIncorrecta.style.display = "block";
-            }
+        function activarModalEliminarAsistente() {
+            $('#modalEliminarAsistente').modal('show');
         };
+        function activarModalEditarAsistente() {
+            $('#modalEditarAsistente').modal('show');
+        };
+        function activarModalConfirmarAsistente() {
+            $('#modalConfirmarAsistente').modal('show');
+        };
+
         function enter_click() {
             if (window.event.keyCode == 13) {
                 document.getElementById('<%=btnFiltrar.ClientID%>').focus();

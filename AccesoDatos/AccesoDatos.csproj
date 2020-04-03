@@ -117,6 +117,7 @@
     <Compile Include="ArchivoDatos.cs" />
     <Compile Include="AsistenteDatos.cs" />
     <Compile Include="ConexionDatos.cs" />
+    <Compile Include="EncargadoAsistenteDatos.cs" />
     <Compile Include="EncargadoDatos.cs" />
     <Compile Include="EncargadoUnidadDatos.cs" />
     <Compile Include="NombramientoAsistenteDatos.cs" />

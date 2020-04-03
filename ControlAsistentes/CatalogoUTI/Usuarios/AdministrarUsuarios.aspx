@@ -69,7 +69,9 @@
 													<asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("idUsuario") %>'><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
 												</td>
 												<td><%# Eval("nombre") %></td>
-												<td><%# Eval("disponible") %></td>
+												<td style="color: #337ab7;">
+													<asp:LinkButton ID="LBDisponibilidad" runat="server" ToolTip="Cambiar disponibilidad" CommandArgument='<%# Eval("idUsuario") %>'><span class='<%# Eval("disponible") %>'></span></asp:LinkButton>
+												</td>
 												<td><%# Eval("asistente.nombreCompleto") %></td>
 												<td><%# Eval("asistente.carnet") %></td>
 											</tr>
@@ -166,14 +168,15 @@
 										<asp:Label ID="lblContraseñaNueva" runat="server" Text="Contraseña <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
 									</div>
 									<div class="col-md-8 col-xs-8 col-sm-8">
-										<!--ACA DEBE SER UN CAMPO ESPECIAL-->
 										<div class="input-group">
 											<asp:TextBox ID="txtContrasena" type="password" runat="server" CssClass="form-control"></asp:TextBox>
 											<asp:LinkButton ID="btnVerContrasena"
-												CssClass="input-group-addon btn btn-primary "
+												CssClass="input-group-addon btn btn-primary"
 												runat="server"
 												AutoPostBack="true"
-												Onclick="verContraseña"><span class="glyphicon glyphicon-eye-open"></asp:LinkButton>
+												OnClick="verContraseña">
+												<span class="glyphicon glyphicon-eye-open icon">
+											</asp:LinkButton>
 										</div>
 
 									

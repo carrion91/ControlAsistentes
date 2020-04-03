@@ -30,7 +30,7 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Tarjeta> tarjetas = new List<Tarjeta>();
             String consulta = @"SELECT t.id_tarjeta, t.numeroTarjeta, t.disponible, t.tarjeta_extraviada, 
-a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado 
+a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado, t.pagada
 FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             SqlDataReader reader;
@@ -52,6 +52,7 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
                 tarjeta.numeroTarjeta = reader["numeroTarjeta"].ToString();
                 tarjeta.disponible = Convert.ToBoolean(reader["disponible"]);
                 tarjeta.tarjetaExtraviada = Convert.ToBoolean(reader["tarjeta_extraviada"]);
+                tarjeta.pagada = Convert.ToBoolean(reader["pagada"]);
                 tarjeta.asistente = asistente;
                 tarjetas.Add(tarjeta);
             }
@@ -95,13 +96,22 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
                 "SET numeroTarjeta = @numeroTarjeta, " +
                 "disponible = @disponible, " +
                 "tarjeta_extraviada = @extraviada," +
-                "id_asistente = @idAsistente " +
+                "id_asistente = @idAsistente, " +
+                "pagada = @pagada " +
                 "WHERE id_tarjeta = @id";
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@id", tarjeta.idTarjeta);
             sqlCommand.Parameters.AddWithValue("@numeroTarjeta", tarjeta.numeroTarjeta);
             sqlCommand.Parameters.AddWithValue("@disponible", tarjeta.disponible);
             sqlCommand.Parameters.AddWithValue("@extraviada", tarjeta.tarjetaExtraviada);
+            if (tarjeta.tarjetaExtraviada)
+            {
+                sqlCommand.Parameters.AddWithValue("@pagada", tarjeta.pagada);
+            }
+            else
+            {
+                sqlCommand.Parameters.AddWithValue("@pagada", DBNull.Value);
+            }
             if (tarjeta.asistente != null)
                 sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente);
             else
@@ -124,13 +134,21 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
         public void InsertarTarjeta(Tarjeta tarjeta)
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
-            String consulta = "INSERT INTO Tarjeta (numeroTarjeta, disponible, tarjeta_extraviada, id_asistente) "
-                + "VALUES (@numeroTarjeta, @disponible, @tarjetaExtraviada, @idAsistente) ;";
+            String consulta = "INSERT INTO Tarjeta (numeroTarjeta, disponible, tarjeta_extraviada, id_asistente, pagada) "
+                + "VALUES (@numeroTarjeta, @disponible, @tarjetaExtraviada, @idAsistente, @pagada) ;";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@numeroTarjeta", tarjeta.numeroTarjeta);
             sqlCommand.Parameters.AddWithValue("@disponible", tarjeta.disponible);
             sqlCommand.Parameters.AddWithValue("@tarjetaExtraviada", tarjeta.tarjetaExtraviada);
+            if (tarjeta.tarjetaExtraviada)
+            {
+                sqlCommand.Parameters.AddWithValue("@pagada", tarjeta.pagada);
+            }
+            else
+            {
+                sqlCommand.Parameters.AddWithValue("@pagada", DBNull.Value);
+            }
             if(tarjeta.asistente != null)
                 sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente);
             else
