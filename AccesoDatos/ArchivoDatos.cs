@@ -14,15 +14,19 @@ namespace AccesoDatos
         private ConexionDatos conexion = new ConexionDatos();
 
 
-        public Archivo obtenerArchivosAsistente(int idAsistente)
-        {
-            return new Archivo();
-        }
+       
 
-
+        /// <summary>
+        /// Mariela Calvo
+        /// Abril/2020
+        /// Efecto: Inserta los archivos asociados al nombramiento de un asistente
+        /// Requiere: - 
+        /// Modifica: 
+        /// Devuelve:  
+        /// </summary>
         public int insertarArchivo(Archivo archivo)
         {
-            
+
             SqlConnection connection = conexion.ConexionControlAsistentes();
 
             String consulta
@@ -45,24 +49,7 @@ namespace AccesoDatos
         }
 
 
-        public int insertarArchivoAsistente(int idArchivo,int idAsistente)
-        {
-            SqlConnection connection = conexion.ConexionControlAsistentes();
-
-            String consulta
-                = @"INSERT Archivo_Asistente(id_archivo,id_asistente) 
-                    VALUES (@idArchivo,@idAsistente);";
-
-            SqlCommand command = new SqlCommand(consulta, connection);
-            command.Parameters.AddWithValue("@idArchivo", idArchivo);
-            command.Parameters.AddWithValue("@idAsistente", idAsistente);
-            connection.Open();
-            command.ExecuteScalar();
-            
-            connection.Close();
-
-            return idArchivo;
-        }
+       
         /*
       * Kevin Picado
       * 20/03/20
@@ -95,7 +82,7 @@ namespace AccesoDatos
             {
                 Archivo archivo = new Archivo();
 
-                
+
                 archivo.rutaArchivo = reader["ruta_archivo"].ToString();
                 archivo.nombreArchivo = reader["nombre_archivo"].ToString();
                 archivo.creadoPor = reader["creado_por"].ToString();
@@ -105,6 +92,34 @@ namespace AccesoDatos
             sqlConnection.Close();
 
             return listaArchivosAsistente;
+        }
+
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Abril/2020
+        /// Efecto: Asocia los archivos al nombramiento
+        /// Requiere: - 
+        /// Modifica: 
+        /// Devuelve:  
+        /// </summary>
+        public int insertarArchivoNombramiento(int idArchivo, int idNombramiento)
+        {
+            SqlConnection connection = conexion.ConexionControlAsistentes();
+
+            String consulta
+                = @"INSERT Archivo_Nombramiento(id_archivo,id_nombramiento) 
+                    VALUES (@idArchivo,@idNombramiento);";
+
+            SqlCommand command = new SqlCommand(consulta, connection);
+            command.Parameters.AddWithValue("@idArchivo", idArchivo);
+            command.Parameters.AddWithValue("@idNombramiento", idNombramiento);
+            connection.Open();
+            command.ExecuteScalar();
+
+            connection.Close();
+
+            return idArchivo;
         }
     }
 }

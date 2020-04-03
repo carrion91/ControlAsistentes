@@ -247,9 +247,10 @@ namespace ControlAsistentes.CatalogoEncargado
                 nombramiento.aprobado = false;
                 nombramiento.recibeInduccion = Convert.ToBoolean(ChckBxInduccion.Checked);
                 nombramiento.cantidadHorasNombrado = Convert.ToInt32(txtHorasN.Text);
-                nombramientoServicios.insertarNombramiento(nombramiento);
+                int idNombramiento = nombramientoServicios.insertarNombramiento(nombramiento);
+                nombramiento.idNombramiento = idNombramiento;
 
-                /* INSERCIÓN ARCHIVOS ASISTENTE */
+                /* INSERCIÓN ARCHIVOS DEL ASISTENTE */
                 int tipo = 1;
                 List<FileUpload> listaArchivosInsertar = new List<FileUpload>();
                 listaArchivosInsertar.Add(fileExpediente);
@@ -262,7 +263,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 {
                     archivo.tipoArchivo = tipo;
                     int idArchivo = archivoServicios.insertarArchivo(archivo);
-                    archivoServicios.insertarArchivoNombramiento(idArchivo, asistente.idAsistente);
+                    archivoServicios.insertarArchivoNombramiento(idArchivo, idNombramiento);
                     tipo++;
                 }
                 List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
@@ -274,8 +275,8 @@ namespace ControlAsistentes.CatalogoEncargado
             }
             else
             {
-               // ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
-               // ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
+                // ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
+                // ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
             }
 

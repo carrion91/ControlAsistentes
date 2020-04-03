@@ -71,7 +71,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
@@ -165,7 +165,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 asistente.idAsistente = idAsistente;
                 encargadoAsistenteServicios.insertarEncargadoAsistente(unidadEncargado.encargado.idEncargado,idAsistente);
                 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();

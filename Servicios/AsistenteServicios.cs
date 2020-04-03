@@ -12,14 +12,28 @@ namespace Servicios
     {
         AsistenteDatos asistenteDatos = new AsistenteDatos();
 
-
+        /// <summary>
+		/// Marilea
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos 
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
         public List<Asistente> ObtenerAsistentes()
         {
             return asistenteDatos.ObtenerAsistentes();
         }
 
-
-        public List<Asistente> ObtenerAsistentesPorUnidad(int idUnidad)
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos por unidad y periodo actual
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerAsistentesPorUnidad(int idUnidad)
         {
             return asistenteDatos.ObtenerAsistentesPorUnidad(idUnidad);
         }
@@ -41,6 +55,19 @@ namespace Servicios
 		{
 			return asistenteDatos.ObtenerAsistentesSinUsuarios();
 		}
-		
-	}
+
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos de una unidad especifica
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerAsistentesXUnidad(int idUnidad)
+        {
+            return asistenteDatos.ObtenerAsistentesXUnidad(idUnidad);
+        }
+
+    }
 }

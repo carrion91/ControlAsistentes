@@ -251,7 +251,7 @@
                                         <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon boton-eliminar" OnClick="btnEliminarAsistenteNombramiento_Click">
                                             <i class="glyphicon glyphicon-trash"></i>
                                         </asp:LinkButton>
-                                        <asp:TextBox ID="txtAsistente" runat="server" Width="320px" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtAsistente" runat="server" Width="300px" ReadOnly="true" CssClass="form-control"></asp:TextBox>
                                         <span id="spanAgregarAsistenes" runat="server" style="cursor: pointer" data-toggle="modal" data-target="#modalAsistentesNombramiento" class="input-group-addon boton-nuevo"><i class="glyphicon glyphicon-plus-sign"></i></span>
                                     </div>
                                 </div>
