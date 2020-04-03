@@ -17,10 +17,11 @@ namespace Servicios
             return archivoDatos.insertarArchivo(archivo);
         }
 
-        public int insertarArchivoNombramiento(int idArchivo,int idNombramiento)
+        public int insertarArchivoNombramiento(int idArchivo, int idNombramiento)
         {
-            return archivoDatos.insertarArchivoNombramiento(idArchivo,idNombramiento);
+            return archivoDatos.insertarArchivoNombramiento(idArchivo, idNombramiento);
         }
+
         public List<Archivo> ObtenerArchivoAsistente(int idAsistente, int idPeriodo)
         {
             return archivoDatos.getArchivosAsistente(idAsistente,idPeriodo);
