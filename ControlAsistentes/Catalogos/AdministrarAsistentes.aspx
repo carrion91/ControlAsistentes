@@ -239,7 +239,7 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Observaciones Asistente</h4>
+                                    <h4 class="modal-title">Aprobar Asistentes</h4>
                                 </div>
 
                                 <div class="modal-body">
@@ -249,7 +249,7 @@
                                         <%-- campos a llenar --%>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblNombreAsistente" runat="server" Text="Nombre Asistente <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblNombreAsistente" runat="server" Text="Nombre Asistente <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:TextBox class="form-control" ID="txtNombreAsistente" runat="server"></asp:TextBox>
@@ -257,7 +257,7 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblCarnet" runat="server" Text="Numero de Carné <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblCarnet" runat="server" Text="Numero de Carné <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
                                                 <asp:TextBox class="form-control" ID="txtNumeroCarné" runat="server"></asp:TextBox>
@@ -265,18 +265,37 @@
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Cantidad de horas nombrado <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Cantidad de horas nombrado <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
                                             <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:DropDownList ID="ddlHorasNombrado" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
+                                                <asp:TextBox class="form-control" ID="txtCantidadHoras" runat="server"></asp:TextBox>
                                             </div>
                                         </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:Label ID="LbEstado" runat="server" Text="Seleccione un estado <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:DropDownList AutoPostBack="true" ID="AsistenteDDL" runat="server" CssClass="form-control" OnSelectedIndexChanged="SeleccionarEstado_OnChanged"></asp:DropDownList>
+                                            </div>
+                                        </div>
+                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="Label1" runat="server" Text="Observaciones <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:TextBox class="form-control" ID="txtObservaciones" runat="server" ></asp:TextBox>
+                                            </div>
+                                        </div>
+                                       
+                                
 
                                         <%-- botones --%>
-                                       <%-- <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
-                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="btnGuardarNuevaUnidad" />
+                                        <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
+                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="AprobarAsistente_OnChanged" />
+                                           
                                             <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
-                                        </div>--%>
+                                        </div>
                                         <%-- fin botones --%>
                                     </div>
                                 </div>
@@ -347,7 +366,7 @@
                                                              <td>
                                                                 <div class="btn-group">
                                                                     <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                                                    <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
+                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("carnet") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn glyphicon glyphicon-remove" />
                                                                 </div>
                                                             </td>
                                                             <td><%# Eval("nombreCompleto") %></td>
@@ -360,7 +379,8 @@
                                                             <td>
                                                                 <div id="btnDocs" class="btn-group">
                                                                     <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
-                                                                    <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
+<%--                                                                    <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>--%>
+                                                                     <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>' OnClick="btnVerArchivo_Click" CssClass="glyphicon glyphicon-list-alt" />
                                                                 </div>
                                                             </td>
 
@@ -375,6 +395,43 @@
                                                 </asp:Repeater>
                                             </table>
                                         </div>
+                                         <%--paginación--%>
+                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+                    <center>
+                     <table class="table" style="max-width:664px;">
+                         <tr style="padding:1px !important">
+                             <td style="padding:1px !important">
+                                 <asp:LinkButton ID="lbPrimero2" runat="server" CssClass="btn btn-primary" OnClick="lbPrimero2_Click"><span class="glyphicon glyphicon-fast-backward"></span></asp:LinkButton>
+                             </td>
+                             <td style="padding:1px !important">
+                                 <asp:LinkButton ID="lbAnterior2" runat="server" CssClass="btn btn-default" OnClick="lbAnterior_Click"><span class="glyphicon glyphicon-backward"></asp:LinkButton>
+                             </td>
+                              <td style="padding:1px !important">
+                                  <asp:DataList ID="rptAsistenteAprobado" runat="server"
+                                    OnItemCommand="rptPaginacion2_ItemCommand"
+                                    OnItemDataBound="rptPaginacion2_ItemDataBound" RepeatDirection="Horizontal">
+                                      <ItemTemplate>
+                                          <asp:LinkButton ID="lbPaginacion" runat="server" CssClass="btn btn-default"
+                                            CommandArgument='<%# Eval("IndexPagina") %>' CommandName="nuevaPagina"
+                                            Text='<%# Eval("PaginaText") %>' ></asp:LinkButton>
+                                      </ItemTemplate>
+                                  </asp:DataList>
+                              </td>
+                             <td style="padding:1px !important">
+                                 <asp:LinkButton ID="lbSiguiente2" CssClass="btn btn-default" runat="server" OnClick="lbSiguiente2_Click"><span class="glyphicon glyphicon-forward"></asp:LinkButton>
+                             </td>
+                             <td style="padding:1px !important">
+                                 <asp:LinkButton ID="lbUltimo2" CssClass="btn btn-primary" runat="server" OnClick="lbUltimo_Click"><span class="glyphicon glyphicon-fast-forward"></asp:LinkButton>
+                             </td>
+                             <td style="padding:1px !important">
+                                 <asp:Label ID="lblpagina2" runat="server" Text=""></asp:Label>
+                             </td>
+                         </tr>
+                     </table>
+                 </center>
+                </div>
+
+                <%--fn paginación--%>
 
                                     </div>
 

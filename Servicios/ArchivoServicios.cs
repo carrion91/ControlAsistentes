@@ -21,6 +21,10 @@ namespace Servicios
         {
             return archivoDatos.insertarArchivoAsistente(idArchivo,idAsistente);
         }
+        public List<Archivo> ObtenerArchivoAsistente(int idAsistente, int idPeriodo)
+        {
+            return archivoDatos.getArchivosAsistente(idAsistente,idPeriodo);
+        }
     }
 }
 

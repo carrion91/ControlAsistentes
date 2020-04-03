@@ -63,5 +63,48 @@ namespace AccesoDatos
 
             return idArchivo;
         }
+        /*
+      * Kevin Picado
+      * 20/03/20
+      *recupera todos los archivos de muestras de la base de datos
+      *retorna una lista de archivos
+      */
+        public List<Archivo> getArchivosAsistente(int idAsistente, int idPeriodo)
+        {
+
+            List<Archivo> listaArchivosAsistente = new List<Archivo>();
+
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+            String consulta = @"select nombre_archivo,ruta_archivo,tipo_archivo,creado_por
+                                   from Asistente A,Nombramiento N,Archivo Ar,Archivo_Nombramiento AN,Periodo P
+                                   where A.id_asistente=N.id_asistente and AN.id_nombramiento=N.id_nombramiento and N.id_periodo=P.id_periodo and 
+                                   AN.id_archivo=Ar.id_archivo and A.id_asistente=@idAsistente and P.id_periodo=@idPeriodo";
+
+            SqlCommand command = new SqlCommand(consulta, sqlConnection);
+
+            command.Parameters.AddWithValue("@idAsistente", Convert.ToInt32(idAsistente));
+            command.Parameters.AddWithValue("@idPeriodo", Convert.ToInt32(idPeriodo));
+
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Archivo archivo = new Archivo();
+
+                
+                archivo.rutaArchivo = reader["ruta_archivo"].ToString();
+                archivo.nombreArchivo = reader["nombre_archivo"].ToString();
+                archivo.creadoPor = reader["creado_por"].ToString();
+                listaArchivosAsistente.Add(archivo);
+            }
+
+            sqlConnection.Close();
+
+            return listaArchivosAsistente;
+        }
     }
 }

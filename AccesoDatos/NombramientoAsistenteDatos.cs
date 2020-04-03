@@ -43,5 +43,28 @@ namespace AccesoDatos
 
             return idNombramiento;
         }
+
+        public void actualizarAsistenteNombramiento(string numeroCarnet,string aprobado,string observaciones)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+            String consulta = @"update Nombramiento set aprobado=@aprobado,observaciones=@observaciones
+                                 from Nombramiento N,Asistente A
+                                 where N.id_asistente=A.id_asistente and A.carnet=@numeroCarnet";
+
+
+            SqlCommand command = new SqlCommand(consulta, sqlConnection);
+            command.Parameters.AddWithValue("@aprobado", aprobado);
+            command.Parameters.AddWithValue("@numeroCarnet", numeroCarnet);
+            command.Parameters.AddWithValue("@observaciones", observaciones);
+
+
+
+
+            sqlConnection.Open();
+            command.ExecuteReader();
+            sqlConnection.Close();
+        }
+
     }
 }
