@@ -281,10 +281,14 @@ namespace ControlAsistentes.CatalogoEncargado
             txtCarnetEd.CssClass = "form-control";
             txtTelefonoEd.CssClass = "form-control";
             txtNombreAsistenteEditar.CssClass = "form-control";
+            txtUnidadPE.CssClass = "form-control";
+            txtEncargadoEd.CssClass = "form-control";
 
             txtCarnetEd.Text = asistenteSeleccionado.carnet;
             txtTelefonoEd.Text = asistenteSeleccionado.telefono;
             txtNombreAsistenteEditar.Text = asistenteSeleccionado.nombreCompleto;
+            txtUnidadPE.Text = unidadEncargado.nombre;
+            txtEncargadoEd.Text = unidadEncargado.encargado.nombreCompleto;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarAsistente();", true);
         }
@@ -328,10 +332,14 @@ namespace ControlAsistentes.CatalogoEncargado
 
             txtCarneE.CssClass = "form-control";
             txtTelefonoE.CssClass = "form-control";
+            txtUnidadEl.CssClass = "form-control";
+            txtEncargadoEl.CssClass = "form-control";
 
             txtCarneE.Text = asistenteSeleccionado.carnet;
             txtTelefonoE.Text = asistenteSeleccionado.telefono;
             lbNombreAsistente.Text = asistenteSeleccionado.nombreCompleto;
+            txtUnidadEl.Text = unidadEncargado.nombre;
+            txtEncargadoEl.Text = unidadEncargado.encargado.nombreCompleto;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEliminarAsistente();", true);
         }

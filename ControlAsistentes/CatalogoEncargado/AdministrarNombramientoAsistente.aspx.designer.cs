@@ -168,22 +168,58 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.Repeater rpDocumentosAsistente;
 
         /// <summary>
-        /// Control lbUnidadNombramiento.
+        /// Control UpAN.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbUnidadNombramiento;
+        protected global::System.Web.UI.UpdatePanel UpAN;
 
         /// <summary>
-        /// Control txtUnidadN.
+        /// Control btnEliminarAsistente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUnidadN;
+        protected global::System.Web.UI.WebControls.LinkButton btnEliminarAsistente;
+
+        /// <summary>
+        /// Control txtAsistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAsistente;
+
+        /// <summary>
+        /// Control spanAgregarAsistenes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl spanAgregarAsistenes;
+
+        /// <summary>
+        /// Control Label1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+
+        /// <summary>
+        /// Control txtU.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtU;
 
         /// <summary>
         /// Control lbHoras.
@@ -348,57 +384,102 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.FileUpload fileCuenta;
 
         /// <summary>
-        /// Control lblArchivos.
+        /// Control btnNuevoNombramientoModal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblArchivos;
+        protected global::System.Web.UI.WebControls.Button btnNuevoNombramientoModal;
 
         /// <summary>
-        /// Control UpdatePanel2.
+        /// Control PanelAsistentesNombramiento.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
+        protected global::System.Web.UI.UpdatePanel PanelAsistentesNombramiento;
 
         /// <summary>
-        /// Control fuArchivos.
+        /// Control UpdatePanel1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuArchivos;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
-        /// Control divArchivosVacio.
+        /// Control txtBuscarAsistente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divArchivosVacio;
+        protected global::System.Web.UI.WebControls.TextBox txtBuscarAsistente;
 
         /// <summary>
-        /// Control lblArchivosVacio.
+        /// Control rpAsistentesNombramiento.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblArchivosVacio;
+        protected global::System.Web.UI.WebControls.Repeater rpAsistentesNombramiento;
 
         /// <summary>
-        /// Control btnNuevoAsistenteModal.
+        /// Control lbPrimeroAsistentes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnNuevoAsistenteModal;
+        protected global::System.Web.UI.WebControls.LinkButton lbPrimeroAsistentes;
+
+        /// <summary>
+        /// Control lbAnteriorAsistentes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbAnteriorAsistentes;
+
+        /// <summary>
+        /// Control rptPaginacionAsistentes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataList rptPaginacionAsistentes;
+
+        /// <summary>
+        /// Control lbSiguienteAsistentes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbSiguienteAsistentes;
+
+        /// <summary>
+        /// Control lbUltimoAsistentes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbUltimoAsistentes;
+
+        /// <summary>
+        /// Control lblpaginaAsistentes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblpaginaAsistentes;
     }
 }

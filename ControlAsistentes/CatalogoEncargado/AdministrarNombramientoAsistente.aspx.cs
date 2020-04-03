@@ -20,7 +20,8 @@ namespace ControlAsistentes.CatalogoEncargado
         PeriodoServicios periodoServicios = new PeriodoServicios();
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
         ArchivoServicios archivoServicios = new ArchivoServicios();
-        Unidad unidadEncargado = new Unidad();
+        public static Unidad unidadEncargado = new Unidad();
+        public static Asistente asistenteSelecionado = new Asistente();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
@@ -39,15 +40,33 @@ namespace ControlAsistentes.CatalogoEncargado
                 ViewState["paginaActual"] = value;
             }
         }
+
+        #region variables globales paginacion asistentes
+        int primerIndexAsistentes, ultimoIndexAsistentes;
+        private int paginaActualAsistentes
+        {
+            get
+            {
+                if (ViewState["paginaActualAsistentes"] == null)
+                {
+                    return 0;
+                }
+                return ((int)ViewState["paginaActualAsistentes"]);
+            }
+            set
+            {
+                ViewState["paginaActualAsistentes"] = value;
+            }
+        }
+        #endregion
         #endregion
 
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1, 2, 5 };
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
 
-            
+
             if (Session["nombreCompleto"] != null)
             {
                 unidadEncargado = unidadServicios.ObtenerUnidadPorEncargado(Session["nombreCompleto"].ToString());
@@ -66,12 +85,17 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentesFiltrada"] = null;
                 Session["archivos"] = null;
 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
+                List<Asistente> listaAsistentesAnombrar = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                Session["listaAsistentesAnombrar"] = listaAsistentesAnombrar;
+                Session["listaAsistentesAnombrarFiltrada"] = listaAsistentesAnombrar;
+
                 ddlPeriodos();
                 MostrarAsistentes();
+                mostrarAsistentesAnombrar();
             }
             else
             {
@@ -190,10 +214,8 @@ namespace ControlAsistentes.CatalogoEncargado
             txtHorasN.CssClass = "form-control";
             txtHorasN.Text = "";
 
-            txtUnidadN.CssClass = "form-control";
-            txtUnidadN.Text = unidadEncargado.descripcion;
-
-
+            txtU.CssClass = "form-control";
+            txtU.Text = unidadEncargado.nombre;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
         }
         /// <summary>
@@ -206,14 +228,14 @@ namespace ControlAsistentes.CatalogoEncargado
         /// </summary>
         protected void guardarNombramiento_Click(object sender, EventArgs e)
         {
-            if (validarAsistenteNuevo())
+            if (validarNombramiento())
             {
                 string periodoSemestre = periodosDDL.SelectedValue.ToString();
-                int idAsistente = 1;
+                int idAsistente = asistenteSelecionado.idAsistente;
                 int idPeriodo = Convert.ToInt32(periodosDDL.SelectedValue);
                 Periodo periodo = periodoServicios.ObtenerPeriodoPorId(idPeriodo);
                 Asistente asistente = (asistenteServicios.ObtenerAsistentes()).FirstOrDefault(a => a.idAsistente == idAsistente);
-                
+
 
                 /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
                 Nombramiento nombramiento = new Nombramiento();
@@ -240,7 +262,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 {
                     archivo.tipoArchivo = tipo;
                     int idArchivo = archivoServicios.insertarArchivo(archivo);
-                    archivoServicios.insertarArchivoAsistente(idArchivo, asistente.idAsistente);
+                    archivoServicios.insertarArchivoNombramiento(idArchivo, asistente.idAsistente);
                     tipo++;
                 }
                 List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
@@ -248,13 +270,13 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!" + "');", true);
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
             {
+               // ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
+               // ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoAsistente();", true);
             }
 
         }
@@ -318,13 +340,11 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Modifica:
         /// Devuelve: -
         /// </summary>
-        public Boolean validarAsistenteNuevo()
+        public Boolean validarNombramiento()
         {
             Boolean valido = true;
 
-            
             txtHorasN.CssClass = "form-control";
-
             fileExpediente.CssClass = "form-control";
             fileInforme.CssClass = "form-control";
             fileCV.CssClass = "form-control";
@@ -333,7 +353,7 @@ namespace ControlAsistentes.CatalogoEncargado
 
 
             #region nombre
-           
+
             if (String.IsNullOrEmpty(txtHorasN.Text) || txtHorasN.Text.Trim() == String.Empty || txtHorasN.Text.Length > 255)
             {
                 txtHorasN.CssClass = "form-control alert-danger";
@@ -363,6 +383,84 @@ namespace ControlAsistentes.CatalogoEncargado
 
             return valido;
         }
+
+
+        #region asistentes nombramiento
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// Abril/2020
+        /// Efecto: Guarda un asistente para poder enviar a aprobacion su nombramiento
+        /// Requiere: Seleccionar un asistente en el modal de asistentes
+        /// Modifica: txtAsistente
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSeleccionarAsistente_Click(object sender, EventArgs e)
+        {
+            txtAsistente.CssClass = "form-control";
+            int id = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            asistenteSelecionado = (asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad)).FirstOrDefault(a => a.idAsistente == id);
+            txtAsistente.Text = asistenteSelecionado.nombreCompleto;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "cerrarModalAsistenteNombramiento();", true);
+        }
+
+
+        protected void btnFiltrarAsistentes_Click(object sender, EventArgs e)
+        {
+            paginaActual = 0;
+            mostrarAsistentesAnombrar();
+        }
+        /// <summary>
+        /// Mariela Calvo   
+        /// Abril/2020
+        /// Efecto: Visualmente elimina un asistente de una tarjeta
+        /// Requiere: Clickear el boton "eliminar" del modal de asistentes
+        /// Modifica: - txtAsistetes, session de idAsistente
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnEliminarAsistenteNombramiento_Click(object sender, EventArgs e)
+        {
+            txtAsistente.Text = "";
+            asistenteSelecionado = null;
+        }
+
+        public void mostrarAsistentesAnombrar()
+        {
+            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentesAnombrar"];
+            String filtro = "";
+
+            if (!String.IsNullOrEmpty(txtBuscarAsistente.Text))
+            {
+                filtro = txtBuscarAsistente.Text;
+            }
+            List<Asistente> listaAsistenteFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(filtro.ToUpper())).ToList();
+            Session["listaAsistentesAnombrarFiltrada"] = listaAsistenteFiltrada;
+            var dt = listaAsistenteFiltrada;
+            pgsource.DataSource = dt;
+            pgsource.AllowPaging = true;
+            //numero de items que se muestran en el Repeater
+            pgsource.PageSize = elmentosMostrar;
+            pgsource.CurrentPageIndex = paginaActualAsistentes;
+            //mantiene el total de paginas en View State
+            ViewState["TotalPaginasAsistentes"] = pgsource.PageCount;
+            //Ejemplo: "Página 1 al 10"
+            lblpaginaAsistentes.Text = "Página " + (paginaActualAsistentes + 1) + " de " + pgsource.PageCount + " (" + dt.Count + " - elementos)";
+            //Habilitar los botones primero, último, anterior y siguiente
+            lbAnteriorAsistentes.Enabled = !pgsource.IsFirstPage;
+            lbSiguienteAsistentes.Enabled = !pgsource.IsLastPage;
+            lbPrimeroAsistentes.Enabled = !pgsource.IsFirstPage;
+            lbUltimoAsistentes.Enabled = !pgsource.IsLastPage;
+            rpAsistentesNombramiento.DataSource = pgsource;
+            rpAsistentesNombramiento.DataBind();
+            PaginacionAsistentes();
+        }
+
+        #endregion
+
         #endregion
 
         #region metodos paginacion
@@ -499,9 +597,155 @@ namespace ControlAsistentes.CatalogoEncargado
             lnkPagina.BackColor = Color.FromName("#005da4");
             lnkPagina.ForeColor = Color.FromName("#FFFFFF");
         }
+
+        #region paginacion asistentes 
+        #region asistentes
+        /// <summary>
+        /// Leonardo Carrion
+        /// 14/jun/2019
+        /// Efecto: realiza la paginacion
+        /// Requiere: -
+        /// Modifica: paginacion mostrada en pantalla
+        /// Devuelve: -
+        /// </summary>
+        private void PaginacionAsistentes()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("IndexPagina"); //Inicia en 0
+            dt.Columns.Add("PaginaText"); //Inicia en 1
+
+            primerIndexAsistentes = paginaActualAsistentes - 2;
+            if (paginaActualAsistentes > 2)
+                ultimoIndexAsistentes = paginaActualAsistentes + 2;
+            else
+                ultimoIndexAsistentes = 4;
+
+            //se revisa que la ultima pagina sea menor que el total de paginas a mostrar, sino se resta para que muestre bien la paginacion
+            if (ultimoIndexAsistentes > Convert.ToInt32(ViewState["TotalPaginasAsistentes"]))
+            {
+                ultimoIndexAsistentes = Convert.ToInt32(ViewState["TotalPaginasAsistentes"]);
+                primerIndexAsistentes = ultimoIndexAsistentes - 4;
+            }
+
+            if (primerIndexAsistentes < 0)
+                primerIndexAsistentes = 0;
+
+            //se crea el numero de paginas basado en la primera y ultima pagina
+            for (var i = primerIndexAsistentes; i < ultimoIndexAsistentes; i++)
+            {
+                var dr = dt.NewRow();
+                dr[0] = i;
+                dr[1] = i + 1;
+                dt.Rows.Add(dr);
+            }
+
+            rptPaginacionAsistentes.DataSource = dt;
+            rptPaginacionAsistentes.DataBind();
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// marzo/2020
+        /// Efecto: se devuelve a la primera pagina y Asistente los datos de la misma
+        /// Requiere: dar clic al boton de "Primer pagina"
+        /// Modifica: elementos mostrados en la tabla de contactos
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbPrimeroAsistentes_Click(object sender, EventArgs e)
+        {
+            paginaActualAsistentes = 0;
+            mostrarAsistentesAnombrar();
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// marzo/2020
+        /// Efecto: se devuelve a la ultima pagina y Asistente los datos de la misma
+        /// Requiere: dar clic al boton de "Ultima pagina"
+        /// Modifica: elementos mostrados en la tabla de contactos
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbUltimoAsistentes_Click(object sender, EventArgs e)
+        {
+            paginaActualAsistentes = (Convert.ToInt32(ViewState["TotalPaginasAsistentes"]) - 1);
+            mostrarAsistentesAnombrar();
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// marzo/2020
+        /// Efecto: se devuelve a la pagina anterior y Asistente los datos de la misma
+        /// Requiere: dar clic al boton de "Anterior pagina"
+        /// Modifica: elementos mostrados en la tabla de contactos
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbAnteriorAsistentes_Click(object sender, EventArgs e)
+        {
+            paginaActualAsistentes -= 1;
+            mostrarAsistentesAnombrar();
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// marzo/2020
+        /// Efecto: se devuelve a la pagina siguiente y Asistente los datos de la misma
+        /// Requiere: dar clic al boton de "Siguiente pagina"
+        /// Modifica: elementos mostrados en la tabla de contactos
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbSiguienteAsistentes_Click(object sender, EventArgs e)
+        {
+            paginaActualAsistentes += 1;
+            mostrarAsistentesAnombrar();
+        }
+
+        /// <summary>
+        /// Mariela Calvo 
+        /// marzo/2020
+        /// Efecto: actualiza la la pagina actual y Asistente los datos de la misma
+        /// Requiere: -
+        /// Modifica: elementos de la tabla
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
+        protected void rptPaginacionAsistentes_ItemCommand(object source, DataListCommandEventArgs e)
+        {
+            if (!e.CommandName.Equals("nuevaPagina")) return;
+            paginaActualAsistentes = Convert.ToInt32(e.CommandArgument.ToString());
+            mostrarAsistentesAnombrar();
+        }
+
+        /// Mariela Calvo
+        /// marzo/2020
+        /// Efecto: marca el boton de la pagina seleccionada
+        /// Requiere: dar clic al boton de paginacion
+        /// Modifica: color del boton seleccionado
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void rptPaginacionAsistentes_ItemDataBound(object sender, DataListItemEventArgs e)
+        {
+            var lnkPagina = (LinkButton)e.Item.FindControl("lbPaginacionAsistentes");
+            if (lnkPagina.CommandArgument != paginaActualAsistentes.ToString()) return;
+            lnkPagina.Enabled = false;
+            lnkPagina.BackColor = Color.FromName("#005da4");
+            lnkPagina.ForeColor = Color.FromName("#FFFFFF");
+        }
         #endregion
-        
+        #endregion
+        #endregion
 
 
-    } 
+
+    }
 }
