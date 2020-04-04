@@ -51,6 +51,42 @@ namespace ControlAsistentes
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menu;
 
         /// <summary>
+        /// Control btnInformacion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnInformacion;
+
+        /// <summary>
+        /// Control MenuNavBarSecretaria.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuNavBarSecretaria;
+
+        /// <summary>
+        /// Control MenuNavBarEncargado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuNavBarEncargado;
+
+        /// <summary>
+        /// Control MenuNavBarUTI.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl MenuNavBarUTI;
+
+        /// <summary>
         /// Control username.
         /// </summary>
         /// <remarks>
@@ -130,15 +166,6 @@ namespace ControlAsistentes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor asistentesE;
-
-        /// <summary>
-        /// Control a1.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor a1;
 
         /// <summary>
         /// Control MenuUTI.

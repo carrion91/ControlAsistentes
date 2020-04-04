@@ -15,22 +15,15 @@
                 </div>
 
                 <center>
-             <div class="col-md-12 col-xs-12 col-sm-12">
-            <center>
-                <asp:Label runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:Label>
-                <p class="mt-1">En esta sección podrá aprobar los nombramientos de los asistentes</p>
-            </center>
-        </div>
-        </center>
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <hr />
-                </div>
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <center>
+                            <asp:Label runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:Label>
+                            <p class="mt-1">En esta sección podrá aprobar los nombramientos de los asistentes</p>
+                        </center>
+                    </div>
+                </center>
+           
                 <br />
-
-
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <br />
-                </div>
 
                 <div class="col-md-6 col-xs-6 col-sm-6">
                     <h4>Unidad</h4>
@@ -39,15 +32,9 @@
 
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
+                    <br />
+                    <br />
                 </div>
-
-                <div class="col-md-12 col-xs-6 col-sm-6">
-
-                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
-                        <asp:Button ID="btnPendientes" runat="server" Text="Aprobaciones Pendientes" CssClass="btn btn-primary boton-nuevo" />
-                    </div>
-                </div>
-
 
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <table class="table table-bordered">
@@ -57,8 +44,7 @@
                                 <th>Nombre</th>
                                 <th>Carné</th>
                                 <th>Unidad Asistencia</th>
-                                <th>Nombramiento Aprobado</th>
-                                <th>Cantidad de Horas Nombrado</th>
+                                <th>Último Periodo Nombrado</th>
                                 <th>Usuario</th>
                                 <th>Tarjeta</th>
 
@@ -74,9 +60,9 @@
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true"></asp:TextBox>
                             </td>
                             <td>
-                                <asp:TextBox ID="txBool" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" Visible="false"></asp:TextBox></td>
-                            <td></td>
-                            <td></td>
+                                <asp:TextBox ID="txBool" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" Visible="false"></asp:TextBox>
+
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -95,23 +81,20 @@
                                     <td><%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
-                                        </div>
-                                    </td>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
-                                    <td><%# Eval("cantidadHorasNombrado") %></td>
-                                    <td><%# Eval("cantidadPeriodosNombrado") %></td>
-                                    <td>
-                                        <div id="btnDocs" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
+                           
+                                     <td>
+                                        <div id="btnUser" class="btn-group">
+                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("carnet") %>' />
+                                            <asp:LinkButton ID="btnVerUsuario" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-user"></span></asp:LinkButton>
                                         </div>
                                     </td>
-
-
+                                    <td>
+                                        <div id="btnTarjeta" class="btn-group">
+                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
+                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-credit-card"></span></asp:LinkButton>
+                                        </div>
+                                    </td>
 
                                 </tr>
 
@@ -122,11 +105,19 @@
                         </asp:Repeater>
                     </table>
                 </div>
-                <div style="text-align: right">
-                    <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
+                
+                <br />
+                <br />
+              
+                
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <div style="text-align: right">
+                        <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
+                    </div>
                 </div>
+
                 <%--paginación--%>
-                <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" style="text-align: center; overflow-y: auto;">
                     <center>
                      <table class="table" style="max-width:664px;">
                          <tr style="padding:1px !important">
@@ -159,82 +150,94 @@
                          </tr>
                      </table>
                  </center>
+
                 </div>
 
                 <%--fn paginación--%>
 
-                <br />
-                <br />
-                <br />
-                <br />
-            </div>
 
-            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 mt-2">
-                <hr />
-            </div>
-            <div id="divDocsAsist" runat="server" visible="false">
-                <br />
-                <br />
-                <br />
-                <div class="col-md-12 col-xs-12 col-sm-12">
-                    <center>
-                            <asp:Label runat="server" Text="Documentos" Font-Size="Large" ForeColor="Black"></asp:Label>
-                           
-                        </center>
-                </div>
-                <br />
-                <br />
-                <!-- ------------------------ Tabla documentos asistente --------------------------- -->
-                <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
+            <!-- Modal Tarjeta Asistente-->
+            <asp:UpdatePanel ID="UpdatePanel8" runat="server">
+                <ContentTemplate>
+                    <div id="modalTarjetaAsistente" class="modal fade" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Tarjeta Asistente</h4>
+                                </div>
 
-                    <table id="tblUnidadesProyecto" class="table table-bordered">
-                        <thead>
-                            <tr style="text-align: center" class="btn-primary">
-                                <th>Nombre Asistente</th>
-                                <th>Expediente Académico</th>
-                                <th>Informe Matrícula</th>
-                                <th>Curriculum</th>
-                                <th>Ponderado</th>
-                            </tr>
-                            </tr>
-                        </thead>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <%-- fin titulo accion --%>
 
-                        <asp:Repeater ID="rpDocumentosAsistente" runat="server">
-                            <HeaderTemplate>
-                            </HeaderTemplate>
+                                        <%-- campos a llenar --%>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblNumeroTarjeta" runat="server" Text="Número de tarjeta <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:TextBox class="form-control" ID="txtNumeroTarjeta" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblTarjetaExtraviada" runat="server" Text="Tarjeta Extraviada <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="radio">
+                                              <label><input type="radio" name="rdbtnExtraviada"></label>
+                                            </div>         
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lblAsistente" runat="server" Text="Asistente <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                                    <div class="col-md-8 col-xs-8 col-sm-8">
+                                                        <asp:DropDownList ID="ddlEncargadoNueva" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
+                                                    </div>
+                                        </div>
 
-                            <ItemTemplate>
-                                <tr style="text-align: center">
+                                        <%-- botones --%>
+                                        <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
+                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo"  />
+                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                                        </div>
+                                        <%-- fin botones --%>
+                                    </div>
+                                </div>
 
-                                    <td>
-                                        <%# Eval("nombreCompleto") %>
-                                    </td>
-                                    <td>
-                                        <%# Eval("expediente") %>
-                                        <td>
-                                            <td>
-                                                <%# Eval("informe") %>
-                                            </td>
-                                            <td>
-                                                <%# Eval("ponderado") %>
-                                            </td>
-                                </tr>
-                            </ItemTemplate>
-                            <FooterTemplate>
-                            </FooterTemplate>
-                        </asp:Repeater>
-                    </table>
-                </div>
-                <!-- ---------------------- FIN tabla unidades proyecto  ------------------------- -->
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 mt-2">
-                    <hr />
-                </div>
+                            </div>
 
-            </div>
+                        </div>
 
+                    </div>
+
+                  <!--Fin Modal Tarjeta Asistente-->
+
+                </ContentTemplate>
+            </asp:UpdatePanel>
+
+
+
+         
         </ContentTemplate>
 
     </asp:UpdatePanel>
+
+      <script type="text/javascript">
+          function activarModalTarjetaAsistente() {
+            $('#modalTarjetaAsistente').modal('show');
+        };
+
+        function enter_click() {
+            if (window.event.keyCode == 13) {
+                document.getElementById('<%=btnFiltrar.ClientID%>').focus();
+                document.getElementById('<%=btnFiltrar.ClientID%>').click();
+            }
+        }
+    </script>
+
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptContent" runat="server">

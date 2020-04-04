@@ -118,6 +118,15 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             Response.Redirect(url);
         }
 
+
+        public void btnVerTarjetaAsistente(object sender, EventArgs e)
+        {
+   
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalTarjetaAsistente();", true);
+        }
+
+
+
         /// <summary>
         /// Mariela Calvo
         /// Marzo20
