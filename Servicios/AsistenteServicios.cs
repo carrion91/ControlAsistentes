@@ -11,7 +11,7 @@ namespace Servicios
     public class AsistenteServicios
     {
         AsistenteDatos asistenteDatos = new AsistenteDatos();
-
+	
         /// <summary>
 		/// Marilea
 		/// 02/abr/2020
@@ -118,6 +118,19 @@ namespace Servicios
 		/// Devuelve: Lista de asistentes 
 		/// </summary>
 		public List<Asistente> ObtenerAsistentesSinNombramiento(int idUnidad)
+		{
+			return asistenteDatos.ObtenerAsistentesSinNombramiento(idUnidad);
+		}
+
+		/// <summary>
+		/// Jesús Torres
+		/// Abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos 
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerNombramientosPorUnidad(int idUnidad)
 		{
 			return asistenteDatos.ObtenerAsistentesSinNombramiento(idUnidad);
 		}

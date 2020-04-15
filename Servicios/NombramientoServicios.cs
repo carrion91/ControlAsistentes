@@ -14,13 +14,30 @@ namespace Servicios
         NombramientoAsistenteDatos nombramientoDatos = new NombramientoAsistenteDatos();
 
 
-        public int insertarNombramiento(Nombramiento nombramiento)         
+        public int insertarNombramiento(Nombramiento nombramiento)
         {
             return nombramientoDatos.insertarNombramientoAsistente(nombramiento);
         }
-        public void ActualizarNombramientoAsistente(string numeroCarnet,string aprobado,string observaciones)
+        public void ActualizarNombramientoAsistente(string numeroCarnet, string aprobado, string observaciones)
         {
-             nombramientoDatos.actualizarAsistenteNombramiento(numeroCarnet,aprobado,observaciones);
+            nombramientoDatos.actualizarAsistenteNombramiento(numeroCarnet, aprobado, observaciones);
+        }
+
+
+        public List<Nombramiento> ObtenerNombramientosPorUnidad(int idUnidad)
+        {
+            return nombramientoDatos.ObtenerNombramientosPorUnidad(idUnidad);
+        }
+
+
+        public void EliminarNombramiento(int idNombramiento)
+        {
+            nombramientoDatos.eliminarNombramiento(idNombramiento);
+        }
+
+        public void EditarNombramiento(Nombramiento nombramiento)
+        {
+            nombramientoDatos.EditarNombramiento(nombramiento);
         }
     }
 }

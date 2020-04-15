@@ -29,7 +29,7 @@ namespace AccesoDatos
             List<Asistente> asistentes = new List<Asistente>();
 
             String consulta = @"SELECT a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre,n.id_periodo, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado ,n.solicitud" +
-            " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado where p.habilitado=1; ";
+            " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado where p.habilitado=1 AND a.disponible=1; ";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 
@@ -75,7 +75,7 @@ namespace AccesoDatos
 
             String consulta = @"SELECT distinct a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidadA,  e.nombre_completo as nombre_encargado" +
             " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado" +
-            " WHERE n.id_unidad=@id_unidad and p.habilitado=1; ";
+            " WHERE n.id_unidad=@id_unidad and p.habilitado=1 AND a.disponible=1; ";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@id_unidad", idUnidad);
@@ -148,7 +148,7 @@ namespace AccesoDatos
 			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
 			List<Asistente> asistentes = new List<Asistente>();
 
-			String consulta = @"SELECT id_Asistente,nombre_completo,carnet FROM Asistente WHERE id_asistente NOT IN (SELECT a.id_asistente FROM Asistente a JOIN Usuario u ON a.id_asistente = u.id_asistente)";
+			String consulta = @"SELECT id_Asistente,nombre_completo,carnet FROM Asistente WHERE id_asistente NOT IN (SELECT a.id_asistente FROM Asistente a JOIN Usuario u ON a.id_asistente = u.id_asistente) AND disponible=1";
 
 			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 
@@ -272,10 +272,10 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Nombramiento> nombramientos = new List<Nombramiento>();
 
-            String consulta = @"SELECT a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
+            String consulta = @"SELECT n.id_nombramiento, a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
                               " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente " +
                               " JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad " +
-                               " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.solicitud=1 OR n.solicitud=0 AND n.id_unidad=@idUnidad";
+                               " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.solicitud=1 OR n.solicitud=0 AND n.id_unidad=@idUnidad AND a.disponible=1 AND n.disponible=1";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@idUnidad", idUnidad);
@@ -288,6 +288,7 @@ namespace AccesoDatos
             {
 
                 Nombramiento nombramiento = new Nombramiento();
+                nombramiento.idNombramiento = Convert.ToInt32(reader["id_nombramiento"].ToString());
                 nombramiento.aprobado = Convert.ToBoolean(reader["aprobado"].ToString());
                 nombramiento.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
                 
@@ -341,7 +342,7 @@ namespace AccesoDatos
 
             String consulta = @"SELECT a.id_asistente,a.nombre_completo,a.carnet FROM Asistente a JOIN Encargado_Asistente ea On a.id_asistente=ea.id_asistente "
                                 +"JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado WHERE eu.id_unidad=@idUnidad AND a.id_asistente NOT IN " +
-                                "(SELECT a.id_asistente FROM Asistente a JOIN Nombramiento n ON a.id_asistente = n.id_asistente)";
+                                "(SELECT a.id_asistente FROM Asistente a JOIN Nombramiento n ON a.id_asistente = n.id_asistente) AND a.disponible=1";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@idUnidad", idUnidad);
