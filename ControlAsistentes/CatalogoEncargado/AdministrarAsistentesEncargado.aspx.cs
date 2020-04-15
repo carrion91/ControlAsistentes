@@ -22,7 +22,7 @@ namespace ControlAsistentes.CatalogoEncargado
         UnidadServicios unidadServicios = new UnidadServicios();
         EncargadoAsistenteServicios encargadoAsistenteServicios = new EncargadoAsistenteServicios();
         Unidad unidadEncargado = new Unidad();
-        Asistente asistenteSeleccionado = new Asistente();
+        public static Asistente asistenteSeleccionado = new Asistente();
 
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
@@ -275,7 +275,7 @@ namespace ControlAsistentes.CatalogoEncargado
         protected void btnEditarAsistente(object sender, EventArgs e)
         {
             int idAsistente = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
-            List<Asistente> asistentes = asistenteServicios.ObtenerAsistentes();
+            List<Asistente> asistentes = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
             asistenteSeleccionado = asistentes.FirstOrDefault(a => a.idAsistente == idAsistente);
 
             txtCarnetEd.CssClass = "form-control";
@@ -303,12 +303,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 asistenteEditar.nombreCompleto = txtNombreAsistenteEditar.Text;
                 asistenteEditar.carnet = txtCarnetEd.Text;
                 asistenteEditar.telefono = txtTelefonoEd.Text;
-                //asistenteServicios.editarAsistente(asistenteEditar);
+                asistenteServicios.editarAsistente(asistenteEditar);
                 txtNombreAsistenteEditar.Text = "";
                 txtCarnetEd.Text = "";
                 txtTelefono.Text = "";
 
-                List<Asistente> listaAsistentees = asistenteServicios.ObtenerAsistentes();
+                List<Asistente> listaAsistentees = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
 
                 Session["listaAsistentes"] = listaAsistentees;
                 Session["listaAsistentesFiltrada"] = listaAsistentees;
@@ -327,7 +327,7 @@ namespace ControlAsistentes.CatalogoEncargado
         protected void btnEliminarAsistente(object sender, EventArgs e)
         {
             int idAsistente = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
-            List<Asistente> asistentes = asistenteServicios.ObtenerAsistentes();
+            List<Asistente> asistentes = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
             asistenteSeleccionado = asistentes.FirstOrDefault(a => a.idAsistente == idAsistente);
 
             txtCarneE.CssClass = "form-control";
@@ -362,15 +362,16 @@ namespace ControlAsistentes.CatalogoEncargado
         public void eliminarAsistente(object sender, EventArgs e)
         {
             int idAsistente = asistenteSeleccionado.idAsistente;
-            //asistenteServicios.eliminarAsistente(idAsistente);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
+            asistenteServicios.eliminarAsistente(idAsistente);
+            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
 
             if (!listaAsistentes.Contains(asistenteSeleccionado))
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad " + asistenteSeleccionado.nombreCompleto + " fue eliminada exitosamente!" + "');", true);
+                listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + asistenteSeleccionado.nombreCompleto + " fue eliminado exitosamente!" + "');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarAsistente').hide();", true);
             }
             else

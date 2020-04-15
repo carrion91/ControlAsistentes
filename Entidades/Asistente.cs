@@ -17,6 +17,8 @@ namespace Entidades
 
         public bool disponible { get; set; }
         public bool nombrado { get; set; }
+
+        public int solicitud { get; set; }
         public bool recibeInduccion { get; set; }
         public int cantidadHorasNombrado { get; set; }
         public int cantidadPeriodosNombrado { get; set; }

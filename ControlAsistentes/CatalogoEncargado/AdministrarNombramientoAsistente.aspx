@@ -71,7 +71,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
+
 
                         </tr>
                         <asp:Repeater ID="rpAsistentes" runat="server">
@@ -81,21 +81,21 @@
                             <ItemTemplate>
                                 <tr style="text-align: center">
                                     <td>
-                                        <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idAsistente") %>' class="btn glyphicon glyphicon-pencil"></asp:LinkButton>
-                                        <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idAsistente") %>' class="btn glyphicon glyphicon-trash"></asp:LinkButton>
+                                        <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idNombramiento") %>' class="btn glyphicon glyphicon-pencil"></asp:LinkButton>
+                                        <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idNombramiento") %>' class="btn glyphicon glyphicon-trash"></asp:LinkButton>
                                     </td>
-                                    <td><%# Eval("nombreCompleto") %></td>
-                                    <td><%# Eval("carnet") %></td>
+                                    <td><%# Eval("asistente.nombreCompleto") %></td>
+                                    <td><%# Eval("asistente.carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <td>
                                         <div class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("asistente.carnet") %>'><div class='<%# Eval("aprobado") %>'></div></asp:LinkButton>
                                         </div>
                                     </td>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                     <td><%# Eval("cantidadHorasNombrado") %></td>
-                                    <td><%# Eval("cantidadPeriodosNombrado") %></td>
+                                    <td><%# Eval("asistente.cantidadPeriodosNombrado") %></td>
                                 </tr>
 
                             </ItemTemplate>
@@ -219,16 +219,12 @@
 
     <!-- Modal nuevo asistente -->
 
-
-
-    <div id="modalNuevoNombramiento" class="modal fade" role="alertdialog">
+    <%--modal nuevo--%>
+    <div id="modalNuevoNombramiento" class="modal fade" role="alertdialog" data-backdrop="static">
         <div class="modal-dialog modal-lg">
-            <!-- Modal content-->
             <div class="modal-content">
-                <asp:UpdatePanel ID="UpAN" runat="server">
+                <asp:UpdatePanel ID="UpdatePanel3" runat="server">
                     <ContentTemplate>
-
-
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Nombramiento Asistente</h4>
@@ -247,11 +243,11 @@
                                     <div class="col-xs-3">
                                         <asp:Label runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
-                                    <div class="col-xs-5 input-group">
+                                    <div class="col-xs-4 input-group">
                                         <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon boton-eliminar" OnClick="btnEliminarAsistenteNombramiento_Click">
                                             <i class="glyphicon glyphicon-trash"></i>
                                         </asp:LinkButton>
-                                        <asp:TextBox ID="txtAsistente" runat="server" Width="300px" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox class="form-control" ID="txtAsistente" runat="server" Width="245 px"></asp:TextBox>
                                         <span id="spanAgregarAsistenes" runat="server" style="cursor: pointer" data-toggle="modal" data-target="#modalAsistentesNombramiento" class="input-group-addon boton-nuevo"><i class="glyphicon glyphicon-plus-sign"></i></span>
                                     </div>
                                 </div>
@@ -399,21 +395,27 @@
                                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                     <br />
                                 </div>
-  
+
                             </div>
                         </div>
+
+
                         <div class="modal-footer">
                             <asp:Button ID="btnNuevoNombramientoModal" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="guardarNombramiento_Click" />
                             <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                         </div>
+
                     </ContentTemplate>
+                    <Triggers>
+                        <asp:PostBackTrigger ControlID="btnNuevoNombramientoModal" />
+                    </Triggers>
                 </asp:UpdatePanel>
             </div>
-         </div>
-         </div>
-    <triggers> 
-                <asp:PostBackTrigger ControlID="btnNuevoNombramientoModal" />
-          </triggers>
+        </div>
+    </div>
+
+
+
 
     <%--modal asistentes--%>
     <div id="modalAsistentesNombramiento" class="modal fade" role="alertdialog" data-backdrop="static">

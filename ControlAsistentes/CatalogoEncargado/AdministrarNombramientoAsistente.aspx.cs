@@ -85,11 +85,11 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentesFiltrada"] = null;
                 Session["archivos"] = null;
 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                List<Nombramiento> listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidadSinNombrar(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
-                List<Asistente> listaAsistentesAnombrar = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                List<Asistente> listaAsistentesAnombrar = asistenteServicios.ObtenerAsistentesSinNombramiento(unidadEncargado.idUnidad);
                 Session["listaAsistentesAnombrar"] = listaAsistentesAnombrar;
                 Session["listaAsistentesAnombrarFiltrada"] = listaAsistentesAnombrar;
 
@@ -114,7 +114,7 @@ namespace ControlAsistentes.CatalogoEncargado
         #region eventos
         protected void MostrarAsistentes()
         {
-            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
+            List<Nombramiento> listaAsistentes = (List <Nombramiento>)Session["listaAsistentes"];
             String nombreasistente = "";
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
@@ -122,7 +122,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 nombreasistente = txtBuscarNombre.Text;
             }
 
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
+            List<Nombramiento> listaAsistentesFiltrada = (List<Nombramiento>)listaAsistentes.Where(nombramiento => nombramiento.asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -234,12 +234,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 int idAsistente = asistenteSelecionado.idAsistente;
                 int idPeriodo = Convert.ToInt32(periodosDDL.SelectedValue);
                 Periodo periodo = periodoServicios.ObtenerPeriodoPorId(idPeriodo);
-                Asistente asistente = (asistenteServicios.ObtenerAsistentes()).FirstOrDefault(a => a.idAsistente == idAsistente);
+                Asistente asistente= (asistenteServicios.ObtenerAsistentesXUnidad(unidadEncargado.idUnidad)).FirstOrDefault(a => a.idAsistente == idAsistente);
 
 
                 /* INSERCIÓN NOMBRAMIENTO ASISTENTE */
                 Nombramiento nombramiento = new Nombramiento();
-                nombramiento.asistente = asistente;
+                nombramiento.asistente =asistente;
                 nombramiento.periodo = periodo;
                 Unidad unidad = new Unidad();
                 unidad.idUnidad = unidadEncargado.idUnidad;
@@ -256,6 +256,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 listaArchivosInsertar.Add(fileExpediente);
                 listaArchivosInsertar.Add(fileInforme);
                 listaArchivosInsertar.Add(fileCV);
+                listaArchivosInsertar.Add(fileCuenta);
 
                 List<Archivo> listaArchivos = guardarArchivos(nombramiento, listaArchivosInsertar);
 
@@ -266,18 +267,18 @@ namespace ControlAsistentes.CatalogoEncargado
                     archivoServicios.insertarArchivoNombramiento(idArchivo, idNombramiento);
                     tipo++;
                 }
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad);
+                List<Nombramiento> listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidadSinNombrar(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!" + "');", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!" + "');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
             {
-                // ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
-                // ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
             }
 
         }
@@ -401,7 +402,7 @@ namespace ControlAsistentes.CatalogoEncargado
         {
             txtAsistente.CssClass = "form-control";
             int id = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
-            asistenteSelecionado = (asistenteServicios.ObtenerAsistentesPorUnidad(unidadEncargado.idUnidad)).FirstOrDefault(a => a.idAsistente == id);
+            asistenteSelecionado = (asistenteServicios.ObtenerAsistentesSinNombramiento(unidadEncargado.idUnidad)).FirstOrDefault(a => a.idAsistente == id);
             txtAsistente.Text = asistenteSelecionado.nombreCompleto;
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "cerrarModalAsistenteNombramiento();", true);
