@@ -48,7 +48,7 @@ namespace AccesoDatos
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
 
-            String consulta = @"update Nombramiento set aprobado=@aprobado,observaciones=@observaciones
+            String consulta = @"update Nombramiento set aprobado=@aprobado,observaciones=@observaciones,solicitud=@solicitud
                                  from Nombramiento N,Asistente A
                                  where N.id_asistente=A.id_asistente and A.carnet=@numeroCarnet";
 
@@ -57,6 +57,7 @@ namespace AccesoDatos
             command.Parameters.AddWithValue("@aprobado", aprobado);
             command.Parameters.AddWithValue("@numeroCarnet", numeroCarnet);
             command.Parameters.AddWithValue("@observaciones", observaciones);
+            command.Parameters.AddWithValue("@solicitud", 1);
 
 
 

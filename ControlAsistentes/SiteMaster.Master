@@ -219,7 +219,7 @@
             <div id="MenuUTI" runat="server">
                 <div class="gridcontainer clearfix">
                     <div class="grid_3">
-                        <a id="asistentesUTI"  runat="server">
+                        <a id="asistentesUTI"  runat="server" href="~/CatalogoUTI/Asistentes/AdministrarAsistentesUTI.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">

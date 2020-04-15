@@ -42,15 +42,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.DropDownList ddlUnidad;
 
         /// <summary>
-        /// Control btnPendientes.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnPendientes;
-
-        /// <summary>
         /// Control btnFiltrar.
         /// </summary>
         /// <remarks>
@@ -150,21 +141,66 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.Label lblpagina;
 
         /// <summary>
-        /// Control divDocsAsist.
+        /// Control UpdatePanel8.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDocsAsist;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel8;
 
         /// <summary>
-        /// Control rpDocumentosAsistente.
+        /// Control lblNumeroTarjeta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rpDocumentosAsistente;
+        protected global::System.Web.UI.WebControls.Label lblNumeroTarjeta;
+
+        /// <summary>
+        /// Control txtNumeroTarjeta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumeroTarjeta;
+
+        /// <summary>
+        /// Control lblTarjetaExtraviada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblTarjetaExtraviada;
+
+        /// <summary>
+        /// Control lblAsistente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAsistente;
+
+        /// <summary>
+        /// Control ddlEncargadoNueva.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEncargadoNueva;
+
+        /// <summary>
+        /// Control btnGuardar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGuardar;
     }
 }

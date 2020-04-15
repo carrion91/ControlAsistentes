@@ -122,7 +122,7 @@ namespace ControlAsistentes.Catalogos
                 nombreasistente = txtBuscarNombre1.Text;
             }
 
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado==false).ToList();
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado==false && asistente.solicitud==0).ToList();
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -309,14 +309,21 @@ namespace ControlAsistentes.Catalogos
             List <Archivo> listArchivosAsistente= archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente),idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
             {
-                FileStream fileStream = new FileStream(archivo.rutaArchivo, FileMode.Open, FileAccess.Read);
-                BinaryReader binaryReader = new BinaryReader(fileStream);
-                Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
+                try
+                {
+                    FileStream fileStream = new FileStream(archivo.rutaArchivo, FileMode.Open, FileAccess.Read);
+                    BinaryReader binaryReader = new BinaryReader(fileStream);
+                    Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
 
-                fileStream.Close();
-                binaryReader.Close();
+                    fileStream.Close();
+                    binaryReader.Close();
 
-                descargar(archivo.rutaArchivo);
+                    descargar(archivo.rutaArchivo);
+                }
+                catch (DirectoryNotFoundException)
+                {
+
+                }
             }
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
