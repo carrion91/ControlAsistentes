@@ -17,7 +17,7 @@
                 <center>
                     <div class="col-md-12 col-xs-12 col-sm-12">
                         <center>
-                            <asp:Label runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:Label>
+                            <asp:label runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:label>
                             <p class="mt-1">En esta sección podrá aprobar los nombramientos de los asistentes</p>
                         </center>
                     </div>
@@ -185,23 +185,23 @@
                                             <div class="col-md-3 col-xs-3 col-sm-3">
                                                 <asp:Label ID="lblTarjetaExtraviada" runat="server" Text="Tarjeta Extraviada <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                            <div class="radio">
-                                              <label><input type="radio" name="rdbtnExtraviada"></label>
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                              <asp:RadioButton id="rdExtraviada" runat="server" GroupName="measurementSystem"></asp:RadioButton>
                                             </div>         
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
                                                 <asp:Label ID="lblAsistente" runat="server" Text="Asistente <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                                    <div class="col-md-8 col-xs-8 col-sm-8">
-                                                        <asp:DropDownList ID="ddlEncargadoNueva" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
-                                                    </div>
+                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                                <asp:TextBox class="form-control" ID="txtAsistente" runat="server"></asp:TextBox>
+                                            </div>
                                         </div>
 
                                         <%-- botones --%>
                                         <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
-                                            <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo"  />
-                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                                            <asp:Button ID="btnAsignar" runat="server" Text="Asignar" CssClass="btn btn-primary boton-nuevo"   OnClick="btnAsignar_Click"/>
+                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal" >Cerrar</button>
                                         </div>
                                         <%-- fin botones --%>
                                     </div>
@@ -218,9 +218,6 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
 
-
-
-         
         </ContentTemplate>
 
     </asp:UpdatePanel>
@@ -237,7 +234,6 @@
             }
         }
     </script>
-
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptContent" runat="server">
