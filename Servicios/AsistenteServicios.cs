@@ -11,7 +11,7 @@ namespace Servicios
     public class AsistenteServicios
     {
         AsistenteDatos asistenteDatos = new AsistenteDatos();
-
+	
         /// <summary>
 		/// Marilea
 		/// 02/abr/2020
@@ -57,8 +57,8 @@ namespace Servicios
 		}
 
 		/// <summary>
-		/// Jesús Torres
-		/// 02/abr/2020
+		/// Mariela Calvo
+		/// Abr/2020
 		/// Efecto: Obtiene los asistentes de la capa de datos de una unidad especifica
 		/// Requiere: - 
 		/// Modifica: 
@@ -69,5 +69,70 @@ namespace Servicios
             return asistenteDatos.ObtenerAsistentesXUnidad(idUnidad);
         }
 
-    }
+		/// <summary>
+		/// Mariela Calvo
+		/// Abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos de una unidad especifica
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Nombramiento> ObtenerAsistentesXUnidadSinNombrar(int idUnidad)
+		{
+			return asistenteDatos.ObtenerAsistentesXUnidadSinNombrar(idUnidad);
+		}
+
+		/// <summary>
+		/// Mariela Calvo
+		/// Abr/2020
+		/// Efecto: Elimina un asistente de la tabla asistentes por unidad
+		/// Requiere: - 
+		/// Modifica: Tabla asistentes encargado
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+
+		public void eliminarAsistente(int idAsistente)
+		{
+			asistenteDatos.eliminarAsistente(idAsistente);
+		}
+
+		/// <summary>
+		/// Mariela Calvo
+		/// Abr/2020
+		/// Efecto: Edita un asistente de la tabla asistentes por unidad
+		/// Requiere: - 
+		/// Modifica: Tabla asistentes encargado
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public void editarAsistente(Asistente asistente)
+		{
+			asistenteDatos.EditarAsistente(asistente);
+		}
+
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos 
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerAsistentesSinNombramiento(int idUnidad)
+		{
+			return asistenteDatos.ObtenerAsistentesSinNombramiento(idUnidad);
+		}
+
+		/// <summary>
+		/// Jesús Torres
+		/// Abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos 
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerNombramientosPorUnidad(int idUnidad)
+		{
+			return asistenteDatos.ObtenerAsistentesSinNombramiento(idUnidad);
+		}
+	}
 }

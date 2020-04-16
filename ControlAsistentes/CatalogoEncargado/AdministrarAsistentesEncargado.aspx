@@ -525,6 +525,54 @@
     </asp:UpdatePanel>
     <!-- FIN modal editar unidad -->
 
+       <!-- Modal Confirmar Eliminar Asistente-->
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
+                    <div id="modalConfirmarEliminarNombramiento" class="modal" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Confirmar Eliminar Nombramiento</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <%-- campos a llenar --%>
+                                    <div class="row">
+
+                                        <%-- fin campos a llenar --%>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <center>
+                                             <asp:Label runat="server" Text="" Font-Size="Large" ForeColor="Black"></asp:Label>
+                                             <p>¿Está seguro que desea eliminar el Nombramiento?</p> 
+                                              <asp:Label ID="Label7" runat="server" Text="" Font-Size="Large" ForeColor="Black" CssClass="label"></asp:Label>             
+                                            </center>
+                                        </div>
+
+                                        <div class="col-md-12 col-xs-12 col-sm-12">
+                                            <br />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:Button ID="Button2" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar"  />
+                                    <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <!-- FIN Modal Confirmar Eliminar Asistente -->
+       
+
+
     <!-- Script inicio -->
     <script type="text/javascript">
         function activarModalNuevoAsistente() {

@@ -13,7 +13,7 @@ namespace ControlAsistentes
         public static Dictionary<int, string> roles { get; set; }
         public static List<System.Web.UI.WebControls.HyperLink> aplicaciones { get; set; }
 
-        public static string path = @"D:\aleir\asistentes\";
+        public static string path = "D:\\aleir\\asistentes\\";
         public static string logs_path = path + "logs";
 
 
@@ -165,7 +165,7 @@ namespace ControlAsistentes
             }
 
             // Path de la carpeta dentro del directorio en donde se va a guardar el archivo
-            pathToCheck = pathToCheck + @"\" + carpeta;
+            pathToCheck = pathToCheck + "\\" + carpeta;
 
             // Verificamos si ya existe la carpeta dentro del directorio, si no existe entonces se crea
             if (!Directory.Exists(pathToCheck))
@@ -174,7 +174,7 @@ namespace ControlAsistentes
             }
 
             // Crear la ruta y el nombre del archivo para comprobar si hay duplicados.
-            pathToCheck = pathToCheck + @"\" + nombreArchivo;
+            pathToCheck = pathToCheck + "\\" + nombreArchivo;
            
 
             // Compruebe si ya existe un archivo con el

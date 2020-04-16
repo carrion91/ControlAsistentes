@@ -28,7 +28,9 @@ namespace Entidades
 
             public string observaciones { get; set; }
            
+            public bool disponible { get; set; }
 
+            public List<Archivo> listaArchivos { get; set; }
 
 
     }
