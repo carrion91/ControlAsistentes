@@ -97,7 +97,7 @@
                                     <td>
                                         <div class="btn-group">
                                             <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("carnet") %>'><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
+                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("idAsistente") %>' OnClick=" btnVerDetalles"><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
                                         </div>
                                     </td>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
@@ -106,9 +106,10 @@
                                     <td>
                                         <div id="btnDocs" class="btn-group">
                                             <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" OnClick="btnVerArchivos_Click" CommandArgument='<%# Eval("idAsistente") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt" ></span></asp:LinkButton>
                                         </div>
                                     </td>
+                                     <td style="display:none;"><%# Eval("idAsistente") %></td>
 
 
 
@@ -293,12 +294,12 @@
                                         <%-- botones --%>
                                         <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
                                             <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="AprobarAsistente_OnChanged" />
-                                           
-                                            <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
+                                           <asp:Button ID="ButtonCerrar" runat="server" Text="Cerrar" CssClass="btn btn-primary boton-nuevo" OnClick="btncerrar" />
+                                           <asp:Button ID="BtnCerrar" runat="server" Text="Cerrar" CssClass="btn btn-primary boton-nuevo"    OnClick="botoncerrar"/>
                                         </div>
                                         <%-- fin botones --%>
                                     </div>
-                                </div>
+                                </div
 
                             </div>
 
@@ -319,8 +320,16 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">Asistentes pendientes de Aprobación</h4>
                                 </div>
+                                  <div style="text-align: right">
+                                      <asp:Button ID="Button1" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick=" BotonAtras" />
+                                  </div>
 
                                 <div class="modal-body">
+                                      <div class="col-md-3 col-xs-3 col-sm-3">
+                                <asp:Label ID="label8" runat="server" Text="Seleccionar una Unidad" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                         
+                                <asp:DropDownList ID="ddlUnidadesAsistente" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidadAsistente_SelectedIndexChanged"></asp:DropDownList>
+                            </div>
                                     <div class="row">
                                         <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                                             <table class="table table-bordered">
@@ -366,7 +375,7 @@
                                                              <td>
                                                                 <div class="btn-group">
                                                                     <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("carnet") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn glyphicon glyphicon-remove" />
+                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idAsistente") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn glyphicon glyphicon-remove" />
                                                                 </div>
                                                             </td>
                                                             <td><%# Eval("nombreCompleto") %></td>
@@ -376,11 +385,12 @@
                                                             <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                                             <td><%# Eval("cantidadHorasNombrado") %></td>
                                                             <td><%# Eval("cantidadPeriodosNombrado") %></td>
+                                                            <td style="display:none;"><%# Eval("idAsistente") %></td>
                                                             <td>
                                                                 <div id="btnDocs" class="btn-group">
                                                                     <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
 <%--                                                                    <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>--%>
-                                                                     <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>' OnClick="btnVerArchivo_Click" CssClass="glyphicon glyphicon-list-alt" />
+                                                                     <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("idAsistente") %>' OnClick="btnVerArchivo_Click" CssClass="glyphicon glyphicon-list-alt" />
                                                                 </div>
                                                             </td>
 
@@ -395,6 +405,7 @@
                                                 </asp:Repeater>
                                             </table>
                                         </div>
+                                       
                                          <%--paginación--%>
                 <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <center>
@@ -451,6 +462,10 @@
          function activarModalAsistentesAprobacionesPendientes() {
             $('#modalAsistentesAprobacionesPendientes').modal('show');
         };
+         function closeModalAsistentes() {
+            $('#modalAsistentes').modal('hide');
+        }
+
       </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptContent" runat="server">

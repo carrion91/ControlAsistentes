@@ -22,12 +22,12 @@ namespace Entidades
         public int cantidadPeriodosNombrado { get; set; }
 
 
-        public Archivo archivo { get; set; }
+        public Archivo achivo { get; set; }
         public Periodo periodo { get; set; }
     
         public Unidad unidad { get; set; }
         public int solicitud { get; set; }
-
+        public string observaciones { get; set; }
 
 
 
