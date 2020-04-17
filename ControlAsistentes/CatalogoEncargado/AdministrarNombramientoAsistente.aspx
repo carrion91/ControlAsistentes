@@ -889,8 +889,8 @@
                                 <div class="col-md-12 col-xs-12 col-sm-12">
                                     <br />
                                     <div class="col-md-12 col-xs-12 col-sm-12">
-                                        <div class="col-xs-3">
-                                            <asp:Label ID="Label16" runat="server" Text="Asistente Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                        <div class="col-xs-4">
+                                            <asp:Label ID="Label16" runat="server" Text="Asistente <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                         </div>
                                         <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
@@ -899,16 +899,30 @@
 
                                         </div>
                                     </div>
+                                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                                        <br />
+                                    </div>
+                                     <div class="col-md-12 col-xs-12 col-sm-12">
+                                        <div class="col-xs-4">
+                                            <asp:Label ID="Label18" runat="server" Text="Solicitud <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                        </div>
+                                        <div class="col-md-6 col-xs-4 col-sm-4">
+                                            <div class="input-group">
+                                                <asp:TextBox class="form-control" ID="TextBox1" runat="server" ReadOnly="true"></asp:TextBox>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                         <br />
                                     </div>
                                     <div class="col-md-12 col-xs-12 col-sm-12">
-                                        <div class="col-xs-3">
-                                            <asp:Label ID="Label17" runat="server" Text="Detalle del Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                        <div class="col-xs-4">
+                                            <asp:Label ID="Label17" runat="server" Text="Detalles Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                         </div>
                                         <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
-                                                <asp:TextBox class="form-control" ID="txtDetalles" runat="server" ReadOnly="true"></asp:TextBox>
+                                                <asp:TextBox class="form-control" ID="txtDetalles" TextMode="multiline" Columns="50" Rows="5"  runat="server" ReadOnly="true" Width="200"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -920,7 +934,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <asp:Button ID="Button1" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar" OnClick="eliminarNombramiento" />
+                                
                                 <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
                             </div>
                         </div>
