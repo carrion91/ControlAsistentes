@@ -91,7 +91,8 @@
 
 
                                     <td></td>
-                                    <td><%# Eval("nombreCompleto") %></td>
+                                    <td style='<%# Convert.ToString(Eval("nombrado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("nombrado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("1")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
+                                        <%# Eval("nombreCompleto") %></td>
                                     <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <td>
@@ -110,6 +111,8 @@
                                         </div>
                                     </td>
                                      <td style="display:none;"><%# Eval("idAsistente") %></td>
+                                    <td style="display:none;"><%# Eval("nombrado") %></td>
+                                    <td style="display:none;"><%# Eval("solicitud") %></td>
 
 
 
@@ -335,7 +338,7 @@
                                             <table class="table table-bordered">
                                                 <thead style="text-align: center !important; align-content: center">
                                                     <tr style="text-align: center" class="btn-primary">
-                                                        <th>Nombramiento Aprobado</th>
+                                                        <th>Aprobar Nombramiento</th>
                                                         <th>Nombre</th>
                                                         <th>Carné</th>
                                                         <th>Unidad Asistencia</th>
@@ -375,7 +378,7 @@
                                                              <td>
                                                                 <div class="btn-group">
                                                                     <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idAsistente") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn glyphicon glyphicon-remove" />
+                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idAsistente") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn  glyphicon glyphicon-ok" />
                                                                 </div>
                                                             </td>
                                                             <td><%# Eval("nombreCompleto") %></td>

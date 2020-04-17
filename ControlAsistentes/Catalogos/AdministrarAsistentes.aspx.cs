@@ -434,6 +434,7 @@ namespace ControlAsistentes.Catalogos
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
             List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).ToList();
+            string prueba= Convert.ToString(listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).First().nombrado);
             foreach (Asistente asistente in listaAsistentesFiltrada)
             {
                 txtNumeroCarné.Text = asistente.carnet;
