@@ -52,7 +52,7 @@ namespace AccesoDatos
                 periodo.idPeriodo = Convert.ToInt32(reader["id_periodo"].ToString());
                 asistente.periodo = periodo;
                 asistente.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
-                asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
                 asistente.solicitud = Convert.ToInt32(reader["solicitud"].ToString());
                 asistente.observaciones= reader["observaciones"].ToString();
                 Unidad unidad = new Unidad();
@@ -100,7 +100,7 @@ namespace AccesoDatos
                 asistente.solicitud = Convert.ToInt32(reader["solicitud"].ToString());
                 asistente.observaciones= reader["observaciones"].ToString();
                 asistente.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
-                asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
                 Unidad unidad = new Unidad();
                 unidad.nombre = reader["unidadA"].ToString();
                 unidad.idUnidad = idUnidad;
@@ -205,8 +205,8 @@ namespace AccesoDatos
                 asistente.nombreCompleto = reader["nombreA"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
                 asistente.telefono = reader["telefono"].ToString();
-                //asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
-              
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
+
                 asistentes.Add(asistente);
             }
 
@@ -290,7 +290,7 @@ namespace AccesoDatos
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
                 asistente.telefono = reader["telefono"].ToString();
-                asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
 
                 nombramiento.asistente = asistente;
                 Periodo periodo = new Periodo();
@@ -343,6 +343,40 @@ namespace AccesoDatos
             }
             sqlConnection.Close();
             return asistentes;
+        }
+
+        // <summary>
+        // Mariela Calvo
+        // Abril/2019
+        // Efecto: Actualiza un Nombramiento de la base de datos
+        // Requiere: Nombramiento
+        // Modifica: -
+        // Devuelve: -
+        // </summary>
+        // <param name="Unidad"></param>
+        private int ObtenerCantidadAsistencias(int idAsistente)
+        {
+            int asistencias = 0;
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            List<Asistente> asistentes = new List<Asistente>();
+
+            String consulta = @"SELECT count(id_asistente) as asistencias FROM Nombramiento WHERE id_asistente=@idAsistente";
+
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idAsistente", idAsistente);
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                asistencias = Convert.ToInt32(reader["asistencias"].ToString());
+            }
+
+            sqlConnection.Close();
+
+            return asistencias;
         }
 
 

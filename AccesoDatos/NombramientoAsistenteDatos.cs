@@ -44,7 +44,7 @@ namespace AccesoDatos
             return idNombramiento;
         }
 
-        public void actualizarAsistenteNombramiento(string numeroCarnet,string aprobado,string observaciones)
+        public void actualizarAsistenteNombramiento(string numeroCarnet, string aprobado, string observaciones)
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
 
@@ -97,7 +97,7 @@ namespace AccesoDatos
 
                 Nombramiento nombramiento = new Nombramiento();
                 nombramiento.idNombramiento = Convert.ToInt32(reader["id_nombramiento"].ToString());
-                nombramiento.recibeInduccion= Convert.ToBoolean(reader["induccion"].ToString());
+                nombramiento.recibeInduccion = Convert.ToBoolean(reader["induccion"].ToString());
                 nombramiento.aprobado = Convert.ToBoolean(reader["aprobado"].ToString());
                 nombramiento.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
 
@@ -107,7 +107,7 @@ namespace AccesoDatos
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
                 asistente.telefono = reader["telefono"].ToString();
-                asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
 
                 nombramiento.asistente = asistente;
 
@@ -183,6 +183,77 @@ namespace AccesoDatos
 
             sqlConnection.Close();
         }
+
+
+        public Nombramiento ObtenerDetallesNombramiento(int idNombramiento)
+        {
+            Nombramiento nombramiento = new Nombramiento();
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+
+            String consulta = @"SELECT n.observaciones, a.id_asistente, a.nombre_completo, n.aprobado FROM Nombramiento n
+                                JOIN Asistente a ON n.id_asistente=a.id_asistente WHERE n.disponible=1 AND a.disponible=1 AND n.id_nombramiento=@idNombramiento";
+
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idNombramiento", idNombramiento);
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                nombramiento.idNombramiento = idNombramiento;
+                nombramiento.observaciones = reader["observaciones"].ToString();
+                nombramiento.aprobado = Convert.ToBoolean(reader["aprobado"].ToString());
+                Asistente asistente = new Asistente();
+                asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
+                asistente.nombreCompleto = reader["nombre_completo"].ToString();
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
+                nombramiento.asistente = asistente;
+
+            }
+
+            sqlConnection.Close();
+
+            return nombramiento;
+        }
+
+        // <summary>
+        // Mariela Calvo
+        // Abril/2019
+        // Efecto: Actualiza un Nombramiento de la base de datos
+        // Requiere: Nombramiento
+        // Modifica: -
+        // Devuelve: -
+        // </summary>
+        // <param name="Unidad"></param>
+        private int ObtenerCantidadAsistencias(int idAsistente)
+        {
+            int asistencias = 0;
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            List<Asistente> asistentes = new List<Asistente>();
+
+            String consulta = @"SELECT count(id_asistente) as asistencias FROM Nombramiento WHERE id_asistente=@idAsistente";
+
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idAsistente", idAsistente);
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                asistencias = Convert.ToInt32(reader["asistencias"].ToString());
+            }
+
+            sqlConnection.Close();
+
+            return asistencias;
+        }
+
+
     }
 
 }
