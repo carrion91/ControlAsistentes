@@ -15,8 +15,9 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
     {
 
         #region variables globales
-        AsistenteServicios asistenteServicios = new AsistenteServicios();
+        AsistenteServicios AsistenteServicios = new AsistenteServicios();
         UnidadServicios UnidadServicios = new UnidadServicios();
+        TarjetaServicios TarjetaServicios = new TarjetaServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
@@ -49,11 +50,14 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
+                List<Asistente> listaAsistentes = AsistenteServicios.ObtenerAsistentes();
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
+
+
                 unidadesDDL();
                 MostrarAsistentes();
+
             }
         }
 
@@ -118,14 +122,113 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             Response.Redirect(url);
         }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Habilita y restablece los campos del formulario
+        /// Requiere: -
+        /// Modifica: Campos del formulario
+        /// Devuelve: -
+        /// </summary>
+        private void HabilitarFormulario()
+        {
+            rdExtraviada.Checked = false;
+            txtNumeroTarjeta.CssClass = "form-control chat-input";
+            txtNumeroTarjeta.Enabled = true;
+            txtNumeroTarjeta.Text = "";
+            txtAsistente.CssClass = "form-control chat-input";
+            txtAsistente.Enabled = false;
+            btnAsignar.Enabled = true;
+            rdExtraviada.Enabled = false;
+        }
 
+        /// <summary>
+        /// Jean Carlos Monge Mendez
+        /// 27/03/2020
+        /// Efecto: Habilita y restablece los campos del formulario
+        /// Requiere: -
+        /// Modifica: Campos del formulario
+        /// Devuelve: -
+        /// </summary>
+        private void DeshabilitarFormulario()
+        {
+            rdExtraviada.Checked = false;
+            txtNumeroTarjeta.CssClass = "form-control chat-input";
+            txtNumeroTarjeta.Enabled = false;
+            txtAsistente.CssClass = "form-control chat-input";
+            txtAsistente.Enabled = false;
+            btnAsignar.Enabled = false;
+            rdExtraviada.Enabled = false;
+           
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 15/04/20
+        /// Efecto: Abre el modal para ver y asignar tarjeta
+        /// Requiere: Click en el icono de la tabla, para el asistente requerido
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void btnVerTarjetaAsistente(object sender, EventArgs e)
         {
-   
+            String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
+            CargaAsistente(carnet);
+
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalTarjetaAsistente();", true);
         }
 
+        /// <summary>
+        /// Karen Guillén
+        /// 15/04/20
+        /// Efecto: Se cargan los datos del asisente, y habilita o deshabilita la posibilidad de modificar. 
+        /// Requiere: - 
+        /// Modifica: #modalTarjetaAsistente
+        /// Devuelve: -
+        /// </summary>
+        protected void CargaAsistente(String carnet)
+        {
+            HabilitarFormulario();
 
+            List<Asistente> asistentes = (List<Asistente>)Session["listaAsistentesFiltrada"];
+            Asistente asistenteSeleccionado = asistentes.FirstOrDefault(asistente => asistente.carnet == carnet);
+            txtAsistente.Text = "";
+            txtAsistente.Text = asistenteSeleccionado.nombreCompleto;
+            List<Tarjeta> listaTarjetas = TarjetaServicios.ObtenerTarjetas();
+
+            foreach (Tarjeta tarjeta in listaTarjetas)
+            {
+                if (tarjeta.asistente.carnet==asistenteSeleccionado.carnet)
+                {
+                    if (tarjeta.numeroTarjeta != ""&&!tarjeta.tarjetaExtraviada)
+                    {
+                        DeshabilitarFormulario();
+                    }
+                    txtNumeroTarjeta.Text = tarjeta.numeroTarjeta;
+                    rdExtraviada.Checked = tarjeta.tarjetaExtraviada;
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 15/04/2020
+        /// Efecto: Asigna una tarjeta al asistente
+        /// Requiere: Click en el botón "Asignar"
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnAsignar_Click(object sender, EventArgs e)
+        {
+
+            Response.Redirect("~/CatalogoUTI/Tarjetas/AdministrarTarjetas.aspx");
+
+        }
 
         /// <summary>
         /// Mariela Calvo
@@ -151,13 +254,14 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            List<Asistente> listaAsistentes = AsistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
 
             Session["listaAsistentes"] = listaAsistentes;
             Session["listaAsistentesFiltrada"] = listaAsistentes;
 
             MostrarAsistentes();
         }
+
 
         #endregion
 

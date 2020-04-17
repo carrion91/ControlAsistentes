@@ -74,15 +74,17 @@ namespace ControlAsistentes.Catalogos
                 unidadesDDL();
                 MostrarAsistentes();
             }
+            
         }
 
 
         #region eventos
         protected void MostrarAsistentes()
         {
-            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
+            int idUnidad = Int32.Parse(ddlUnidad.SelectedValue);
+            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
             String nombreasistente = "";
-
+            
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
             {
                 nombreasistente = txtBuscarNombre.Text;
@@ -114,7 +116,8 @@ namespace ControlAsistentes.Catalogos
         }
         protected void MostrarAsistentesPendienteAprovacion()
         {
-            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
+            int idUnidad = Int32.Parse(ddlUnidadesAsistente.SelectedValue);
+            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
             String nombreasistente = "";
 
              if (!String.IsNullOrEmpty(txtBuscarNombre1.Text))
@@ -177,6 +180,21 @@ namespace ControlAsistentes.Catalogos
             String url = Page.ResolveUrl("~/Default.aspx");
             Response.Redirect(url);
         }
+        public void BotonAtras(object sender, EventArgs e)
+        {
+            String url = Page.ResolveUrl("~/Catalogos/AdministrarAsistentes.aspx");
+            Response.Redirect(url);
+        }
+        public void btncerrar(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
+        }
+        public void botoncerrar(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalObservacionesAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalObservacionesAsistente').hide();", true);
+           
+        }
 
         /// <summary>
         /// Mariela Calvo
@@ -197,7 +215,25 @@ namespace ControlAsistentes.Catalogos
                 ddlUnidad.Items.Add(itemEncargado);
             }
         }
-
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo20
+        /// Efecto: llean el DropDownList con los encargados que se encuentran en la base de datos
+        /// Requiere: - 
+        /// Modifica: DropDownList
+        /// Devuelve: -
+        /// </summary>
+        protected void unidadesAsistenteDDL()
+        {
+            List<Unidad> unidades = new List<Unidad>();
+            ddlUnidadesAsistente.Items.Clear();
+            unidades = UnidadServicios.ObtenerUnidades();
+            foreach (Unidad unidad in unidades)
+            {
+                ListItem itemEncargado = new ListItem(unidad.nombre, unidad.idUnidad + "");
+                ddlUnidadesAsistente.Items.Add(itemEncargado);
+            }
+        }
         /// <summary>
         /// Mariela Calvo
         ///Marzo/2020
@@ -210,6 +246,7 @@ namespace ControlAsistentes.Catalogos
         /// <param name="e"></param>
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
+           
             int idUnidad=Convert.ToInt32(ddlUnidad.SelectedValue);
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
 
@@ -218,13 +255,26 @@ namespace ControlAsistentes.Catalogos
 
             MostrarAsistentes();
         }
+        protected void ddlUnidadAsistente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+         
+            int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
+            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+
+            Session["listaAsistentes"] = listaAsistentes;
+            Session["listaAsistentesFiltrada"] = listaAsistentes;
+            MostrarAsistentesPendienteAprovacion();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
+
+        }
         protected void AsistenteAprobar_OnChanged(object sender, EventArgs e)
         {
 
 
-            String numeroCarné = ((LinkButton)(sender)).CommandArgument.ToString();
+            String idAsistente = ((LinkButton)(sender)).CommandArgument.ToString();
             List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.carnet==numeroCarné).ToList();
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente==Convert.ToInt32(idAsistente)).ToList();
             foreach (Asistente asistente in listaAsistentesFiltrada)
             {
                 txtNumeroCarné.Text = asistente.carnet;
@@ -233,6 +283,11 @@ namespace ControlAsistentes.Catalogos
                 txtNombreAsistente.Enabled = false;
                 txtCantidadHoras.Text = Convert.ToString(asistente.cantidadHorasNombrado);
                 txtCantidadHoras.Enabled = false;
+                txtObservaciones.Enabled = true;
+                AsistenteDDL.Enabled = true;
+                btnGuardar.Visible = true;
+                ButtonCerrar.Visible = true;
+                BtnCerrar.Visible = false;
             }
             SeleccionarEstado();
 
@@ -244,7 +299,9 @@ namespace ControlAsistentes.Catalogos
         protected void AprobarAsistente_OnChanged(object sender, EventArgs e)
         {
             nombramientoServicios.ActualizarNombramientoAsistente(txtNumeroCarné.Text,AsistenteDDL.SelectedValue,txtObservaciones.Text);
-
+            MostrarAsistentesPendienteAprovacion();
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
         }
         protected void SeleccionarEstado_OnChanged(object sender, EventArgs e)
         {
@@ -266,6 +323,7 @@ namespace ControlAsistentes.Catalogos
         }
         protected void btnPendientes_Click(object sender, EventArgs e)
         {
+            unidadesAsistenteDDL();
             MostrarAsistentesPendienteAprovacion();
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
@@ -300,13 +358,13 @@ namespace ControlAsistentes.Catalogos
             //List<ArchivoEjecucion> archivoEjecucion = (List<ArchivoEjecucion>)Session["listaArchivoEjecucion"];
             //String[] infoArchivo = (((LinkButton)(sender)).CommandArgument).ToString().Split(',');
             //String nombreArchivo = infoArchivo[1];
-            String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
+            String idAsistente = (((LinkButton)(sender)).CommandArgument).ToString();
             List<Asistente> listAsistente = new List<Asistente>();
             listAsistente = asistenteServicios.ObtenerAsistentes();
-            List<Asistente> tempAsistente = listAsistente.Where(item => item.carnet.Equals(carnet)).ToList();
-            int idPeriodo = tempAsistente.Where(item => item.carnet.Equals(carnet)).ToList().First().periodo.idPeriodo;
-            int idAsistente = tempAsistente.Where(item => item.carnet.Equals(carnet)).ToList().First().idAsistente;
-            List <Archivo> listArchivosAsistente= archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente),idPeriodo);
+            List<Asistente> tempAsistente = new List<Asistente>();
+            tempAsistente = listAsistente.Where(item => item.idAsistente==Convert.ToInt32(idAsistente)).ToList();
+            int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
             {
                 try
@@ -322,14 +380,106 @@ namespace ControlAsistentes.Catalogos
                 }
                 catch (DirectoryNotFoundException)
                 {
-
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos" + "');", true);
                 }
+               
+            }
+            if (listArchivosAsistente.Count() == 0)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene Archivos asociados" + "');", true);
             }
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
         }
-        #region metodos paginacion
-        public void Paginacion()
+
+
+        protected void btnVerArchivos_Click(object sender, EventArgs e)
+        {
+            String idAsistente = (((LinkButton)(sender)).CommandArgument).ToString();
+            List<Asistente> listAsistente = new List<Asistente>();
+            listAsistente = asistenteServicios.ObtenerAsistentes();
+            List<Asistente> tempAsistente = new List<Asistente>();
+            tempAsistente = listAsistente.Where(item => item.idAsistente==Convert.ToInt32(idAsistente)).ToList();
+            int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            foreach (Archivo archivo in listArchivosAsistente)
+            {
+                try
+                {
+                    FileStream fileStream = new FileStream(archivo.rutaArchivo, FileMode.Open, FileAccess.Read);
+                    BinaryReader binaryReader = new BinaryReader(fileStream);
+                    Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
+
+                    fileStream.Close();
+                    binaryReader.Close();
+
+                    descargar(archivo.rutaArchivo);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos" + "');", true);
+                }
+            }
+            if (listArchivosAsistente.Count() == 0)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene Archivos asociados" + "');", true);
+            }
+          
+        }
+
+        protected void btnVerDetalles(object sender, EventArgs e)
+        {
+            
+            String idAsistente = (((LinkButton)(sender)).CommandArgument).ToString();
+            int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
+            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).ToList();
+            string prueba= Convert.ToString(listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).First().nombrado);
+            foreach (Asistente asistente in listaAsistentesFiltrada)
+            {
+                txtNumeroCarné.Text = asistente.carnet;
+                txtNumeroCarné.Enabled = false;
+                txtNombreAsistente.Text = asistente.nombreCompleto;
+                txtNombreAsistente.Enabled = false;
+                txtCantidadHoras.Text = Convert.ToString(asistente.cantidadHorasNombrado);
+                txtCantidadHoras.Enabled = false;
+                txtObservaciones.Text = asistente.observaciones;
+                txtObservaciones.Enabled = false;
+                SeleccionarEstado();
+                ButtonCerrar.Visible = false;
+                BtnCerrar.Visible = true;
+                if (asistente.nombrado==true)
+                {
+
+                    AsistenteDDL.Items.FindByValue("1".ToString()).Selected = true;
+
+                }
+                else
+                {
+                    if (asistente.nombrado == false && asistente.solicitud == 1)
+                    {
+                        AsistenteDDL.Items.FindByValue("0".ToString()).Selected = true;
+                    }
+                    else
+                    {
+                        ListItem i = new ListItem();
+                        i = new ListItem("Pendiente", "2");
+                        AsistenteDDL.Items.Add(i);
+                        AsistenteDDL.Items.FindByValue("2".ToString()).Selected = true;
+                       
+                    }
+                }
+                AsistenteDDL.Enabled = false;
+                LbEstado.Text = "Estado";
+            }
+            
+            btnGuardar.Visible = false;
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalObservacionesAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalObservacionesAsistente').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "observacionesAsistentes();", true);
+        }
+            #region metodos paginacion
+            public void Paginacion()
         {
             var dt = new DataTable();
             dt.Columns.Add("IndexPagina"); //Inicia en 0

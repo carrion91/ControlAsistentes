@@ -17,19 +17,17 @@ namespace Entidades
 
         public bool disponible { get; set; }
         public bool nombrado { get; set; }
-
-        public int solicitud { get; set; }
         public bool recibeInduccion { get; set; }
         public int cantidadHorasNombrado { get; set; }
         public int cantidadPeriodosNombrado { get; set; }
 
 
-        public Archivo archivo { get; set; }
+        public Archivo achivo { get; set; }
         public Periodo periodo { get; set; }
     
         public Unidad unidad { get; set; }
-      
-
+        public int solicitud { get; set; }
+        public string observaciones { get; set; }
 
 
 

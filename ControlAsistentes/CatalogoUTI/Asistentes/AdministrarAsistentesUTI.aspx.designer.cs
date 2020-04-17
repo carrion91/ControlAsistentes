@@ -177,6 +177,15 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.Label lblTarjetaExtraviada;
 
         /// <summary>
+        /// Control rdExtraviada.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton rdExtraviada;
+
+        /// <summary>
         /// Control lblAsistente.
         /// </summary>
         /// <remarks>
@@ -186,21 +195,21 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.Label lblAsistente;
 
         /// <summary>
-        /// Control ddlEncargadoNueva.
+        /// Control txtAsistente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEncargadoNueva;
+        protected global::System.Web.UI.WebControls.TextBox txtAsistente;
 
         /// <summary>
-        /// Control btnGuardar.
+        /// Control btnAsignar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnGuardar;
+        protected global::System.Web.UI.WebControls.Button btnAsignar;
     }
 }
