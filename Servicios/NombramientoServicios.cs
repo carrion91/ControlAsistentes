@@ -39,5 +39,10 @@ namespace Servicios
         {
             nombramientoDatos.EditarNombramiento(nombramiento);
         }
+
+        public Nombramiento ObtenerDetallesNombramiento(int idNombramiento)
+        {
+           return nombramientoDatos.ObtenerDetallesNombramiento(idNombramiento);
+        }
     }
 }

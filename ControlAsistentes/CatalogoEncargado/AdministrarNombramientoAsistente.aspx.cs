@@ -272,13 +272,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "Se registró el asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
+                (this.Master as SiteMaster).Toastr("success", "Formulario incompleto");
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
             }
 
@@ -329,7 +328,7 @@ namespace ControlAsistentes.CatalogoEncargado
             if (archivosRepetidos.Trim() != "")
             {
                 archivosRepetidos = archivosRepetidos.Remove(archivosRepetidos.Length - 3);
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre");
             }
 
             return listaArchivos;
@@ -499,12 +498,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaNombramientos;
                 Session["listaAsistentesFiltrada"] = listaNombramientos;
                 MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El nombramiento del asistente fue eliminado exitosamente!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "El nombramiento del asistente fue eliminado exitosamente!");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarEliminarNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarNombramiento').hide();", true);
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no pudo ser eliminada, intente de nuevo" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "La unidad no pudo ser eliminada, intente de nuevo");
             }
         }
         /// <summary>
@@ -522,7 +521,7 @@ namespace ControlAsistentes.CatalogoEncargado
             int idNombramiento = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
             List<Nombramiento> nombramientos = nombramientoServicios.ObtenerNombramientosPorUnidad(unidadEncargado.idUnidad);
             nombramientoSeleccionado = nombramientos.FirstOrDefault(a => a.idNombramiento == idNombramiento);
-
+            int AS= nombramientoSeleccionado.asistente.idAsistente;
             txtHorasM.CssClass = "form-control";
             txtAsistenteM.CssClass = "form-control";
             txtPeriodoM.CssClass = "form-control";
@@ -548,6 +547,7 @@ namespace ControlAsistentes.CatalogoEncargado
         /// </summary>
         protected void editarNombramiento_Click(object sender, EventArgs e)
         {
+            
             nombramientoSeleccionado.listaArchivos = archivoServicios.ObtenerArchivoAsistente(nombramientoSeleccionado.idNombramiento, nombramientoSeleccionado.periodo.idPeriodo);
             int editado = 0;
 
@@ -560,43 +560,53 @@ namespace ControlAsistentes.CatalogoEncargado
                 nombramientoServicios.EditarNombramiento(nombramiento);
 
                 List<FileUpload> listaArchivosEditar = new List<FileUpload>();
-                listaArchivosEditar.Add(fileExpedienteM);
-                listaArchivosEditar.Add(fileInformeM);
-                listaArchivosEditar.Add(fileCVM);
-                listaArchivosEditar.Add(fileCuentaM);
+                List<int> tipoArchivos = new List<int>();
                 
+                if (fileExpedienteM.HasFiles)
+                {
+                    listaArchivosEditar.Add(fileExpedienteM);
+                    tipoArchivos.Add(1);
+                }
+                if (fileInformeM.HasFiles)
+                {
+                    listaArchivosEditar.Add(fileInformeM);
+                    tipoArchivos.Add(2);
+                }
+                if (fileCVM.HasFiles)
+                {
+                    listaArchivosEditar.Add(fileCVM);
+                    tipoArchivos.Add(3);
+                }
+                if (fileCuentaM.HasFiles)
+                {
+                    listaArchivosEditar.Add(fileCVM);
+                    tipoArchivos.Add(4);
+                }
+
+
 
                 if (listaArchivosEditar.Count > 0)
                 {
-                    foreach (Archivo archivo in nombramiento.listaArchivos)
+                    foreach (FileUpload fileUp in listaArchivosEditar)
                     {
-                        foreach (FileUpload fileUp in listaArchivosEditar)
+                        foreach (int tipo in tipoArchivos)
                         {
-                            editado = editarArchivos(nombramientoSeleccionado,archivo, fileUp);
-                        }
+                            editado = editarArchivos(nombramientoSeleccionado, fileUp,tipo);
+                        }                        
                     }
-                } 
+                }
 
                 List<Nombramiento> listaAsistentes = asistenteServicios.ObtenerAsistentesXUnidadSinNombrar(unidadEncargado.idUnidad);
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
 
-                if (editado==1)
-                {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Reemplazo" + "');", true);
-                }
-                else
-                {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Nuevo" + "');", true);
-                }
-
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "Se editó el nombramiento del asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
             }
@@ -638,26 +648,65 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Modifica:
         /// Devuelve: -
         /// </summary>
-        public int editarArchivos(Nombramiento nombramiento,Archivo archivo, FileUpload fileUp)
+        public int editarArchivos(Nombramiento nombramiento, FileUpload fileUp, int tipo)
         {
             int editado = 0;
 
 
             foreach (HttpPostedFile file in fileUp.PostedFiles)
             {
+              
                 String nombreArchivo = Path.GetFileName(file.FileName);
                 nombreArchivo = nombreArchivo.Replace(' ', '_');
                 DateTime fechaHoy = new DateTime();
                 fechaHoy = DateTime.Now;
                 String carpeta = nombramiento.asistente.nombreCompleto + "-" + nombramiento.periodo.semestre + "_" + nombramiento.periodo.anoPeriodo; ;
+                String nuevoTextoConsecutivo = file.FileName;
+                editado = Utilidades.OverWriteFile(fileUp, fechaHoy.Year, nombreArchivo,nuevoTextoConsecutivo,carpeta);
 
-                editado = Utilidades.OverWriteFile(fileUp, fechaHoy.Year, nombreArchivo, carpeta);
+                if (editado== 0)
+                {
+                    Archivo archivoNuevo = new Archivo();
+                    archivoNuevo.nombreArchivo = nombreArchivo;
+                    archivoNuevo.rutaArchivo = Utilidades.path + fechaHoy.Year + "\\" + carpeta + "\\" + nombreArchivo;
+                    archivoNuevo.fechaCreacion = fechaHoy;
+                    archivoNuevo.creadoPor = "Mariela Calvo";//Session["nombreCompleto"].ToString();
+                    archivoNuevo.tipoArchivo = tipo;
+                    int idA=archivoServicios.insertarArchivo(archivoNuevo);
+                    archivoServicios.insertarArchivoNombramiento(idA, nombramiento.idNombramiento);
+                }
             }
-
-
 
             return editado;
         }
+
+        /// <summary>
+        /// Mariela Calvo   
+        /// Abril/2020
+        /// Efecto: Visualmente elimina un asistente de una tarjeta
+        /// Requiere: Clickear el boton "eliminar"  de la tabla de nombramientos
+        /// Modifica: - 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnDetallesNombramiento(object sender, EventArgs e)
+        {
+            int idNombramiento = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            Nombramiento nombramiento = nombramientoServicios.ObtenerDetallesNombramiento(idNombramiento);
+            
+            
+            txtAsistenteD.CssClass = "form-control";
+            txtDetalles.CssClass = "form-control";
+
+
+            txtAsistenteD.Text = nombramiento.asistente.nombreCompleto;
+            txtDetalles.Text = nombramiento.observaciones;
+
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalDetallesNombramiento();", true);
+        }
+
         /// <summary>
         /// Mariela Calvo   
         /// Abril/2020

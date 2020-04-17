@@ -196,11 +196,11 @@ namespace ControlAsistentes
 
 
         // Retorna 1 si logro sobreescribir, 0 si no habia archivo, por lo que no sobreecribio, solo creo un nuevo archivo.
-        public static int OverWriteFile(System.Web.UI.WebControls.FileUpload FileUpload1, int year, string TextConsecutivo, string nuevoTextConsecutivo)
+        public static int OverWriteFile(System.Web.UI.WebControls.FileUpload FileUpload1, int year, string TextConsecutivo, string nuevoTextConsecutivo, String carpeta)
         {
             // Path del directorio donde vamos a guardar el archivo
-            string pathToCheck = path + " " + year;
-
+            string pathToCheck = path + "" + year;
+            pathToCheck = pathToCheck + "\\" + carpeta;
             //Verificamos si existe el directorio, sino existe se crea
             if (!Directory.Exists(pathToCheck))
             {
@@ -208,14 +208,16 @@ namespace ControlAsistentes
             }
 
             // Crear la ruta y el nombre del archivo para comprobar si hay duplicados.
-            string olFile = pathToCheck + "\\" + TextConsecutivo + ".PDF";
-            string newFile = pathToCheck + "\\" + nuevoTextConsecutivo + ".PDF";
+            string olFile = pathToCheck + "\\" + TextConsecutivo;
+            string newFile = pathToCheck + "\\" + nuevoTextConsecutivo;
 
             // Compruebe si ya existe un archivo con el
             // mismo nombre que el archivo que desea cargar .       
             if ((System.IO.File.Exists(olFile)))
             {
                 System.IO.File.Move(olFile, newFile);
+                System.IO.File.Delete(olFile);
+                FileUpload1.SaveAs(newFile);
                 return 1; //El archivo existe
             }
             else
