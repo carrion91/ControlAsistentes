@@ -15,9 +15,11 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
     {
 
         #region variables globales
+
         AsistenteServicios AsistenteServicios = new AsistenteServicios();
         UnidadServicios UnidadServicios = new UnidadServicios();
         TarjetaServicios TarjetaServicios = new TarjetaServicios();
+        UsuariosServicios UsuariosServicios = new UsuariosServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
@@ -39,6 +41,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         }
         #endregion
 
+        #region logica
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1, 2, 5 };
@@ -60,8 +63,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
             }
         }
-
-        #region eventos
 
         protected void MostrarAsistentes()
         {
@@ -96,30 +97,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
             rpAsistentes.DataBind();
             Paginacion();
-        }
-
-
-        /// <summary>
-        ///Mariela Calvo
-        /// marzo/2020
-        /// Efecto: filtra la tabla segun los datos ingresados en los filtros
-        /// Requiere: dar clic en el boton de flitrar e ingresar datos en los filtros
-        /// Modifica: datos de la tabla
-        /// Devuelve: -
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void filtrarAsistentes(object sender, EventArgs e)
-        {
-            paginaActual = 0;
-            MostrarAsistentes();
-
-        }
-
-        public void btnDevolverse(object sender, EventArgs e)
-        {
-            String url = Page.ResolveUrl("~/Default.aspx");
-            Response.Redirect(url);
         }
 
         /// <summary>
@@ -159,31 +136,33 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             txtAsistente.Enabled = false;
             btnAsignar.Enabled = false;
             rdExtraviada.Enabled = false;
-           
+
         }
 
         /// <summary>
         /// Karen Guillén
-        /// 15/04/20
-        /// Efecto: Abre el modal para ver y asignar tarjeta
-        /// Requiere: Click en el icono de la tabla, para el asistente requerido
-        /// Modifica: -
+        /// 17/04/2020
+        /// Efecto: Habilita y restablece los campos del modal Usuario Tarjeta
+        /// Requiere: -
+        /// Modifica: Deshabilita el formulario
         /// Devuelve: -
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void btnVerTarjetaAsistente(object sender, EventArgs e)
+        private void DeshabilitarFormularioUsuario()
         {
-            String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
-            CargaAsistente(carnet);
+            rbDisponible.Enabled = false;
+            txtNombre.CssClass = "form-control chat-input";
+            txtNombre.Enabled = false;
+            txtContrasenia.CssClass = "form-control chat-input";
+            txtContrasenia.Enabled = false;
+            txtAsistenteU.CssClass = "form-control chat-input";
+            txtAsistenteU.Enabled = false;
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalTarjetaAsistente();", true);
         }
 
         /// <summary>
         /// Karen Guillén
         /// 15/04/20
-        /// Efecto: Se cargan los datos del asisente, y habilita o deshabilita la posibilidad de modificar. 
+        /// Efecto: Se cargan los datos del asisente y su respectiva tarjeta, y habilita o deshabilita la posibilidad de modificar. 
         /// Requiere: - 
         /// Modifica: #modalTarjetaAsistente
         /// Devuelve: -
@@ -200,14 +179,17 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
             foreach (Tarjeta tarjeta in listaTarjetas)
             {
-                if (tarjeta.asistente.carnet==asistenteSeleccionado.carnet)
+                if (tarjeta.asistente != null)
                 {
-                    if (tarjeta.numeroTarjeta != ""&&!tarjeta.tarjetaExtraviada)
+                    if (tarjeta.asistente.carnet == asistenteSeleccionado.carnet)
                     {
-                        DeshabilitarFormulario();
+                        if (tarjeta.numeroTarjeta != "" && !tarjeta.tarjetaExtraviada)
+                        {
+                            DeshabilitarFormulario();
+                        }
+                        txtNumeroTarjeta.Text = tarjeta.numeroTarjeta;
+                        rdExtraviada.Checked = tarjeta.tarjetaExtraviada;
                     }
-                    txtNumeroTarjeta.Text = tarjeta.numeroTarjeta;
-                    rdExtraviada.Checked = tarjeta.tarjetaExtraviada;
                 }
             }
 
@@ -215,19 +197,47 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
         /// <summary>
         /// Karen Guillén
-        /// 15/04/2020
-        /// Efecto: Asigna una tarjeta al asistente
-        /// Requiere: Click en el botón "Asignar"
-        /// Modifica: -
+        /// 17/04/20
+        /// Efecto: Se cargan los datos del asisente, y habilita o deshabilita la posibilidad de modificar. 
+        /// Requiere: - 
+        /// Modifica: #modalTarjetaAsistente
         /// Devuelve: -
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void btnAsignar_Click(object sender, EventArgs e)
+        protected void CargaUsuario(String carnet)
         {
+           // HabilitarFormulario();
 
-            Response.Redirect("~/CatalogoUTI/Tarjetas/AdministrarTarjetas.aspx");
+            List<Asistente> asistentes = (List<Asistente>)Session["listaAsistentesFiltrada"];
+            Asistente asistenteSeleccionado = asistentes.FirstOrDefault(asistente => asistente.carnet == carnet);
 
+
+            txtAsistenteU.Text = asistenteSeleccionado.nombreCompleto;
+            DeshabilitarFormularioUsuario();
+
+            List<Usuario> listaUsuarios = UsuariosServicios.ObtenerUsuarios();
+
+            foreach (Usuario usuario in listaUsuarios)
+            {
+                if (usuario.asistente!=null)
+                {
+                    if (usuario.asistente.carnet == asistenteSeleccionado.carnet)
+                    {
+
+                        txtNombre.Text = usuario.nombre;
+                        txtContrasenia.Text = usuario.contraseña;
+                        rbDisponible.Checked = usuario.disponible;
+                        rbDisponible.Checked = true;
+
+                        btnAsignarUsuario.Enabled = false;
+                    }
+                }else
+                    txtNombre.Text = "";
+                    txtContrasenia.Text = "";
+                    rbDisponible.Checked = false;
+
+                    btnAsignarUsuario.Enabled = true;
+
+            }
         }
 
         /// <summary>
@@ -250,6 +260,99 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             }
         }
 
+        #endregion
+
+        #region eventos
+
+        /// <summary>
+        ///Mariela Calvo
+        /// marzo/2020
+        /// Efecto: filtra la tabla segun los datos ingresados en los filtros
+        /// Requiere: dar clic en el boton de flitrar e ingresar datos en los filtros
+        /// Modifica: datos de la tabla
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void filtrarAsistentes(object sender, EventArgs e)
+        {
+            paginaActual = 0;
+            MostrarAsistentes();
+
+        }
+
+        public void btnDevolverse(object sender, EventArgs e)
+        {
+            String url = Page.ResolveUrl("~/Default.aspx");
+            Response.Redirect(url);
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 15/04/20
+        /// Efecto: Abre el modal para ver y asignar tarjeta
+        /// Requiere: Click en el icono de la tabla, para el asistente requerido
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnVerTarjetaAsistente(object sender, EventArgs e)
+        {
+            String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
+            CargaAsistente(carnet);
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalTarjetaAsistente();", true);
+        }
+        
+        /// <summary>
+        /// Karen Guillén
+        /// 17/04/20
+        /// Efecto: Abre el modal para ver y asignar tarjeta
+        /// Requiere: Click en el icono de la tabla, para el asistente requerido
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnVeUsuarioAsistente(object sender, EventArgs e)
+        {
+            String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
+            //CargaAsistente(carnet);
+            CargaUsuario(carnet);
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalUsuarioAsistente();", true);
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 15/04/2020
+        /// Efecto: Redireciona a Administrar Tarjeta
+        /// Requiere: Click en el botón "Asignar" del modal Tarjeta Usuario
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnAsignar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/CatalogoUTI/Tarjetas/AdministrarTarjetas.aspx");
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 17/04/2020
+        /// Efecto: Redirecciona a Administrar Usuarios
+        /// Requiere: Click en el botón "Asignar" del modal Usuario Asistente
+        /// Modifica: -
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnAsignarUsuario_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/CatalogoUTI/Usuarios/AdministrarUsuarios.aspx");
+        }
 
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -261,7 +364,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
             MostrarAsistentes();
         }
-
 
         #endregion
 
