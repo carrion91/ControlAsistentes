@@ -894,7 +894,7 @@
                                         </div>
                                         <div class="col-md-6 col-xs-4 col-sm-4">
                                             <div class="input-group">
-                                                <asp:TextBox class="form-control" ID="txtAsistenteD" runat="server" ReadOnly="true"></asp:TextBox>
+                                                <asp:TextBox class="form-control" ID="txtAsistenteD" runat="server" ReadOnly="true" style="text-align: center"></asp:TextBox>
                                             </div>
 
                                         </div>
@@ -902,32 +902,35 @@
                                      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                         <br />
                                     </div>
-                                     <div class="col-md-12 col-xs-12 col-sm-12">
+                                    <div >
+                                     <div  class="col-md-12 col-xs-12 col-sm-12">
                                         <div class="col-xs-4">
                                             <asp:Label ID="Label18" runat="server" Text="Solicitud <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                         </div>
-                                        <div class="col-md-6 col-xs-4 col-sm-4">
-                                            <div class="input-group">
-                                                <asp:TextBox class="form-control" ID="TextBox1" runat="server" ReadOnly="true"></asp:TextBox>
+                                        <div  class="col-md-6 col-xs-4 col-sm-4">
+                                            <div  class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtSolicitudD" runat="server" ReadOnly="true"  style="text-align: center"></asp:TextBox>
                                             </div>
 
                                         </div>
                                     </div>
+                                     </div>
                                     <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                         <br />
                                     </div>
+                                    
                                     <div class="col-md-12 col-xs-12 col-sm-12">
                                         <div class="col-xs-4">
                                             <asp:Label ID="Label17" runat="server" Text="Detalles Nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
                                         </div>
                                         <div class="col-md-6 col-xs-4 col-sm-4">
-                                            <div class="input-group">
-                                                <asp:TextBox class="form-control" ID="txtDetalles" TextMode="multiline" Columns="50" Rows="5"  runat="server" ReadOnly="true" Width="200"></asp:TextBox>
+                                            <div  class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtDetalles" TextMode="multiline" Columns="50" Rows="5"  runat="server" ReadOnly="true" Width="200" ></asp:TextBox>
                                             </div>
 
                                         </div>
                                     </div>
-
+                                   
                                     <div class="col-md-12 col-xs-12 col-sm-12">
                                         <br />
                                     </div>

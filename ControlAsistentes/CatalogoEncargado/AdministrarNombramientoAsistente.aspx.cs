@@ -699,6 +699,21 @@ namespace ControlAsistentes.CatalogoEncargado
             txtAsistenteD.CssClass = "form-control";
             txtDetalles.CssClass = "form-control";
 
+            if (nombramiento.aprobado)
+            {
+              txtSolicitudD.Style.Add("background-color", "#0BA55E");
+               txtSolicitudD.Text = "APROBADO";
+            }
+            else if (!nombramiento.aprobado)
+            {
+                txtSolicitudD.Style.Add("background-color", "#D96F6F");
+                txtSolicitudD.Text = "RECHAZADO";
+            }
+            else
+            {
+                txtSolicitudD.Style.Add("background-color", "#E88C01");
+                txtSolicitudD.Text = "PENDIENTE";
+            }
 
             txtAsistenteD.Text = nombramiento.asistente.nombreCompleto;
             txtDetalles.Text = nombramiento.observaciones;
