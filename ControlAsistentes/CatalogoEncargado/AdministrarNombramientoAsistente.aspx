@@ -51,7 +51,7 @@
                                 <th>Período Nombramiento</th>
                                 <th>Horas Nombramiento</th>
                                 <th>Períodos Nombrado</th>
-
+                                <th>Documentos</th>
 
                             </tr>
                         </thead>
@@ -96,6 +96,12 @@
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                     <td><%# Eval("cantidadHorasNombrado") %></td>
                                     <td><%# Eval("asistente.cantidadPeriodosNombrado") %></td>
+                                    <td>
+                                        <div id="btnDocs" class="btn-group">
+                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" OnClick="btnVerArchivos_Click" CommandArgument='<%# Eval("asistente.idAsistente") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt" ></span></asp:LinkButton>
+                                        </div>
+                                    </td>
                                 </tr>
 
                             </ItemTemplate>

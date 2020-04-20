@@ -3,6 +3,7 @@ using Servicios;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -721,7 +722,68 @@ namespace ControlAsistentes.CatalogoEncargado
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalDetallesNombramiento();", true);
         }
+        /// <summary>
+        /// Mariela Calvo   
+        /// Abril/2020
+        /// Efecto: Visualmente elimina un asistente de una tarjeta
+        /// Requiere: Clickear el boton "eliminar"  de la tabla de nombramientos
+        /// Modifica: - 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnVerArchivos_Click(object sender, EventArgs e)
+        {
+            String idAsistente = (((LinkButton)(sender)).CommandArgument).ToString();
+            List<Asistente> listAsistente = new List<Asistente>();
+            listAsistente = asistenteServicios.ObtenerAsistentes();
+            List<Asistente> tempAsistente = new List<Asistente>();
+            tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
+            int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            foreach (Archivo archivo in listArchivosAsistente)
+            {
+                try
+                {
+                    FileStream fileStream = new FileStream(archivo.rutaArchivo, FileMode.Open, FileAccess.Read);
+                    BinaryReader binaryReader = new BinaryReader(fileStream);
+                    Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
 
+                    fileStream.Close();
+                    binaryReader.Close();
+
+                    descargar(archivo.rutaArchivo);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos" + "');", true);
+                }
+            }
+            if (listArchivosAsistente.Count() == 0)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene Archivos asociados" + "');", true);
+            }
+
+        }
+        /// <summary>
+        /// Mariela Calvo   
+        /// Abril/2020
+        /// Efecto: Permite descargar los documentos para que puedan verlos
+        /// Requiere: Clickear el boton "Ver documentos" de la tabla nombramiento
+        /// Modifica: - 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void descargar(string ruta)
+        {
+
+            Process proceso = new Process();
+            proceso.StartInfo.FileName = ruta;
+            proceso.Start();
+
+
+        }
         /// <summary>
         /// Mariela Calvo   
         /// Abril/2020
