@@ -151,7 +151,7 @@ namespace AccesoDatos
 			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
 			List<Asistente> asistentes = new List<Asistente>();
 
-			String consulta = @"SELECT id_Asistente,nombre_completo,carnet FROM Asistente WHERE id_asistente NOT IN (SELECT a.id_asistente FROM Asistente a JOIN Usuario u ON a.id_asistente = u.id_asistente) AND a.disponible=1;";
+			String consulta = @"SELECT id_Asistente,nombre_completo,carnet FROM Asistente WHERE id_asistente NOT IN (SELECT a.id_asistente FROM Asistente a JOIN Usuario u ON a.id_asistente = u.id_asistente)";
 
 			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 

@@ -19,6 +19,7 @@ namespace ControlAsistentes.Catalogos
         AsistenteServicios asistenteServicios = new AsistenteServicios();
         UnidadServicios UnidadServicios = new UnidadServicios();
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
+        Nombramiento nombramientoS = new Nombramiento();
         ArchivoServicios archivoServicios = new ArchivoServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
@@ -67,9 +68,11 @@ namespace ControlAsistentes.Catalogos
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
-                Session["listaAsistentes"] = listaAsistentes;
-                Session["listaAsistentesFiltrada"] = listaAsistentes;
+
+                List<Nombramiento> listaNombramiento = nombramientoServicios.ObtenerNombramientos();
+                
+                Session["listaAsistentes"] = listaNombramiento;
+                Session["listaAsistentesFiltrada"] = listaNombramiento;
                 unidadesDDL();
                 MostrarAsistentes();
             }
@@ -81,7 +84,7 @@ namespace ControlAsistentes.Catalogos
         protected void MostrarAsistentes()
         {
             int idUnidad = Int32.Parse(ddlUnidad.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            List<Nombramiento> listaAsistentes= nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
             String nombreasistente = "";
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
@@ -89,7 +92,7 @@ namespace ControlAsistentes.Catalogos
                 nombreasistente = txtBuscarNombre.Text;
             }
 
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
+            List<Nombramiento> listaAsistentesFiltrada = (List<Nombramiento>)listaAsistentes.Where(nombramiento => nombramiento.asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper())).ToList();
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -113,10 +116,10 @@ namespace ControlAsistentes.Catalogos
             rpAsistentes.DataBind();
             Paginacion();
         }
-        protected void MostrarAsistentesPendienteAprovacion()
+        protected void MostrarAsistentesPendienteAprobacion()
         {
             int idUnidad = Int32.Parse(ddlUnidadesAsistente.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
             String nombreasistente = "";
 
             if (!String.IsNullOrEmpty(txtBuscarNombre1.Text))
@@ -124,7 +127,7 @@ namespace ControlAsistentes.Catalogos
                 nombreasistente = txtBuscarNombre1.Text;
             }
 
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado == false && asistente.solicitud == 0).ToList();
+            List<Nombramiento> listaAsistentesFiltrada = (List<Nombramiento>)listaAsistentes.Where(nombramiento => nombramiento.asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && nombramiento.aprobado == false && nombramiento.solicitud == 0).ToList();
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -152,7 +155,7 @@ namespace ControlAsistentes.Catalogos
         public void filtrarAsistentesPendintes(object sender, EventArgs e)
         {
             paginaActual2 = 0;
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
 
@@ -247,7 +250,7 @@ namespace ControlAsistentes.Catalogos
         {
 
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
 
             Session["listaAsistentes"] = listaAsistentes;
             Session["listaAsistentesFiltrada"] = listaAsistentes;
@@ -258,11 +261,11 @@ namespace ControlAsistentes.Catalogos
         {
 
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
+            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
 
             Session["listaAsistentes"] = listaAsistentes;
             Session["listaAsistentesFiltrada"] = listaAsistentes;
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
 
@@ -270,18 +273,18 @@ namespace ControlAsistentes.Catalogos
         protected void AsistenteAprobar_OnChanged(object sender, EventArgs e)
         {
 
-
-            String idAsistente = ((LinkButton)(sender)).CommandArgument.ToString();
-            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).ToList();
-            foreach (Asistente asistente in listaAsistentesFiltrada)
+            int idNombramiento=Convert.ToInt32(((LinkButton)(sender)).CommandArgument.ToString());
+            nombramientoS = nombramientoServicios.ObtenerDetallesNombramiento(idNombramiento);
+            List<Nombramiento> listaAsistentes = (List<Nombramiento>)Session["listaAsistentes"];
+            List<Nombramiento> listaAsistentesFiltrada = (List<Nombramiento>)listaAsistentes.Where(nombramiento =>nombramiento.idNombramiento == Convert.ToInt32(idNombramiento)).ToList();
+            
+            
+            
+            foreach (Nombramiento nombramiento in listaAsistentesFiltrada)
             {
-                txtNumeroCarné.Text = asistente.carnet;
-                txtNumeroCarné.Enabled = false;
-                txtNombreAsistente.Text = asistente.nombreCompleto;
-                txtNombreAsistente.Enabled = false;
-                txtCantidadHoras.Text = Convert.ToString(asistente.cantidadHorasNombrado);
-                txtCantidadHoras.Enabled = false;
+                txtNumeroCarné.Text = nombramiento.asistente.carnet;
+                txtNombreAsistente.Text = nombramiento.asistente.nombreCompleto;
+                txtCantidadHoras.Text = Convert.ToString(nombramiento.cantidadHorasNombrado);
                 txtObservaciones.Enabled = true;
                 AsistenteDDL.Enabled = true;
                 btnGuardar.Visible = true;
@@ -297,8 +300,18 @@ namespace ControlAsistentes.Catalogos
         }
         protected void AprobarAsistente_OnChanged(object sender, EventArgs e)
         {
-            nombramientoServicios.ActualizarNombramientoAsistente(txtNumeroCarné.Text, AsistenteDDL.SelectedValue, txtObservaciones.Text);
-            MostrarAsistentesPendienteAprovacion();
+            int a =Convert.ToInt32(AsistenteDDL.SelectedValue.ToString());
+            int solicitud = 0;
+            if (a==1)
+            {
+                solicitud = 1;
+            }
+            else {
+                solicitud = 2;
+            }
+           
+            nombramientoServicios.ActualizarNombramientoAsistente(txtNumeroCarné.Text,a , txtObservaciones.Text,solicitud);
+            MostrarAsistentesPendienteAprobacion();
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
         }
@@ -323,7 +336,7 @@ namespace ControlAsistentes.Catalogos
         protected void btnPendientes_Click(object sender, EventArgs e)
         {
             unidadesAsistenteDDL();
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
@@ -429,33 +442,31 @@ namespace ControlAsistentes.Catalogos
         protected void btnVerDetalles(object sender, EventArgs e)
         {
 
-            String idAsistente = (((LinkButton)(sender)).CommandArgument).ToString();
+            String idNombramiento = (((LinkButton)(sender)).CommandArgument).ToString();
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).ToList();
-            string prueba = Convert.ToString(listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).First().nombrado);
-            foreach (Asistente asistente in listaAsistentesFiltrada)
+            List<Nombramiento> listaAsistentes =nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
+            List<Nombramiento> listaAsistentesFiltrada = (List<Nombramiento>)listaAsistentes.Where(nombramiento => nombramiento.idNombramiento == Convert.ToInt32(idNombramiento)).ToList();
+            string prueba = Convert.ToString(listaAsistentes.Where(nombramiento => nombramiento.idNombramiento == Convert.ToInt32(idNombramiento)).First().aprobado);
+            foreach (Nombramiento nombramiento in listaAsistentesFiltrada)
             {
-                txtNumeroCarné.Text = asistente.carnet;
-                txtNumeroCarné.Enabled = false;
-                txtNombreAsistente.Text = asistente.nombreCompleto;
-                txtNombreAsistente.Enabled = false;
-                txtCantidadHoras.Text = Convert.ToString(asistente.cantidadHorasNombrado);
-                txtCantidadHoras.Enabled = false;
-                txtObservaciones.Text = asistente.observaciones;
-                txtObservaciones.Enabled = false;
+                txtNumeroCarné.Text = nombramiento.asistente.carnet;
+                //txtNumeroCarné.Enabled = false;
+                txtNombreAsistente.Text = nombramiento.asistente.nombreCompleto;
+                //txtNombreAsistente.Enabled = false;
+                txtCantidadHoras.Text = Convert.ToString(nombramiento.cantidadHorasNombrado);
+                //txtCantidadHoras.Enabled = false;
+                txtObservaciones.Text = nombramiento.observaciones;
+                txtObservaciones.ReadOnly = true;
                 SeleccionarEstado();
                 ButtonCerrar.Visible = false;
                 BtnCerrar.Visible = true;
-                if (asistente.nombrado == true)
+                if (nombramiento.aprobado == true)
                 {
-
                     AsistenteDDL.Items.FindByValue("1".ToString()).Selected = true;
-
                 }
                 else
                 {
-                    if (asistente.nombrado == false && asistente.solicitud == 1)
+                    if (nombramiento.aprobado == false && nombramiento.solicitud == 1)
                     {
                         AsistenteDDL.Items.FindByValue("0".ToString()).Selected = true;
                     }
@@ -663,7 +674,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbPrimero2_Click(object sender, EventArgs e)
         {
             paginaActual2 = 0;
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
         }
 
         /// <summary>
@@ -679,7 +690,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbAnterior2_Click(object sender, EventArgs e)
         {
             paginaActual2 -= 1;
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
         }
 
         /// <summary>
@@ -695,7 +706,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbSiguiente2_Click(object sender, EventArgs e)
         {
             paginaActual2 += 1;
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
         }
 
 
@@ -713,7 +724,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbUltimo2_Click(object sender, EventArgs e)
         {
             paginaActual2 = (Convert.ToInt32(ViewState["TotalPaginas"]) - 1);
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
         }
 
         /// <summary>
@@ -730,7 +741,7 @@ namespace ControlAsistentes.Catalogos
         {
             if (!e.CommandName.Equals("nuevaPagina")) return;
             paginaActual2 = Convert.ToInt32(e.CommandArgument.ToString());
-            MostrarAsistentesPendienteAprovacion();
+            MostrarAsistentesPendienteAprobacion();
         }
 
         /// Mariela Calvo

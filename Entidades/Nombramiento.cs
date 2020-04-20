@@ -30,6 +30,7 @@ namespace Entidades
            
             public bool disponible { get; set; }
 
+            public int solicitud { get; set; }
             public List<Archivo> listaArchivos { get; set; }
 
 

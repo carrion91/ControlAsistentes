@@ -32,7 +32,7 @@
 
                 <div class="col-md-6 col-xs-6 col-sm-6">
                     <h4>Unidad</h4>
-                    <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
                 </div>
 
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
@@ -91,27 +91,27 @@
 
 
                                     <td></td>
-                                    <td style='<%# Convert.ToString(Eval("nombrado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("nombrado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("1")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
-                                        <%# Eval("nombreCompleto") %></td>
-                                    <td><%# Eval("carnet") %></td>
+                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
+                                        <%# Eval("asistente.nombreCompleto") %></td>
+                                    <td><%# Eval("asistente.carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <td>
                                         <div class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("idAsistente") %>' OnClick=" btnVerDetalles"><div class='<%# Eval("nombrado") %>'></div></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnDetalles" runat="server" ToolTip="Detalles" CommandArgument='<%# Eval("idNombramiento") %>' OnClick=" btnVerDetalles"><div class='<%# Eval("aprobado") %>'></div></asp:LinkButton>
                                         </div>
                                     </td>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                     <td><%# Eval("cantidadHorasNombrado") %></td>
-                                    <td><%# Eval("cantidadPeriodosNombrado") %></td>
+                                    <td><%# Eval("asistente.cantidadPeriodosNombrado") %></td>
                                     <td>
                                         <div id="btnDocs" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" OnClick="btnVerArchivos_Click" CommandArgument='<%# Eval("idAsistente") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt" ></span></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" OnClick="btnVerArchivos_Click" CommandArgument='<%# Eval("asistente.idAsistente") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt" ></span></asp:LinkButton>
                                         </div>
                                     </td>
-                                     <td style="display:none;"><%# Eval("idAsistente") %></td>
-                                    <td style="display:none;"><%# Eval("nombrado") %></td>
+                                     <td style="display:none;"><%# Eval("asistente.idAsistente") %></td>
+                                    <td style="display:none;"><%# Eval("aprobado") %></td>
                                     <td style="display:none;"><%# Eval("solicitud") %></td>
 
 
@@ -125,9 +125,7 @@
                         </asp:Repeater>
                     </table>
                 </div>
-                <div style="text-align: right">
-                    <asp:Button ID="btnAtras" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick="btnDevolverse" />
-                </div>
+                
                 <%--paginación--%>
                 <div class="col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                     <center>
@@ -210,7 +208,7 @@
                                 <tr style="text-align: center">
 
                                     <td>
-                                        <%# Eval("nombreCompleto") %>
+                                        <%# Eval("asistente.nombreCompleto") %>
                                     </td>
                                     <td>
                                         <%# Eval("expediente") %>
@@ -253,43 +251,46 @@
                                         <%-- campos a llenar --%>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblNombreAsistente" runat="server" Text="Nombre Asistente <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblNombreAsistente" runat="server" o Text="Nombre Asistente <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                            <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:TextBox class="form-control" ID="txtNombreAsistente" runat="server"></asp:TextBox>
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtNombreAsistente" runat="server" ReadOnly="true"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
                                                 <asp:Label ID="lblCarnet" runat="server" Text="Numero de Carné <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                            <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:TextBox class="form-control" ID="txtNumeroCarné" runat="server"></asp:TextBox>
+                                             <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtNumeroCarné" runat="server" ReadOnly="true"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
                                             <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Cantidad de horas nombrado <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:Label ID="lblCantidadHoras" runat="server" Text="Horas nombramiento <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                            <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:TextBox class="form-control" ID="txtCantidadHoras" runat="server"></asp:TextBox>
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txtCantidadHoras" runat="server" ReadOnly="true"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
-                                            <div class="col-md-8 col-xs-8 col-sm-8">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
                                                 <asp:Label ID="LbEstado" runat="server" Text="Seleccione un estado <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                            <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:DropDownList AutoPostBack="true" ID="AsistenteDDL" runat="server" CssClass="form-control" OnSelectedIndexChanged="SeleccionarEstado_OnChanged"></asp:DropDownList>
+                                             <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:DropDownList  ID="AsistenteDDL" runat="server" CssClass="form-control" OnSelectedIndexChanged="SeleccionarEstado_OnChanged"></asp:DropDownList>
                                             </div>
                                         </div>
                                          <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
-                                            <div class="col-md-3 col-xs-3 col-sm-3">
-                                                <asp:Label ID="Label1" runat="server" Text="Observaciones <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                          <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="lbObser" runat="server" Text="Observaciones <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
                                             </div>
-                                            <div class="col-md-8 col-xs-8 col-sm-8">
-                                                <asp:TextBox class="form-control" ID="txtObservaciones" runat="server" ></asp:TextBox>
+                                          <div class="col-md-4 col-xs-4 col-sm-4">
+                                            <div  class="input-group">
+                                                <asp:TextBox class="form-control" ID="txtObservaciones" TextMode="multiline" Columns="50" Rows="5"  runat="server"  Width="250" ></asp:TextBox>
                                             </div>
+                                        </div>
+                                            
                                         </div>
                                        
                                 
@@ -323,16 +324,21 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     <h4 class="modal-title">Asistentes pendientes de Aprobación</h4>
                                 </div>
-                                  <div style="text-align: right">
-                                      <asp:Button ID="Button1" runat="server" Text="Atrás" CssClass="btn btn-primary boton-otro" OnClick=" BotonAtras" />
-                                  </div>
+                                  
 
                                 <div class="modal-body">
-                                      <div class="col-md-3 col-xs-3 col-sm-3">
-                                <asp:Label ID="label8" runat="server" Text="Seleccionar una Unidad" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
-                         
-                                <asp:DropDownList ID="ddlUnidadesAsistente" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidadAsistente_SelectedIndexChanged"></asp:DropDownList>
+                                      <div class="col-md-6 col-xs-6 col-sm-6">
+                                <asp:Label ID="label8" runat="server" Text="Seleccione una unidad" Font-Size="Medium" ForeColor="Black" CssClass="label"></asp:Label>
+                                <br />
+                                <asp:DropDownList ID="ddlUnidadesAsistente" class="btn btn-default dropdown-toggle" runat="server"  OnSelectedIndexChanged="ddlUnidadAsistente_SelectedIndexChanged"></asp:DropDownList>
                             </div>
+
+                                    <br />
+
+                                    <br />
+                                    <br />
+
+                                    <br />
                                     <div class="row">
                                         <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
                                             <table class="table table-bordered">
@@ -377,23 +383,23 @@
 
                                                              <td>
                                                                 <div class="btn-group">
-                                                                    <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("carnet") %>' />
-                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idAsistente") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn  glyphicon glyphicon-ok" />
+                                                                    <asp:HiddenField runat="server" ID="HiddenField1" Value='<%# Eval("asistente.carnet") %>' />
+                                                                   <asp:LinkButton ID="btnAsistenteAprobar" runat="server" ToolTip="Seleccionar" CommandArgument='<%# Eval("idNombramiento") %>' OnClick="AsistenteAprobar_OnChanged" CssClass="btn  glyphicon glyphicon-ok" />
                                                                 </div>
                                                             </td>
-                                                            <td><%# Eval("nombreCompleto") %></td>
-                                                            <td><%# Eval("carnet") %></td>
+                                                            <td><%# Eval("asistente.nombreCompleto") %></td>
+                                                            <td><%# Eval("asistente.carnet") %></td>
                                                             <td><%# Eval("unidad.nombre") %></td>
                                                            
                                                             <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
                                                             <td><%# Eval("cantidadHorasNombrado") %></td>
-                                                            <td><%# Eval("cantidadPeriodosNombrado") %></td>
-                                                            <td style="display:none;"><%# Eval("idAsistente") %></td>
+                                                            <td><%# Eval("asistente.cantidadPeriodosNombrado") %></td>
+                                                            <td style="display:none;"><%# Eval("asistente.idAsistente") %></td>
                                                             <td>
                                                                 <div id="btnDocs" class="btn-group">
-                                                                    <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
+                                                                    <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("asistente.carnet") %>' />
 <%--                                                                    <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("carnet") %>'><span id="cambiar" class="glyphicon glyphicon-list-alt"></span></asp:LinkButton>--%>
-                                                                     <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("idAsistente") %>' OnClick="btnVerArchivo_Click" CssClass="glyphicon glyphicon-list-alt" />
+                                                                     <asp:LinkButton ID="btnVerDocs" runat="server" ToolTip="Ver Documentos" CommandArgument='<%# Eval("asistente.idAsistente") %>' OnClick="btnVerArchivo_Click" CssClass="glyphicon glyphicon-list-alt" />
                                                                 </div>
                                                             </td>
 

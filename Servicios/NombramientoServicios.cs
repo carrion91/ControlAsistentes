@@ -18,9 +18,9 @@ namespace Servicios
         {
             return nombramientoDatos.insertarNombramientoAsistente(nombramiento);
         }
-        public void ActualizarNombramientoAsistente(string numeroCarnet, string aprobado, string observaciones)
+        public void ActualizarNombramientoAsistente(string numeroCarnet, int aprobado, string observaciones, int solicitud)
         {
-            nombramientoDatos.actualizarAsistenteNombramiento(numeroCarnet, aprobado, observaciones);
+            nombramientoDatos.actualizarAsistenteNombramiento(numeroCarnet, aprobado, observaciones,solicitud );
         }
 
 
@@ -43,6 +43,11 @@ namespace Servicios
         public Nombramiento ObtenerDetallesNombramiento(int idNombramiento)
         {
            return nombramientoDatos.ObtenerDetallesNombramiento(idNombramiento);
+        }
+
+        public List<Nombramiento> ObtenerNombramientos()
+        {
+            return nombramientoDatos.ObtenerNombramientos();
         }
     }
 }
