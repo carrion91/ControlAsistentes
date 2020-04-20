@@ -45,7 +45,6 @@ namespace ControlAsistentes.Catalogos
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = {1,2,5 };
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
 
             if (!IsPostBack)
@@ -146,11 +145,11 @@ namespace ControlAsistentes.Catalogos
 
                 if (respuesta)
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Período "+anoPeriodo + " habilitado con éxito');", true);
+                    (this.Master as SiteMaster).Toastr("success", "Período " + anoPeriodo + " habilitado con éxito");
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error en habilitar el período "+anoPeriodo +" como actual, intentelo de nuevo" + "');", true);
+                    (this.Master as SiteMaster).Toastr("error", "Error en habilitar el período " + anoPeriodo + " como actual, intentelo de nuevo");
                 }
                 
                 Session["listaPeriodos"] = periodoServicios.ObtenerPeriodos();
@@ -195,7 +194,7 @@ namespace ControlAsistentes.Catalogos
                 txtNuevoP.Text = "";
                 if (respuesta == periodo.anoPeriodo)
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Período " + periodo.anoPeriodo + " registrado con éxito');", true);
+                    (this.Master as SiteMaster).Toastr("success", "Período " + periodo.anoPeriodo + " registrado con éxito");
                     List<Periodo> listaPeriodos = periodoServicios.ObtenerPeriodos();
                     Session["listaPeriodos"] = listaPeriodos;
                     MostrarPeriodos();
@@ -297,11 +296,11 @@ namespace ControlAsistentes.Catalogos
 
             if (listaPeriodos.Contains(periodo))
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al eliminar el período "+periodo.anoPeriodo+", intentelo de nuevo" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "Error al eliminar el período " + periodo.anoPeriodo + ", intentelo de nuevo");
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se eliminó el período  " + periodo.anoPeriodo + " exitosamente" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "Se eliminó el período  " + periodo.anoPeriodo + " exitosamente");
             }
             Session["listaPeriodos"] = listaPeriodos;
 

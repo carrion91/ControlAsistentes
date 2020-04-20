@@ -47,8 +47,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 		{
 			int[] rolesPermitidos = { 1 };
 			Utilidades.escogerMenu(Page, rolesPermitidos);
-			Page.Master.FindControl("menu").Visible = false;
-			Page.Master.FindControl("MenuControl").Visible = false;
+    		Page.Master.FindControl("MenuControl").Visible = false;
 
 			if (!IsPostBack)
 			{
@@ -289,13 +288,13 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 					Session["listaUsuarios"] = listaUsuarios;
 					Session["listaUsuariosFiltrada"] = listaUsuarios;
 					mostrarUsuarios();
-					ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El usuario " + usuario.nombre + " fue registrado con éxito!" + "');", true);
+					(this.Master as SiteMaster).Toastr("success", "El usuario " + usuario.nombre + " fue registrado con éxito!");
 					ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 
 				}
 				catch
 				{
-					ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al insertar el Usuario intente nuevamente" + "');", true);
+					(this.Master as SiteMaster).Toastr("error", "Error al insertar el Usuario intente nuevamente");
 					ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 					ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
 				}
@@ -303,7 +302,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios
 			}
 			else
 			{
-				ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
+				(this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
 				ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoUsuario", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoUsuario').hide();", true);
 				ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoUsuario();", true);
 			}

@@ -112,13 +112,16 @@
                                     <li><a href='<%=Page.ResolveUrl("~/Catalogos/AdministrarPeriodos.aspx") %>'>Periodos</a></li>
                                 </ul>
                             </div>
-                            <%--MENU SECRETARIA--%>
+                            <%--MENU ENCARGADO--%>
                             <div id="MenuNavBarEncargado" runat="server">
                                 <ul class="nav navbar-nav">
                                     <li><a href='<%=Page.ResolveUrl("~/CatalogoEncargado/AdministrarAsistentesEncargado.aspx") %>'>Asistentes</a></li>
                                 </ul>
+                                <ul class="nav navbar-nav">
+                                    <li><a href='<%=Page.ResolveUrl("~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx") %>'>Nombramientos</a></li>
+                                </ul>
                             </div>
-                            <%--MENU SECRETARIA--%>
+                            <%--MENU UTI--%>
                             <div id="MenuNavBarUTI" runat="server">
                                 <ul class="nav navbar-nav">
                                     <li><a href='<%=Page.ResolveUrl("~/CatalogoUTI/Asistentes/AdministrarAsistentes.aspx") %>'>Asistentes</a></li>
@@ -198,12 +201,24 @@
             <div id="MenuEncargado" runat="server" >
                 <div class="gridcontainer clearfix">
                     <div class="grid_3">
-                        <a id="asistentesE"  runat="server">
+                        <a id="asistentesE"  runat="server" href="~/CatalogoEncargado/AdministrarAsistentesEncargado.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">
                                         <h3 class="fa fa-users fa-2x"></h3>
                                         <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Asistentes</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="grid_3">
+                        <a id="nombramientoE"  runat="server" href="~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx">
+                            <div class="fmcircle_out">
+                                <div class="fmcircle_border">
+                                    <div class="fmcircle_in fmcircle_red">
+                                        <h3 class="fa fa-folder-open fa-2x"></h3>
+                                        <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Nombramientos</h3>
                                     </div>
                                 </div>
                             </div>

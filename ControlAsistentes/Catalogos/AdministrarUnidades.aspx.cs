@@ -47,7 +47,6 @@ namespace ControlAsistentes.Catalogos
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1,2,5 };
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
             if (!IsPostBack)
             {
@@ -162,18 +161,17 @@ namespace ControlAsistentes.Catalogos
                     Session["listaUnidades"] = listaUnidades;
                     Session["listaUnidadesFiltrada"] = listaUnidades;
                     MostrarUnidades();
-                    
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad " + unidad.nombre + " fue registrada con éxito!" + "');", true);
+                    (this.Master as SiteMaster).Toastr("success", "La unidad " + unidad.nombre + " fue registrada con éxito!");
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevaUnidad').hide();", true);
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no fue registrada, intente de nuevo" + "');", true);
+                    (this.Master as SiteMaster).Toastr("error", "La unidad no fue registrada, intente de nuevo");
                 }
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevaUnidad').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevaUnidad();", true);
             }
@@ -273,7 +271,7 @@ namespace ControlAsistentes.Catalogos
            
             if (!listaUnidades.Contains(unidadSeleccionada))
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad "+unidadSeleccionada.nombre+" fue eliminada exitosamente!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "La unidad " + unidadSeleccionada.nombre + " fue eliminada exitosamente!");
                 Session["listaUnidades"] = listaUnidades;
                 Session["listaUnidadesFiltrada"] = listaUnidades;
                 MostrarUnidades();
@@ -281,7 +279,7 @@ namespace ControlAsistentes.Catalogos
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no pudo ser eliminada, intente de nuevo" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "La unidad no pudo ser eliminada, intente de nuevo");
             }  
         }
 
@@ -336,11 +334,12 @@ namespace ControlAsistentes.Catalogos
                 Session["listaUnidadesFiltradas"] = listaUnidades;
 
                 MostrarUnidades();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad  fue modificada con éxito!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "La unidad  fue modificada con éxito!");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarUnidad').hide();", true);
             }
             else
             {
+                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarUnidad').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarUnidad();", true);
             }

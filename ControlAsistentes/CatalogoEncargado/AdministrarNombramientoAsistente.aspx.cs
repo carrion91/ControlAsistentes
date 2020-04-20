@@ -67,7 +67,7 @@ namespace ControlAsistentes.CatalogoEncargado
         {
             object[] rolesPermitidos = { 1, 2, 5 };
             Page.Master.FindControl("MenuControl").Visible = false;
-
+           
 
             if (Session["nombreCompleto"] != null)
             {
@@ -756,12 +756,13 @@ namespace ControlAsistentes.CatalogoEncargado
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos" + "');", true);
+                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
+                 
                 }
             }
             if (listArchivosAsistente.Count() == 0)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene Archivos asociados" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "No contiene Archivos asociados");
             }
 
         }

@@ -18,12 +18,12 @@ namespace ControlAsistentes.Catalogos
         #region variables globales
         AsistenteServicios asistenteServicios = new AsistenteServicios();
         UnidadServicios UnidadServicios = new UnidadServicios();
-        NombramientoServicios nombramientoServicios=new NombramientoServicios();
+        NombramientoServicios nombramientoServicios = new NombramientoServicios();
         ArchivoServicios archivoServicios = new ArchivoServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
         int primerIndex, ultimoIndex, primerIndex2, ultimoIndex2;
         private int elmentosMostrar = 10;
-        
+
 
         private int paginaActual
         {
@@ -60,7 +60,6 @@ namespace ControlAsistentes.Catalogos
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1, 2, 5 };
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
 
             if (!IsPostBack)
@@ -68,13 +67,13 @@ namespace ControlAsistentes.Catalogos
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List <Asistente> listaAsistentes= asistenteServicios.ObtenerAsistentes();
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 unidadesDDL();
                 MostrarAsistentes();
             }
-            
+
         }
 
 
@@ -84,7 +83,7 @@ namespace ControlAsistentes.Catalogos
             int idUnidad = Int32.Parse(ddlUnidad.SelectedValue);
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
             String nombreasistente = "";
-            
+
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
             {
                 nombreasistente = txtBuscarNombre.Text;
@@ -110,7 +109,7 @@ namespace ControlAsistentes.Catalogos
             lbPrimero.Enabled = !pgsource.IsFirstPage;
             lbUltimo.Enabled = !pgsource.IsLastPage;
             rpAsistentes.DataSource = pgsource;
-            
+
             rpAsistentes.DataBind();
             Paginacion();
         }
@@ -120,12 +119,12 @@ namespace ControlAsistentes.Catalogos
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
             String nombreasistente = "";
 
-             if (!String.IsNullOrEmpty(txtBuscarNombre1.Text))
+            if (!String.IsNullOrEmpty(txtBuscarNombre1.Text))
             {
                 nombreasistente = txtBuscarNombre1.Text;
             }
 
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado==false && asistente.solicitud==0).ToList();
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(nombreasistente.ToUpper()) && asistente.nombrado == false && asistente.solicitud == 0).ToList();
 
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
@@ -172,7 +171,7 @@ namespace ControlAsistentes.Catalogos
         {
             paginaActual = 0;
             MostrarAsistentes();
-            
+
         }
 
         public void btnDevolverse(object sender, EventArgs e)
@@ -193,7 +192,7 @@ namespace ControlAsistentes.Catalogos
         public void botoncerrar(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalObservacionesAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalObservacionesAsistente').hide();", true);
-           
+
         }
 
         /// <summary>
@@ -246,8 +245,8 @@ namespace ControlAsistentes.Catalogos
         /// <param name="e"></param>
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
-            int idUnidad=Convert.ToInt32(ddlUnidad.SelectedValue);
+
+            int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
 
             Session["listaAsistentes"] = listaAsistentes;
@@ -257,7 +256,7 @@ namespace ControlAsistentes.Catalogos
         }
         protected void ddlUnidadAsistente_SelectedIndexChanged(object sender, EventArgs e)
         {
-         
+
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
 
@@ -274,7 +273,7 @@ namespace ControlAsistentes.Catalogos
 
             String idAsistente = ((LinkButton)(sender)).CommandArgument.ToString();
             List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
-            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente==Convert.ToInt32(idAsistente)).ToList();
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).ToList();
             foreach (Asistente asistente in listaAsistentesFiltrada)
             {
                 txtNumeroCarné.Text = asistente.carnet;
@@ -298,7 +297,7 @@ namespace ControlAsistentes.Catalogos
         }
         protected void AprobarAsistente_OnChanged(object sender, EventArgs e)
         {
-            nombramientoServicios.ActualizarNombramientoAsistente(txtNumeroCarné.Text,AsistenteDDL.SelectedValue,txtObservaciones.Text);
+            nombramientoServicios.ActualizarNombramientoAsistente(txtNumeroCarné.Text, AsistenteDDL.SelectedValue, txtObservaciones.Text);
             MostrarAsistentesPendienteAprovacion();
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
@@ -312,13 +311,13 @@ namespace ControlAsistentes.Catalogos
         protected void SeleccionarEstado()
         {
             AsistenteDDL.Items.Clear();
-            
-                ListItem i;
-                i = new ListItem("Aprobado", "1");
-                AsistenteDDL.Items.Add(i);
-                i = new ListItem("Rechazado", "0");
-                AsistenteDDL.Items.Add(i);
-            
+
+            ListItem i;
+            i = new ListItem("Aprobado", "1");
+            AsistenteDDL.Items.Add(i);
+            i = new ListItem("Rechazado", "0");
+            AsistenteDDL.Items.Add(i);
+
 
         }
         protected void btnPendientes_Click(object sender, EventArgs e)
@@ -362,7 +361,7 @@ namespace ControlAsistentes.Catalogos
             List<Asistente> listAsistente = new List<Asistente>();
             listAsistente = asistenteServicios.ObtenerAsistentes();
             List<Asistente> tempAsistente = new List<Asistente>();
-            tempAsistente = listAsistente.Where(item => item.idAsistente==Convert.ToInt32(idAsistente)).ToList();
+            tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
             int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
             List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
@@ -380,16 +379,16 @@ namespace ControlAsistentes.Catalogos
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos" + "');", true);
+                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
                 }
-               
+
             }
             if (listArchivosAsistente.Count() == 0)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene Archivos asociados" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "No contiene Archivos asociados");
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
             }
-            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
         }
 
 
@@ -399,7 +398,7 @@ namespace ControlAsistentes.Catalogos
             List<Asistente> listAsistente = new List<Asistente>();
             listAsistente = asistenteServicios.ObtenerAsistentes();
             List<Asistente> tempAsistente = new List<Asistente>();
-            tempAsistente = listAsistente.Where(item => item.idAsistente==Convert.ToInt32(idAsistente)).ToList();
+            tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
             int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
             List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
@@ -417,24 +416,24 @@ namespace ControlAsistentes.Catalogos
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos" + "');", true);
+                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
                 }
             }
             if (listArchivosAsistente.Count() == 0)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene Archivos asociados" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "No contiene Archivos asociados");           
             }
-          
+
         }
 
         protected void btnVerDetalles(object sender, EventArgs e)
         {
-            
+
             String idAsistente = (((LinkButton)(sender)).CommandArgument).ToString();
             int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
             List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentesPorUnidad(idUnidad);
             List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).ToList();
-            string prueba= Convert.ToString(listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).First().nombrado);
+            string prueba = Convert.ToString(listaAsistentes.Where(asistente => asistente.idAsistente == Convert.ToInt32(idAsistente)).First().nombrado);
             foreach (Asistente asistente in listaAsistentesFiltrada)
             {
                 txtNumeroCarné.Text = asistente.carnet;
@@ -448,7 +447,7 @@ namespace ControlAsistentes.Catalogos
                 SeleccionarEstado();
                 ButtonCerrar.Visible = false;
                 BtnCerrar.Visible = true;
-                if (asistente.nombrado==true)
+                if (asistente.nombrado == true)
                 {
 
                     AsistenteDDL.Items.FindByValue("1".ToString()).Selected = true;
@@ -466,20 +465,20 @@ namespace ControlAsistentes.Catalogos
                         i = new ListItem("Pendiente", "2");
                         AsistenteDDL.Items.Add(i);
                         AsistenteDDL.Items.FindByValue("2".ToString()).Selected = true;
-                       
+
                     }
                 }
                 AsistenteDDL.Enabled = false;
                 LbEstado.Text = "Estado";
             }
-            
+
             btnGuardar.Visible = false;
 
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalObservacionesAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalObservacionesAsistente').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "observacionesAsistentes();", true);
         }
-            #region metodos paginacion
-            public void Paginacion()
+        #region metodos paginacion
+        public void Paginacion()
         {
             var dt = new DataTable();
             dt.Columns.Add("IndexPagina"); //Inicia en 0
@@ -596,7 +595,7 @@ namespace ControlAsistentes.Catalogos
             MostrarAsistentes();
         }
 
-      
+
 
         /// <summary>
         /// Mariela Calvo

@@ -45,7 +45,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1, 2, 5 };
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
 
             if (!IsPostBack)

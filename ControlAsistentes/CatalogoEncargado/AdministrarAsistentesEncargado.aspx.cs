@@ -50,9 +50,7 @@ namespace ControlAsistentes.CatalogoEncargado
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1, 2, 5 };
-            Page.Master.FindControl("menu").Visible = false;
             Page.Master.FindControl("MenuControl").Visible = false;
-            //Session["nombreCompleto"] = "Wilson Arguello";
 
             if (Session["nombreCompleto"] != null)
             {
@@ -153,8 +151,6 @@ namespace ControlAsistentes.CatalogoEncargado
             if (validarAsistenteNuevo())
             {
                 int idAsistente = 0;
-
-
                 /* INSERCIÓN ASISTENTE */
                 Asistente asistente = new Asistente();
                 asistente.nombreCompleto = txtNombre.Text;
@@ -169,12 +165,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario incompleto" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoAsistente();", true);
             }
@@ -314,7 +310,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentesFiltrada"] = listaAsistentees;
 
                 MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + asistenteEditar.nombreCompleto + "  fue modificada con éxito!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "El asistente " + asistenteEditar.nombreCompleto + "  fue modificada con éxito!");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarAsistente').hide();", true);
             }
             else
@@ -371,12 +367,13 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + asistenteSeleccionado.nombreCompleto + " fue eliminado exitosamente!" + "');", true);
+                (this.Master as SiteMaster).Toastr("success", "El asistente " + asistenteSeleccionado.nombreCompleto + " fue eliminado exitosamente!");
+             
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarAsistente').hide();", true);
             }
             else
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no pudo ser eliminada, intente de nuevo" + "');", true);
+                (this.Master as SiteMaster).Toastr("error", "El asistente no pudo ser eliminado, intente de nuevo");
             }
         }
         #endregion
