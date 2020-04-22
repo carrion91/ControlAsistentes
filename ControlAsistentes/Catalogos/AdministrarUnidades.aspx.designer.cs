@@ -204,13 +204,13 @@ namespace ControlAsistentes.Catalogos
         protected global::System.Web.UI.WebControls.Button btnGuardar;
 
         /// <summary>
-        /// Control UpdatePanel6.
+        /// Control UpdatePanel1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel6;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
 
         /// <summary>
         /// Control lbUnidadE1.
@@ -228,7 +228,7 @@ namespace ControlAsistentes.Catalogos
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbUnidadE2;
+        protected global::System.Web.UI.WebControls.TextBox lbUnidadE2;
 
         /// <summary>
         /// Control lbDescripcionUnidadEliminar.

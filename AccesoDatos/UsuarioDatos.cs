@@ -32,7 +32,7 @@ namespace AccesoDatos
 
 			String consulta = @"SELECT u.id_usuario, u.nombre_completo as usuario, u.contrasenia, u.disponible, 
 								a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado 
-								FROM Usuario u LEFT JOIN Asistente a ON u.id_asistente = a.id_asistente;";
+								FROM Usuario u LEFT JOIN Asistente a ON u.id_asistente = a.id_asistente WHERE u.eliminada=0;";
 
 			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 			SqlDataReader reader;
@@ -104,6 +104,113 @@ namespace AccesoDatos
 			connection.Close();
 
 			return idUsuarios;
+		}
+
+		/// <summary>
+		/// Mariela Calvo Mendez
+		/// Abril/2020
+		/// Efecto : Elimina una usuario de la base de datos
+		/// Requiere : usuario que se desea eliminar
+		/// Modifica : usuarios en la base de datos
+		/// Devuelve : -
+		/// </summary>
+		/// <param name="usuario"></param>
+		public void EliminarUsuario(Usuario usuario)
+		{
+			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+			String consulta = "UPDATE Usuario SET eliminada=1 WHERE id_usuario = @id;";
+			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+			sqlCommand.Parameters.AddWithValue("@id", usuario.idUsuario);
+			sqlConnection.Open();
+			sqlCommand.ExecuteNonQuery();
+			sqlConnection.Close();
+		}
+
+		/// <summary>
+		/// Mariela Calvo Mendez
+		/// Abril/2020
+		/// Efecto : Modifica una usuario en la base de datos
+		/// Requiere : usuario con los datos actualizados
+		/// Modifica : usuario en la base de datos 
+		/// Devuelve : -
+		/// </summary>
+		/// <param name="usuario"></param>
+		public void ActualizarUsuario(Usuario usuario)
+		{
+			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+			String consulta = "UPDATE Usuario " +
+				"SET nombre_completo = @nombreUsuario, " +
+				"disponible = @disponible, " +
+				"contrasenia = @contrasenia," +
+				"id_asistente = @idAsistente " +
+				"WHERE id_usuario = @id";
+			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+			sqlCommand.Parameters.AddWithValue("@id", usuario.idUsuario);
+			sqlCommand.Parameters.AddWithValue("@nombreUsuario", usuario.nombre);
+			sqlCommand.Parameters.AddWithValue("@disponible", usuario.disponible);
+			sqlCommand.Parameters.AddWithValue("@contrasenia", usuario.contraseña);
+			
+			
+			if (usuario.asistente != null)
+				sqlCommand.Parameters.AddWithValue("@idAsistente", usuario.asistente.idAsistente);
+			else
+				sqlCommand.Parameters.AddWithValue("@idAsistente", DBNull.Value);
+
+			sqlCommand.CommandType = System.Data.CommandType.Text;
+			sqlConnection.Open();
+			sqlCommand.ExecuteNonQuery();
+			sqlConnection.Close();
+		}
+		/// <summary>
+		/// Mariela Calvo Méndz
+		/// Abril/2020
+		/// Efecto: Regresa el usuario por id usuario
+		/// Requiere: -
+		/// Modifica: -
+		/// Devuelve: Lista de usuarios
+		/// </summary>
+		/// <returns>List</returns>
+		public Usuario ObtenerUsuarioPorID(int idUsuario)
+		{
+			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+			
+			Usuario usuario = new Usuario();
+			String consulta = @"SELECT u.id_usuario, u.nombre_completo as usuario, u.contrasenia, u.disponible, 
+								a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado 
+								FROM Usuario u LEFT JOIN Asistente a ON u.id_asistente = a.id_asistente WHERE u.id_usuario=@id;";
+
+			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+			sqlCommand.Parameters.AddWithValue("@id",idUsuario);
+			SqlDataReader reader;
+			sqlConnection.Open();
+			reader = sqlCommand.ExecuteReader();
+			while (reader.Read())
+			{
+				Asistente asistente = new Asistente();
+
+				if ((reader["id_asistente"].ToString()) == "")
+				{
+					asistente = null;
+				}
+				else
+				{
+					asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
+					asistente.nombreCompleto = reader["nombre_completo"].ToString();
+					asistente.carnet = reader["carnet"].ToString();
+					asistente.telefono = reader["telefono"].ToString();
+					asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
+				}
+
+				
+				usuario.idUsuario = Convert.ToInt32(reader["id_usuario"].ToString());
+				usuario.nombre = reader["usuario"].ToString();
+				usuario.disponible = Convert.ToBoolean(reader["disponible"]);
+				usuario.contraseña = reader["contrasenia"].ToString();
+				usuario.asistente = asistente;
+				
+			}
+			sqlConnection.Close();
+			return usuario;
 		}
 		#endregion
 	}

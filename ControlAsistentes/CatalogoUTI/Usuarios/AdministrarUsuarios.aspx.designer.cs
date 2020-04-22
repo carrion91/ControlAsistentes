@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ControlAsistentes.CatalogoUTI.Usuarios {
-    
-    
-    public partial class AdministrarUsuarios {
-        
+namespace ControlAsistentes.CatalogoUTI.Usuarios
+{
+
+
+    public partial class AdministrarUsuarios
+    {
+
         /// <summary>
         /// Control MainScriptManager.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager MainScriptManager;
-        
+
         /// <summary>
         /// Control PanelUsuarios.
         /// </summary>
@@ -29,7 +31,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel PanelUsuarios;
-        
+
         /// <summary>
         /// Control btnNuevo.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnNuevo;
-        
+
         /// <summary>
         /// Control btnFiltrar.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnFiltrar;
-        
+
         /// <summary>
         /// Control txtBuscarUsuario.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBuscarUsuario;
-        
+
         /// <summary>
         /// Control rpUsuarios.
         /// </summary>
@@ -65,7 +67,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rpUsuarios;
-        
+
         /// <summary>
         /// Control btnAtras.
         /// </summary>
@@ -74,7 +76,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAtras;
-        
+
         /// <summary>
         /// Control lbPrimero.
         /// </summary>
@@ -83,7 +85,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbPrimero;
-        
+
         /// <summary>
         /// Control lbAnterior.
         /// </summary>
@@ -92,7 +94,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbAnterior;
-        
+
         /// <summary>
         /// Control rptPaginacion.
         /// </summary>
@@ -101,7 +103,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList rptPaginacion;
-        
+
         /// <summary>
         /// Control lbSiguiente.
         /// </summary>
@@ -110,7 +112,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbSiguiente;
-        
+
         /// <summary>
         /// Control lbUltimo.
         /// </summary>
@@ -119,7 +121,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbUltimo;
-        
+
         /// <summary>
         /// Control lblpagina.
         /// </summary>
@@ -128,7 +130,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblpagina;
-        
+
         /// <summary>
         /// Control PanelUsuariosInsertar.
         /// </summary>
@@ -137,7 +139,16 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel PanelUsuariosInsertar;
-        
+
+        /// <summary>
+        /// Control lblModal.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblModal;
+
         /// <summary>
         /// Control lblNuevoUsuario.
         /// </summary>
@@ -146,7 +157,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblNuevoUsuario;
-        
+
         /// <summary>
         /// Control txtNuevoUsuario.
         /// </summary>
@@ -155,7 +166,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNuevoUsuario;
-        
+
         /// <summary>
         /// Control lblContraseñaNueva.
         /// </summary>
@@ -164,7 +175,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblContraseñaNueva;
-        
+
         /// <summary>
         /// Control txtContrasena.
         /// </summary>
@@ -173,7 +184,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtContrasena;
-        
+
         /// <summary>
         /// Control btnVerContrasena.
         /// </summary>
@@ -182,7 +193,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnVerContrasena;
-        
+
         /// <summary>
         /// Control lblSeleccionAsistenteNuevo.
         /// </summary>
@@ -191,7 +202,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSeleccionAsistenteNuevo;
-        
+
         /// <summary>
         /// Control ddlSeleccionAsistenteNuevo.
         /// </summary>
@@ -200,7 +211,7 @@ namespace ControlAsistentes.CatalogoUTI.Usuarios {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSeleccionAsistenteNuevo;
-        
+
         /// <summary>
         /// Control btnGuardar.
         /// </summary>

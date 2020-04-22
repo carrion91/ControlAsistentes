@@ -65,8 +65,8 @@
 										<ContentTemplate>
 											<tr>
 												<td>
-													<asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idUsuario") %>'><span class="glyphicon glyphicon-pencil"></span></asp:LinkButton>
-													<asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("idUsuario") %>'><span class="glyphicon glyphicon-trash"></span></asp:LinkButton>
+													<asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idUsuario") %>' CssClass="glyphicon glyphicon-pencil" OnClick="btnEditarUsuario_Click"></asp:LinkButton>
+													<asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("idUsuario") %>' CssClass="glyphicon glyphicon-trash" OnClick="btnEliminarUsuario_Click"></asp:LinkButton>
 												</td>
 												<td><%# Eval("nombre") %></td>
 												<td style="color: #337ab7;">
@@ -147,7 +147,8 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 style="font-family: 'Bookman Old Style'" class="modal-title">Nuevo Usuario</h4>
+							
+							<asp:Label ID="lblModal" runat="server" Text="Contraseña <span style='color:red'></span> " Font-Size="Medium"  ForeColor="Black" CssClass="label" Font-Bold="false" ></asp:Label>
 						</div>
 
 						<div class="modal-body">
@@ -155,45 +156,48 @@
 								<%-- fin titulo accion --%>
 
 								<%-- campos a llenar --%>
-								<div class="col-md-12 col-xs-12 col-sm-12 mt-1">
-									<div class="col-md-3 col-xs-3 col-sm-3">
+								<div class="col-md-9 col-xs-9 col-sm-9 mt-1">
+									<div class="col-md-4 col-xs-4 col-sm-4">
 										<asp:Label ID="lblNuevoUsuario" runat="server" Text="Usuario <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
 									</div>
 									<div class="col-md-8 col-xs-8 col-sm-8">
-										<asp:TextBox class="form-control" ID="txtNuevoUsuario" runat="server"></asp:TextBox>
+                                      <div class="input-group">
+										<asp:TextBox class="form-control" ID="txtNuevoUsuario" runat="server" Width="240"></asp:TextBox>
+									</div>
 									</div>
 								</div>
-								<div class="col-md-12 col-xs-12 col-sm-12 mt-1">
-									<div class="col-md-3 col-xs-3 col-sm-3">
+								<div class="col-md-9 col-xs-9 col-sm-9 mt-1">
+									 <div class="col-md-4 col-xs-4 col-sm-4">
 										<asp:Label ID="lblContraseñaNueva" runat="server" Text="Contraseña <span style='color:red'>*</span> " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
 									</div>
-									<div class="col-md-8 col-xs-8 col-sm-8">
-										<div class="input-group">
+									<div class="col-md-5 col-xs-5 col-sm-5">
+                                      <div class="input-group">
 											<asp:TextBox ID="txtContrasena" type="password" runat="server" CssClass="form-control"></asp:TextBox>
 											<asp:LinkButton ID="btnVerContrasena"
-												CssClass="input-group-addon btn btn-primary"
+												CssClass="input-group-addon btn btn-primary glyphicon glyphicon-eye-open icon"
 												runat="server"
-												AutoPostBack="true"
+												
 												OnClick="verContraseña">
-												<span class="glyphicon glyphicon-eye-open icon">
+												
 											</asp:LinkButton>
 										</div>
 
 									
 									</div>
 								</div>
+							
 								<div class="col-md-12 col-xs-12 col-sm-12 mt-1">
 									<div class="col-md-3 col-xs-3 col-sm-3">
 										<asp:Label ID="lblSeleccionAsistenteNuevo" runat="server" Text="Seleccione un Asistente " Font-Size="Medium" Font-Names="Bookman Old Style" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
 									</div>
 									<div class="col-md-8 col-xs-8 col-sm-8">
-										<asp:DropDownList ID="ddlSeleccionAsistenteNuevo" class="btn btn-default dropdown-toggle" runat="server"></asp:DropDownList>
+										<asp:DropDownList ID="ddlSeleccionAsistenteNuevo" class="btn btn-default dropdown-toggle" runat="server" ></asp:DropDownList>
 									</div>
 								</div>
 
 								<%-- botones --%>
 								<div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
-									<asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardarNuevoUsuario" />
+									<asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
 									<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 								</div>
 								<%-- fin botones --%>
@@ -226,9 +230,9 @@
         function enter_click() {
             if (window.event.keyCode == 13) {
                 document.getElementById('<%=btnFiltrar.ClientID%>').focus();
-                        document.getElementById('<%=btnFiltrar.ClientID%>').click();
+                document.getElementById('<%=btnFiltrar.ClientID%>').click();
             }
-		}
+        }
 
 	</script>
 

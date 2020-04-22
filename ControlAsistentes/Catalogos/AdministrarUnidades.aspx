@@ -182,9 +182,9 @@
             </asp:UpdatePanel>
 
             <!-- Modal Eliminar -->
-            <asp:UpdatePanel ID="UpdatePanel6" runat="server">
+           <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
-                    <div id="modalEliminarUnidad" class="modal fade" role="alertdialog">
+                    <div id="modalEliminarUnidad" class="modal" role="alertdialog">
                         <div class="modal-dialog modal-lg">
 
                             <!-- Modal content-->
@@ -205,7 +205,7 @@
                                             </div>
 
                                             <div class="col-md-4 col-xs-4 col-sm-4">
-                                                <asp:Label ID="lbUnidadE2" runat="server" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                <asp:TextBox class="form-control" ID="lbUnidadE2" runat="server" ReadOnly="true"></asp:TextBox>
                                             </div>
                                         </div>
                                         <div class="col-md-12 col-xs-12 col-sm-12">
