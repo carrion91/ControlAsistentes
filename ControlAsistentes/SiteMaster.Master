@@ -124,7 +124,7 @@
                             <%--MENU UTI--%>
                             <div id="MenuNavBarUTI" runat="server">
                                 <ul class="nav navbar-nav">
-                                    <li><a href='<%=Page.ResolveUrl("~/CatalogoUTI/Asistentes/AdministrarAsistentes.aspx") %>'>Asistentes</a></li>
+                                    <li><a href='<%=Page.ResolveUrl("~/CatalogoUTI/Asistentes/AdministrarUTIAsistentes.aspx") %>'>Asistentes</a></li>
                                     <li><a href='<%=Page.ResolveUrl("~/CatalogoUTI/Tarjetas/AdministrarTarjetas.aspx") %>'>Tarjetas</a></li>
                                     <li><a href='<%=Page.ResolveUrl("~/CatalogoUTI/Usuarios/AdministrarUsuarios.aspx") %>'>Usuarios</a></li>
                                 </ul>
@@ -234,7 +234,7 @@
             <div id="MenuUTI" runat="server">
                 <div class="gridcontainer clearfix">
                     <div class="grid_3">
-                        <a id="asistentesUTI"  runat="server" href="~/CatalogoUTI/Asistentes/AdministrarAsistentesUTI.aspx">
+                        <a id="asistentesUTI"  runat="server" href="~/CatalogoUTI/Asistentes/AdministrarUTIAsistentes.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">

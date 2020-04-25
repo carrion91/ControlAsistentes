@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <asp:ScriptManager ID="MainScriptManager" runat="server" EnableCdn="true"></asp:ScriptManager>
 
-    <asp:UpdatePanel ID="PanelAsistentes" runat="server">
+    <asp:UpdatePanel ID="UpdatePanel_Asistentes" runat="server">
         <ContentTemplate>
 
             <div class="row">
@@ -22,12 +22,12 @@
                 </center>
                 <br />
 
-        <%--Filtro Asistentes--%>
+        <%--Filtro Unidades--%>
                 <div class="col-md-6 col-xs-6 col-sm-6">
                     <h4>Unidad</h4>
                     <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
                 </div>
-
+                
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                     <br />
@@ -47,21 +47,18 @@
                                 <th>Último Periodo Nombrado</th>
                                 <th>Usuario</th>
                                 <th>Tarjeta</th>
-
                             </tr>
                         </thead>
                         <tr>
+                            <td></td>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="filtrarAsistentes"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton>
+                                 <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                                        <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="Filtro por asistente" AutoPostBack="true" OnTextChanged="filtrarAsistentes"></asp:TextBox>
+                                 </div>
 
                             </td>
                             <td>
-
-                                <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true"></asp:TextBox>
-                            </td>
-                            <td>
-                                <asp:TextBox ID="txBool" runat="server" CssClass="form-control chat-input" placeholder="filtro descripción" AutoPostBack="true" Visible="false"></asp:TextBox>
-
                             </td>
                             <td></td>
                             <td></td>
@@ -78,21 +75,22 @@
 
 
                                     <td></td>
-                                    <td><%# Eval("nombreCompleto") %></td>
-                                    <td><%# Eval("carnet") %></td>
+                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
+                                        <%# Eval("asistente.nombreCompleto") %></td>
+                                    <td><%# Eval("asistente.carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
-                           
+
                                      <td>
                                         <div id="btnUser" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnVerUsuario" OnClick="btnVeUsuarioAsistente" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("carnet") %>'><span id="cambiarUser" class="glyphicon glyphicon-user"></span></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnVerUsuario" OnClick="btnVeUsuarioAsistente" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("asistente.carnet") %>'><span id="cambiarUser" class="glyphicon glyphicon-user"></span></asp:LinkButton>
                                         </div>
                                     </td>
                                     <td>
                                         <div id="btnTarjeta" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
-                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("carnet") %>'><span id="cambiarCard" class="glyphicon glyphicon-credit-card"></span></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("asistente.carnet") %>'><span id="cambiarCard" class="glyphicon glyphicon-credit-card"></span></asp:LinkButton>
                                         </div>
                                     </td>
 
@@ -164,7 +162,7 @@
             <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <asp:UpdatePanel ID="UpdatePanel8" runat="server">
+                     <asp:UpdatePanel ID="UpdatePanel_Tarjetas" runat="server">
                         <ContentTemplate>
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -220,7 +218,7 @@
             <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <asp:UpdatePanel ID="UpdatePanel_Usuarios" runat="server">
                          <ContentTemplate>
                             <%-- Titulo --%>
                             <div class="modal-header">
@@ -292,12 +290,7 @@
             $('#modalUsuarioAsistente').modal('show');
         };
 
-        function enter_click() {
-            if (window.event.keyCode == 13) {
-                document.getElementById('<%=btnFiltrar.ClientID%>').focus();
-        document.getElementById('<%=btnFiltrar.ClientID%>').click();
-            }
-        }
+
     </script>
 
 </asp:Content>

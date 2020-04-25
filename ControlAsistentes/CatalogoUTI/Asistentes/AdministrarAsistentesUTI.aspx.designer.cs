@@ -24,13 +24,13 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.ScriptManager MainScriptManager;
 
         /// <summary>
-        /// Control PanelAsistentes.
+        /// Control UpdatePanel_Asistentes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel PanelAsistentes;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel_Asistentes;
 
         /// <summary>
         /// Control idLabelTitulo.
@@ -51,15 +51,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.DropDownList ddlUnidad;
 
         /// <summary>
-        /// Control btnFiltrar.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnFiltrar;
-
-        /// <summary>
         /// Control txtBuscarNombre.
         /// </summary>
         /// <remarks>
@@ -67,15 +58,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBuscarNombre;
-
-        /// <summary>
-        /// Control txBool.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txBool;
 
         /// <summary>
         /// Control rpAsistentes.
@@ -150,13 +132,13 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.Label lblpagina;
 
         /// <summary>
-        /// Control UpdatePanel8.
+        /// Control UpdatePanel_Tarjetas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel8;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel_Tarjetas;
 
         /// <summary>
         /// Control lblNumeroTarjeta.
@@ -222,13 +204,13 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected global::System.Web.UI.WebControls.Button btnAsignar;
 
         /// <summary>
-        /// Control UpdatePanel1.
+        /// Control UpdatePanel_Usuarios.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel_Usuarios;
 
         /// <summary>
         /// Control lblnombre.

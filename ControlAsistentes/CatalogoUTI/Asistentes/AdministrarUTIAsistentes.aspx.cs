@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace ControlAsistentes.CatalogoUTI.Asistentes
 {
-    public partial class AdministrarAsistentesUTI : System.Web.UI.Page
+    public partial class AdministrarUTIAsistentes : System.Web.UI.Page
     {
 
         #region variables globales
@@ -43,7 +42,8 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         }
         #endregion
 
-        #region logica
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             object[] rolesPermitidos = { 1, 2, 5 };
@@ -69,7 +69,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         {
             List<Nombramiento> listaAsistentes = (List<Nombramiento>)Session["listaAsistentes"];
             String filtro = "";
- 
+
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
             {
@@ -100,156 +100,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             Paginacion();
         }
 
-        /// <summary>
-        /// Jean Carlos Monge Mendez
-        /// 27/03/2020
-        /// Efecto: Habilita y restablece los campos del formulario
-        /// Requiere: -
-        /// Modifica: Campos del formulario
-        /// Devuelve: -
-        /// </summary>
-        private void HabilitarFormulario()
-        {
-            rdExtraviada.Checked = false;
-            txtNumeroTarjeta.CssClass = "form-control chat-input";
-            txtNumeroTarjeta.Enabled = true;
-            txtNumeroTarjeta.Text = "";
-            txtAsistente.CssClass = "form-control chat-input";
-            txtAsistente.Enabled = false;
-            btnAsignar.Enabled = true;
-            rdExtraviada.Enabled = false;
-        }
-
-        /// <summary>
-        /// Jean Carlos Monge Mendez
-        /// 27/03/2020
-        /// Efecto: Habilita y restablece los campos del formulario
-        /// Requiere: -
-        /// Modifica: Campos del formulario
-        /// Devuelve: -
-        /// </summary>
-        private void DeshabilitarFormulario()
-        {
-            rdExtraviada.Checked = false;
-            txtNumeroTarjeta.CssClass = "form-control chat-input";
-            txtNumeroTarjeta.Enabled = false;
-            txtAsistente.CssClass = "form-control chat-input";
-            txtAsistente.Enabled = false;
-            btnAsignar.Enabled = false;
-            rdExtraviada.Enabled = false;
-
-        }
-
-        /// <summary>
-        /// Karen Guillén
-        /// 17/04/2020
-        /// Efecto: Habilita y restablece los campos del modal Usuario Tarjeta
-        /// Requiere: -
-        /// Modifica: Deshabilita el formulario
-        /// Devuelve: -
-        /// </summary>
-        private void DeshabilitarFormularioUsuario()
-        {
-            rbDisponible.Enabled = false;
-            txtNombre.CssClass = "form-control chat-input";
-            txtNombre.Enabled = false;
-            txtContrasenia.CssClass = "form-control chat-input";
-            txtContrasenia.Enabled = false;
-            txtAsistenteU.CssClass = "form-control chat-input";
-            txtAsistenteU.Enabled = false;
-
-        }
-
-        /// <summary>
-        /// Karen Guillén
-        /// 15/04/20
-        /// Efecto: Se cargan los datos del asisente y su respectiva tarjeta, y habilita o deshabilita la posibilidad de modificar. 
-        /// Requiere: - 
-        /// Modifica: #modalTarjetaAsistente
-        /// Devuelve: -
-        /// </summary>
-        protected void CargaAsistente(String carnet)
-        {
-            HabilitarFormulario();
-
-            List<Nombramiento> asistentes = (List<Nombramiento>)Session["listaAsistentesFiltrada"];
-            Nombramiento asistenteSeleccionado = asistentes.FirstOrDefault(Nombramiento => Nombramiento.asistente.carnet == carnet);
-
-            txtAsistente.Text = "";
-            txtAsistente.Text = asistenteSeleccionado.asistente.nombreCompleto;
-            List<Tarjeta> listaTarjetas = TarjetaServicios.ObtenerTarjetas();
-
-            foreach (Tarjeta tarjeta in listaTarjetas)
-            {
-                if (tarjeta.asistente != null)
-                {
-                    if (tarjeta.asistente.carnet == asistenteSeleccionado.asistente.carnet)
-                    {
-                        if (tarjeta.numeroTarjeta != "" && !tarjeta.tarjetaExtraviada)
-                        {
-                            DeshabilitarFormulario();
-                        }
-                        txtNumeroTarjeta.Text = tarjeta.numeroTarjeta;
-                        rdExtraviada.Checked = tarjeta.tarjetaExtraviada;
-                    }
-                }
-            }
-
-        }
-
-        /// <summary>
-        /// Karen Guillén
-        /// 17/04/20
-        /// Efecto: Se cargan los datos del asisente, y habilita o deshabilita la posibilidad de modificar. 
-        /// Requiere: - 
-        /// Modifica: #modalTarjetaAsistente
-        /// Devuelve: -
-        /// </summary>
-        protected void CargaUsuario(String carnet)
-        {
-           // HabilitarFormulario();
-
-            List<Nombramiento> nombramientos = (List<Nombramiento>)Session["listaAsistentesFiltrada"];
-            Nombramiento asistenteSeleccionado = nombramientos.FirstOrDefault(Nombramiento => Nombramiento.asistente.carnet == carnet);
-
-
-            txtAsistenteU.Text = asistenteSeleccionado.asistente.nombreCompleto;
-            DeshabilitarFormularioUsuario();
-
-            List<Usuario> listaUsuarios = UsuariosServicios.ObtenerUsuarios();
-
-            foreach (Usuario usuario in listaUsuarios)
-            {
-                if (usuario.asistente!=null)
-                {
-                    if (usuario.asistente.carnet == asistenteSeleccionado.asistente.carnet)
-                    {
-
-                        txtNombre.Text = usuario.nombre;
-                        txtContrasenia.Text = usuario.contraseña;
-                        rbDisponible.Checked = usuario.disponible;
-                        rbDisponible.Checked = true;
-
-                        btnAsignarUsuario.Enabled = false;
-                    }
-                }else
-                    txtNombre.Text = "";
-                    txtContrasenia.Text = "";
-                    rbDisponible.Checked = false;
-
-                    btnAsignarUsuario.Enabled = true;
-
-            }
-        }
-
-        /// <summary>
-        /// Mariela Calvo
-        /// Marzo20
-        /// Efecto: llean el DropDownList con los encargados que se encuentran en la base de datos
-        /// Requiere: - 
-        /// Modifica: DropDownList
-        /// Devuelve: -
-        /// </summary>
         protected void unidadesDDL()
         {
             List<Unidad> unidades = new List<Unidad>();
@@ -262,7 +112,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             }
         }
 
-        #endregion
+
 
         #region eventos
 
@@ -303,11 +153,11 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         public void btnVerTarjetaAsistente(object sender, EventArgs e)
         {
             String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
-            CargaAsistente(carnet);
+            //CargaAsistente(carnet);
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalTarjetaAsistente();", true);
         }
-        
+
         /// <summary>
         /// Karen Guillén
         /// 17/04/20
@@ -321,8 +171,8 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         public void btnVeUsuarioAsistente(object sender, EventArgs e)
         {
             String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
-            //CargaAsistente(carnet);
-            CargaUsuario(carnet);
+    
+            //CargaUsuario(carnet);
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalUsuarioAsistente();", true);
         }
@@ -513,5 +363,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             lnkPagina.ForeColor = Color.FromName("#FFFFFF");
         }
         #endregion
+
     }
 }
