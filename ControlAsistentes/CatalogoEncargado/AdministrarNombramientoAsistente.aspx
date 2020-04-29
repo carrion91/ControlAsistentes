@@ -944,7 +944,7 @@
                             </div>
                             <div class="modal-footer">
                                 
-                                <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Salir</button>
                             </div>
                         </div>
 

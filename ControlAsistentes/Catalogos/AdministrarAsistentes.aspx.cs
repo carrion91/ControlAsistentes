@@ -309,9 +309,13 @@ namespace ControlAsistentes.Catalogos
             else {
                 solicitud = 2;
             }
-           
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El nombramiento fue modificado exitosamente!');", true);
             nombramientoServicios.ActualizarNombramientoAsistente(txtNumeroCarné.Text,a , txtObservaciones.Text,solicitud);
+            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientos();
+            Session["listaAsistentes"] = listaAsistentes;
+            Session["listaAsistentesFiltrada"] = listaAsistentes;
             MostrarAsistentesPendienteAprobacion();
+            MostrarAsistentes();
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
         }
@@ -392,13 +396,13 @@ namespace ControlAsistentes.Catalogos
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos');", true);
                 }
 
             }
             if (listArchivosAsistente.Count() == 0)
             {
-                (this.Master as SiteMaster).Toastr("error", "No contiene Archivos asociados");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene archivos asociados');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsistentesAprobacionesPendientes", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsistentesAprobacionesPendientes').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsistentesAprobacionesPendientes();", true);
             }
@@ -429,12 +433,12 @@ namespace ControlAsistentes.Catalogos
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archivos');", true);
                 }
             }
             if (listArchivosAsistente.Count() == 0)
             {
-                (this.Master as SiteMaster).Toastr("error", "No contiene Archivos asociados");           
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene archivos asociados');", true);
             }
 
         }

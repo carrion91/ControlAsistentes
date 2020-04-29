@@ -273,12 +273,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                (this.Master as SiteMaster).Toastr("success", "Se registró el asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + nombramiento.asistente.nombreCompleto + " fue registrado exitosamente!');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("success", "Formulario incompleto");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario Incompleto');", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
             }
 
@@ -329,7 +329,7 @@ namespace ControlAsistentes.CatalogoEncargado
             if (archivosRepetidos.Trim() != "")
             {
                 archivosRepetidos = archivosRepetidos.Remove(archivosRepetidos.Length - 3);
-                (this.Master as SiteMaster).Toastr("success", "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Los archivos " + archivosRepetidos + " no se pudieron guardar porque ya había archivos con ese nombre');", true);
             }
 
             return listaArchivos;
@@ -499,12 +499,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaNombramientos;
                 Session["listaAsistentesFiltrada"] = listaNombramientos;
                 MostrarAsistentes();
-                (this.Master as SiteMaster).Toastr("success", "El nombramiento del asistente fue eliminado exitosamente!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El nombramiento del asistente fue eliminado exitosamente!);", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarEliminarNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarNombramiento').hide();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "La unidad no pudo ser eliminada, intente de nuevo");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "El nombramiento del asistente no pudo ser eliminado, intente nuevamente);", true);
             }
         }
         /// <summary>
@@ -601,13 +601,13 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-
-                (this.Master as SiteMaster).Toastr("success", "Se editó el nombramiento del asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se editó el nombramiento del asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!);", true);
+               
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario Incompleto! );", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramiento').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoNombramiento();", true);
             }
@@ -700,17 +700,17 @@ namespace ControlAsistentes.CatalogoEncargado
             txtAsistenteD.CssClass = "form-control";
             txtDetalles.CssClass = "form-control";
 
-            if (nombramiento.aprobado)
+            if (nombramiento.aprobado && nombramiento.solicitud==1)
             {
               txtSolicitudD.Style.Add("background-color", "#0BA55E");
                txtSolicitudD.Text = "APROBADO";
             }
-            else if (!nombramiento.aprobado)
+            else if (!nombramiento.aprobado && nombramiento.solicitud==2)
             {
                 txtSolicitudD.Style.Add("background-color", "#D96F6F");
                 txtSolicitudD.Text = "RECHAZADO";
             }
-            else
+            else if(!nombramiento.aprobado && nombramiento.solicitud==0)
             {
                 txtSolicitudD.Style.Add("background-color", "#E88C01");
                 txtSolicitudD.Text = "PENDIENTE";
@@ -756,13 +756,14 @@ namespace ControlAsistentes.CatalogoEncargado
                 }
                 catch (DirectoryNotFoundException)
                 {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archvios!);", true);
                     (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
                  
                 }
             }
             if (listArchivosAsistente.Count() == 0)
             {
-                (this.Master as SiteMaster).Toastr("error", "No contiene Archivos asociados");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene archvios asociados!);", true);
             }
 
         }

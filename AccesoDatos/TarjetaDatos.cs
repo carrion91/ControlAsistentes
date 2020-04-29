@@ -52,7 +52,11 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
                 tarjeta.numeroTarjeta = reader["numeroTarjeta"].ToString();
                 tarjeta.disponible = Convert.ToBoolean(reader["disponible"]);
                 tarjeta.tarjetaExtraviada = Convert.ToBoolean(reader["tarjeta_extraviada"]);
-                tarjeta.pagada = Convert.ToBoolean(reader["pagada"]);
+                if (tarjeta.tarjetaExtraviada)
+                {
+                    sqlCommand.Parameters.AddWithValue("@pagada", tarjeta.pagada);
+                }
+
                 tarjeta.asistente = asistente;
                 tarjetas.Add(tarjeta);
             }
@@ -108,10 +112,7 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             {
                 sqlCommand.Parameters.AddWithValue("@pagada", tarjeta.pagada);
             }
-            else
-            {
-                sqlCommand.Parameters.AddWithValue("@pagada", DBNull.Value);
-            }
+            
             if (tarjeta.asistente != null)
                 sqlCommand.Parameters.AddWithValue("@idAsistente", tarjeta.asistente.idAsistente);
             else

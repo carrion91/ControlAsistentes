@@ -37,8 +37,18 @@ namespace ControlAsistentes
         #endregion
 
         #region mensaje toast
-        public void Toastr(string tipo, string mensaje)
+        public void Toastr(string tipo, string mensajes)
         {
+            mensaje.Text = mensajes;
+            alert.Text = tipo;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr." + tipo + "('" + mensaje + "');", true);
+        }
+
+
+        public void Mensaje(string mensajes , string tipo)
+        {
+            mensaje.Text = mensajes;
+            alert.Text = tipo;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr." + tipo + "('" + mensaje + "');", true);
         }
 
@@ -46,6 +56,9 @@ namespace ControlAsistentes
         {
             ViewState["CheckRefresh"] = Session["CheckRefresh"];
         }
+
+
+
         #endregion
     }
 }

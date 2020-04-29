@@ -165,12 +165,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                (this.Master as SiteMaster).Toastr("success", "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se registró el asistente " + asistente.nombreCompleto + " exitosamente!" + "');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario Incompleto" + "');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoAsistente').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoAsistente();", true);
             }
@@ -310,7 +310,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentesFiltrada"] = listaAsistentees;
 
                 MostrarAsistentes();
-                (this.Master as SiteMaster).Toastr("success", "El asistente " + asistenteEditar.nombreCompleto + "  fue modificada con éxito!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + asistenteEditar.nombreCompleto + "  fue actualizado exitosamente!');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarAsistente').hide();", true);
             }
             else
@@ -367,13 +367,12 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
-                (this.Master as SiteMaster).Toastr("success", "El asistente " + asistenteSeleccionado.nombreCompleto + " fue eliminado exitosamente!");
-             
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "El asistente " + asistenteSeleccionado.nombreCompleto + " fue eliminado exitosamente!');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalConfirmarAsistente", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalConfirmarAsistente').hide();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "El asistente no pudo ser eliminado, intente de nuevo");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "El asistente no pudo ser eliminado, intente de nuevo');", true);
             }
         }
         #endregion

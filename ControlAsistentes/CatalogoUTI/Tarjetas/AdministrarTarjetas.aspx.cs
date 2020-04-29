@@ -405,27 +405,28 @@ namespace ControlAsistentes.CatalogoUTI.Tarjetas
                 {
                     case NUEVO:
                         tarjetaServicios.InsertarTarjeta(tarjeta);
-                        (this.Master as SiteMaster).Toastr("success", "Se agregó correctamente la tarjeta " + tarjeta.numeroTarjeta);
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se agregó correctamente la tarjeta " + tarjeta.numeroTarjeta+ " exitosamente');", true);
+                        
                         break;
                     case EDITAR:
                         tarjeta.idTarjeta =  Convert.ToInt32(Session["idSeleccionado"]);
                         tarjetaServicios.ActualizarTarjeta(tarjeta);
-                        (this.Master as SiteMaster).Toastr("success", "Se actualizó correctamente la tarjeta " + tarjeta.numeroTarjeta);
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se actualizó correctamente la tarjeta " + tarjeta.numeroTarjeta + " exitosamente');", true);
                         break;
                     case ELIMINAR:
                         tarjeta.idTarjeta = Convert.ToInt32(Session["idSeleccionado"]);
                         tarjetaServicios.EliminarTarjeta(tarjeta);
-                        (this.Master as SiteMaster).Toastr("success", "Se eliminó correctamente la tarjeta " + tarjeta.numeroTarjeta);
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se eliminó correctamente la tarjeta " + tarjeta.numeroTarjeta + " exitosamente');", true);
                         break;
                     default:
-                        (this.Master as SiteMaster).Toastr("error", "Algo sucedió, vuelva a intentarlo");
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Algo salió mal, intentelo de nuevo');", true);
                         break;
                 }
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "closeModalTarjetas();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "Verifique que el formulario este completo");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario Incompleto');", true);
             }
             List<Tarjeta> tarjetas = tarjetaServicios.ObtenerTarjetas();
             Session["listaTarjetas"] = tarjetas;

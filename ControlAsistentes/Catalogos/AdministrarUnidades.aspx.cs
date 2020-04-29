@@ -43,10 +43,10 @@ namespace ControlAsistentes.Catalogos
 
         #endregion
 
-        
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            object[] rolesPermitidos = { 1,2,5 };
+            object[] rolesPermitidos = { 1, 2, 5 };
             Page.Master.FindControl("MenuControl").Visible = false;
             if (!IsPostBack)
             {
@@ -113,7 +113,7 @@ namespace ControlAsistentes.Catalogos
             encargados = encargadoServicios.listaEncargados();
             foreach (Encargado encargado in encargados)
             {
-                ListItem itemEncargado = new ListItem(encargado.nombreCompleto,encargado.idEncargado+"");
+                ListItem itemEncargado = new ListItem(encargado.nombreCompleto, encargado.idEncargado + "");
                 ddlEncargadoNueva.Items.Add(itemEncargado);
             }
         }
@@ -137,12 +137,12 @@ namespace ControlAsistentes.Catalogos
 
         protected void btnGuardarNuevaUnidad(object sender, EventArgs e)
         {
-            int idEncargado =Convert.ToInt32(ddlEncargadoNueva.SelectedValue);
+            int idEncargado = Convert.ToInt32(ddlEncargadoNueva.SelectedValue);
             int idUnidad = 0;
 
             if (validarUnidadNueva())
             {
-                
+
                 Unidad unidad = new Unidad();
                 unidad.nombre = txtNuevaUnidad.Text;
                 unidad.descripcion = txtDescNueva.Text;
@@ -150,28 +150,28 @@ namespace ControlAsistentes.Catalogos
                 Encargado encargado = new Encargado();
                 encargado.idEncargado = idEncargado;
 
-               idUnidad = unidadServicios.insertarUnidad(unidad);
-               
+                idUnidad = unidadServicios.insertarUnidad(unidad);
 
-                if (idUnidad!=0)
+
+                if (idUnidad != 0)
                 {
                     unidad.idUnidad = idUnidad;
-                    encargadoUnidadServicios.insertarEncargadoUnidad(unidad,encargado);
+                    encargadoUnidadServicios.insertarEncargadoUnidad(unidad, encargado);
                     List<Unidad> listaUnidades = unidadServicios.ObtenerUnidades();
                     Session["listaUnidades"] = listaUnidades;
                     Session["listaUnidadesFiltrada"] = listaUnidades;
                     MostrarUnidades();
-                    (this.Master as SiteMaster).Toastr("success", "La unidad " + unidad.nombre + " fue registrada con éxito!");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad " + unidad.nombre + " fue registrada con éxito!');", true);
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevaUnidad').hide();", true);
                 }
                 else
                 {
-                    (this.Master as SiteMaster).Toastr("error", "La unidad no fue registrada, intente de nuevo");
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no fue registrada, intente de nuevo');", true);
                 }
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Formulario Incompleto');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevaUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevaUnidad').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevaUnidad();", true);
             }
@@ -264,14 +264,14 @@ namespace ControlAsistentes.Catalogos
             int idUnidad = unidadSeleccionada.idUnidad;
             int idEncargado = unidadSeleccionada.encargado.idEncargado;
 
-            encargadoUnidadServicios.eliminarEncargadoUnidad(idUnidad,idEncargado);
+            encargadoUnidadServicios.eliminarEncargadoUnidad(idUnidad, idEncargado);
             unidadServicios.eliminarUnidad(idUnidad);
 
             List<Unidad> listaUnidades = unidadServicios.ObtenerUnidades();
-           
+
             if (!listaUnidades.Contains(unidadSeleccionada))
             {
-                (this.Master as SiteMaster).Toastr("success", "La unidad " + unidadSeleccionada.nombre + " fue eliminada exitosamente!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad " + unidadSeleccionada.nombre + " fue eliminada con éxito!');", true);
                 Session["listaUnidades"] = listaUnidades;
                 Session["listaUnidadesFiltrada"] = listaUnidades;
                 MostrarUnidades();
@@ -279,8 +279,8 @@ namespace ControlAsistentes.Catalogos
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "La unidad no pudo ser eliminada, intente de nuevo");
-            }  
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad " + unidadSeleccionada.nombre + " no fue eliminada, intente de nuevo');", true);
+            }
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace ControlAsistentes.Catalogos
 
             int idUnidad = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
             unidadSeleccionada = unidadServicios.ObtenerUnidadPorId(idUnidad);
-            
+
             txtNombreUnidadEditar.CssClass = "form-control";
             txtDescEditar.CssClass = "form-control";
 
@@ -305,7 +305,7 @@ namespace ControlAsistentes.Catalogos
             lbEncargadoEditar2.Text = unidadSeleccionada.encargado.nombreCompleto;
 
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarUnidad();", true); 
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarUnidad();", true);
 
 
         }
@@ -334,12 +334,13 @@ namespace ControlAsistentes.Catalogos
                 Session["listaUnidadesFiltradas"] = listaUnidades;
 
                 MostrarUnidades();
-                (this.Master as SiteMaster).Toastr("success", "La unidad  fue modificada con éxito!");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "La unidad " + unidadEditar.nombre + " fue registrada con éxito!');", true);
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarUnidad').hide();", true);
             }
             else
             {
-                (this.Master as SiteMaster).Toastr("error", "Formulario incompleto");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "La unidad no fue registrada, intente de nuevo.');", true);
+
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalEditarUnidad", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalEditarUnidad').hide();", true);
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalEditarUnidad();", true);
             }
@@ -404,7 +405,7 @@ namespace ControlAsistentes.Catalogos
                 primerIndex = ultimoIndex - 4;
             }
 
-            if(primerIndex < 0)
+            if (primerIndex < 0)
                 primerIndex = 0;
 
             //se crea el numero de paginas basado en la primera y ultima pagina
