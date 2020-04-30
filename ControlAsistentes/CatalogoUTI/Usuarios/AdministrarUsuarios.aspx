@@ -49,7 +49,7 @@
 						<tbody>
 							<tr>
 								<td>
-									<asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton>
+									<asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" ><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton>
 								</td>
 								<td>
 									<asp:TextBox ID="txtBuscarUsuario" runat="server" CssClass="form-control chat-input" placeholder="filtro usuarios" onkeypress="enter_click()"></asp:TextBox>

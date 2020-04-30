@@ -17,6 +17,7 @@ namespace AccesoDatos
     public class NombramientoAsistenteDatos
     {
         private ConexionDatos conexion = new ConexionDatos();
+        ArchivoDatos archivoDatos = new ArchivoDatos();
 
 
 
@@ -83,10 +84,11 @@ namespace AccesoDatos
             String consulta = @"SELECT n.solicitud,n.induccion, n.id_nombramiento, a.id_asistente, a.nombre_completo,a.carnet,a.telefono, n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
                               " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente " +
                               " JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad " +
-                               " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.id_unidad=@idUnidad AND a.disponible=1 AND n.disponible=1";
+                               " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.id_unidad=@idUnidad  AND a.disponible=1 AND n.disponible=1";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@idUnidad", idUnidad);
+     
 
             SqlDataReader reader;
             sqlConnection.Open();
@@ -128,6 +130,84 @@ namespace AccesoDatos
                 unidad.encargado = encargado;
 
                 nombramiento.unidad = unidad;
+
+                List<Archivo> archivos = new List<Archivo>();
+                archivos = archivoDatos.getArchivosAsistente(asistente.idAsistente, periodo.idPeriodo);
+
+                nombramiento.listaArchivos = archivos;
+                nombramientos.Add(nombramiento);
+            }
+
+            sqlConnection.Close();
+
+            return nombramientos;
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Abril/2020
+        /// Efecto: Obtiene los nombramientos de los asistentes 
+        /// Requiere: - 
+        /// Modifica: 
+        /// Devuelve: Lista de nombramiento
+        /// </summary>
+        public List<Nombramiento> ObtenerNombramientosPorPeriodo(int idPeriodo, int idUnidad)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            List<Nombramiento> nombramientos = new List<Nombramiento>();
+
+            String consulta = @"SELECT n.solicitud,u.id_unidad, n.induccion, n.id_nombramiento, a.id_asistente, a.nombre_completo,a.carnet,a.telefono, n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
+                              " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente " +
+                              " JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad " +
+                               " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.disponible=1 AND n.id_periodo=@idPeriodo ";
+
+            if (idUnidad!=0)
+            {
+                consulta += " AND n.id_unidad = @idUnidad";
+            }
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idPeriodo", idPeriodo);
+            sqlCommand.Parameters.AddWithValue("@idUnidad", idUnidad);
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+
+                Nombramiento nombramiento = new Nombramiento();
+                nombramiento.idNombramiento = Convert.ToInt32(reader["id_nombramiento"].ToString());
+                nombramiento.recibeInduccion = Convert.ToBoolean(reader["induccion"].ToString());
+                nombramiento.aprobado = Convert.ToBoolean(reader["aprobado"].ToString());
+                nombramiento.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
+                nombramiento.solicitud = Convert.ToInt32(reader["solicitud"].ToString());
+
+                Asistente asistente = new Asistente();
+                asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
+                asistente.nombreCompleto = reader["nombre_completo"].ToString();
+                asistente.carnet = reader["carnet"].ToString();
+                asistente.telefono = reader["telefono"].ToString();
+                asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
+
+                nombramiento.asistente = asistente;
+
+
+                Periodo periodo = new Periodo();
+                periodo.semestre = reader["semestre"].ToString();
+                periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
+                nombramiento.periodo = periodo;
+
+
+                Unidad unidad = new Unidad();
+                unidad.nombre = reader["unidad"].ToString();
+                unidad.idUnidad = Convert.ToInt32(reader["id_unidad"].ToString()); ;
+
+                Encargado encargado = new Encargado();
+                encargado.nombreCompleto = reader["nombre_encargado"].ToString();
+                unidad.encargado = encargado;
+
+                nombramiento.unidad = unidad;
                 nombramientos.Add(nombramiento);
             }
 
@@ -154,7 +234,7 @@ namespace AccesoDatos
                               " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente " +
                               " JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad " +
                                " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.disponible=1 AND p.habilitado=1";
-
+           
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             
 
@@ -204,6 +284,7 @@ namespace AccesoDatos
 
             return nombramientos;
         }
+
 
         // <summary>
         // Mariela Calvo

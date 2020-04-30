@@ -49,5 +49,10 @@ namespace Servicios
         {
             return nombramientoDatos.ObtenerNombramientos();
         }
+
+        public List<Nombramiento> ObtenerNombramientosPorPeriodo(int idPeriodo, int idUnidad)
+        {
+            return nombramientoDatos.ObtenerNombramientosPorPeriodo(idPeriodo, idUnidad);
+        }
     }
 }

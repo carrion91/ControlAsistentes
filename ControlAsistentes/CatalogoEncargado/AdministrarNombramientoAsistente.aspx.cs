@@ -528,6 +528,32 @@ namespace ControlAsistentes.CatalogoEncargado
             txtPeriodoM.CssClass = "form-control";
             txtUnidadM.CssClass = "form-control";
 
+            fileExpedienteM.CssClass = "form-control";
+            fileInformeM.CssClass = "form-control";
+            fileCVM.CssClass = "form-control";
+            fileCuenta.CssClass = "form-control";
+
+
+            foreach(Archivo archivo in nombramientoSeleccionado.listaArchivos)
+            {
+                if (archivo.tipoArchivo==2)
+                {
+                    btnInforme.CommandArgument = archivo.idArchivo+""; 
+                }
+                if (archivo.tipoArchivo == 1)
+                {
+                    btnExpediente.CommandArgument = archivo.idArchivo+"";
+                }
+                if (archivo.tipoArchivo == 3)
+                {
+                    btnCV.CommandArgument = archivo.idArchivo + "";
+                }
+                if (archivo.tipoArchivo == 4)
+                {
+                    btnCuenta.CommandArgument = archivo.idArchivo + "";
+                }
+            }
+
             txtUnidadM.Text = unidadEncargado.nombre;
             checkBM.Checked = nombramientoSeleccionado.recibeInduccion;
             txtHorasM.Text = nombramientoSeleccionado.cantidadHorasNombrado + "";
@@ -759,6 +785,52 @@ namespace ControlAsistentes.CatalogoEncargado
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archvios!);", true);
                     (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
                  
+                }
+            }
+            if (listArchivosAsistente.Count() == 0)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene archvios asociados!);", true);
+            }
+
+        }
+
+        /// <summary>
+        /// Mariela Calvo   
+        /// Abril/2020
+        /// Efecto: Visualmente elimina un asistente de una tarjeta
+        /// Requiere: Clickear el boton "eliminar"  de la tabla de nombramientos
+        /// Modifica: - 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnVerArchivo_Click(object sender, EventArgs e)
+        {
+            String idAsistente = asistenteSelecionado.idAsistente+"";
+            List<Asistente> listAsistente = new List<Asistente>();
+            listAsistente = asistenteServicios.ObtenerAsistentes();
+            List<Asistente> tempAsistente = new List<Asistente>();
+            tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
+            int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            foreach (Archivo archivo in listArchivosAsistente)
+            {
+                try
+                {
+                    FileStream fileStream = new FileStream(archivo.rutaArchivo, FileMode.Open, FileAccess.Read);
+                    BinaryReader binaryReader = new BinaryReader(fileStream);
+                    Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
+
+                    fileStream.Close();
+                    binaryReader.Close();
+
+                    descargar(archivo.rutaArchivo);
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archvios!);", true);
+                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
+
                 }
             }
             if (listArchivosAsistente.Count() == 0)

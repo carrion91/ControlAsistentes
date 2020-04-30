@@ -19,6 +19,7 @@ namespace ControlAsistentes.Catalogos
         AsistenteServicios asistenteServicios = new AsistenteServicios();
         UnidadServicios UnidadServicios = new UnidadServicios();
         NombramientoServicios nombramientoServicios = new NombramientoServicios();
+        PeriodoServicios periodoServicios = new PeriodoServicios();
         Nombramiento nombramientoS = new Nombramiento();
         ArchivoServicios archivoServicios = new ArchivoServicios();
         readonly PagedDataSource pgsource = new PagedDataSource();
@@ -74,6 +75,7 @@ namespace ControlAsistentes.Catalogos
                 Session["listaAsistentes"] = listaNombramiento;
                 Session["listaAsistentesFiltrada"] = listaNombramiento;
                 unidadesDDL();
+                periodosDDL();
                 MostrarAsistentes();
             }
 
@@ -83,8 +85,16 @@ namespace ControlAsistentes.Catalogos
         #region eventos
         protected void MostrarAsistentes()
         {
-            int idUnidad = Int32.Parse(ddlUnidad.SelectedValue);
-            List<Nombramiento> listaAsistentes= nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
+            int idUnidad = 0;
+            if (!ddlUnidad.SelectedValue.Equals("Seleccione la Unidad"))
+            {
+                idUnidad = Int32.Parse(ddlUnidad.SelectedValue);
+            }
+          
+            int idPeriodo = Int32.Parse(ddlPeriodo.SelectedValue);
+            List<Nombramiento> listaAsistentes= nombramientoServicios.ObtenerNombramientosPorPeriodo(idPeriodo,idUnidad);
+
+            
             String nombreasistente = "";
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
@@ -211,6 +221,7 @@ namespace ControlAsistentes.Catalogos
             List<Unidad> unidades = new List<Unidad>();
             ddlUnidad.Items.Clear();
             unidades = UnidadServicios.ObtenerUnidades();
+            ddlUnidad.Items.Add("Seleccione la Unidad");
             foreach (Unidad unidad in unidades)
             {
                 ListItem itemEncargado = new ListItem(unidad.nombre, unidad.idUnidad + "");
@@ -220,7 +231,7 @@ namespace ControlAsistentes.Catalogos
         /// <summary>
         /// Mariela Calvo
         /// Marzo20
-        /// Efecto: llean el DropDownList con los encargados que se encuentran en la base de datos
+        /// Efecto: llean el DropDownList las unidades que se encuentran en la base de datos
         /// Requiere: - 
         /// Modifica: DropDownList
         /// Devuelve: -
@@ -230,11 +241,73 @@ namespace ControlAsistentes.Catalogos
             List<Unidad> unidades = new List<Unidad>();
             ddlUnidadesAsistente.Items.Clear();
             unidades = UnidadServicios.ObtenerUnidades();
+            
             foreach (Unidad unidad in unidades)
             {
                 ListItem itemEncargado = new ListItem(unidad.nombre, unidad.idUnidad + "");
                 ddlUnidadesAsistente.Items.Add(itemEncargado);
             }
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Marzo20
+        /// Efecto: llean el DropDownList con los periodos que se encuentran en la base de datos
+        /// Requiere: - 
+        /// Modifica: DropDownList
+        /// Devuelve: -
+        /// </summary>
+        protected void periodosDDL()
+        {
+            List<Periodo> periodos = new List<Periodo>();
+            ddlPeriodo.Items.Clear();
+            periodos = periodoServicios.ObtenerPeriodos();
+            string valor = "";
+            string actual = "";
+            foreach (Periodo periodo in periodos)
+            {
+                if (periodo.habilitado)
+                {
+                    valor = periodo.semestre + "     - Semestre " + periodo.anoPeriodo+" (Actual)";
+                    actual = periodo.idPeriodo + "";
+                }
+                else
+                {
+                    valor = periodo.semestre + "     - Semestre " + periodo.anoPeriodo;
+                }
+                ListItem itemPeriodo= new ListItem(valor, periodo.idPeriodo + "");
+                ddlPeriodo.Items.Add(itemPeriodo);
+                ddlPeriodo.SelectedValue = actual;
+                
+            }
+        }
+
+        /// <summary>
+        /// Mariela Calvo
+        /// Abril/2019
+        /// Efecto: Selecciona un periodo, de acuerdo al periodo seleccionada se llenará la tabla con los datos correspondientes
+        /// Requiere: 
+        /// Modifica: datos de la tabla
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void ddlPeriodo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int idUnidad = 0;
+            int idPeriodo = Convert.ToInt32(ddlPeriodo.SelectedValue);
+            if (!ddlUnidad.SelectedValue.Equals("Seleccione la Unidad"))
+            {
+                idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
+            }
+           
+            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorPeriodo(idPeriodo,idUnidad);
+
+            Session["listaAsistentes"] = listaAsistentes;
+            Session["listaAsistentesFiltrada"] = listaAsistentes;
+
+            MostrarAsistentes();
+
         }
         /// <summary>
         /// Mariela Calvo
@@ -248,9 +321,14 @@ namespace ControlAsistentes.Catalogos
         /// <param name="e"></param>
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int idUnidad = 0;
+            int idPeriodo = Convert.ToInt32(ddlPeriodo.SelectedValue);
+            if (!ddlUnidad.SelectedValue.Equals("Seleccione la Unidad"))
+            {
+                idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
+            }
 
-            int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
+            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorPeriodo(idPeriodo,idUnidad);
 
             Session["listaAsistentes"] = listaAsistentes;
             Session["listaAsistentesFiltrada"] = listaAsistentes;

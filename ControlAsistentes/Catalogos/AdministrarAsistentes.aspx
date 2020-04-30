@@ -32,7 +32,14 @@
 
                 <div class="col-md-6 col-xs-6 col-sm-6">
                     <h4>Unidad</h4>
-                    <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
+                </div>
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <br />
+                </div>
+                <div class="col-md-6 col-xs-6 col-sm-6">
+                    <h4>Periodo</h4>
+                    <asp:DropDownList ID="ddlPeriodo" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPeriodo_SelectedIndexChanged"></asp:DropDownList>
                 </div>
 
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">

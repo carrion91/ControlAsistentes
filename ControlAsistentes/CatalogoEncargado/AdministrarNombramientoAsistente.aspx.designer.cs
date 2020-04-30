@@ -753,6 +753,15 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.FileUpload fileExpedienteM;
 
         /// <summary>
+        /// Control btnExpediente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnExpediente;
+
+        /// <summary>
         /// Control Label13.
         /// </summary>
         /// <remarks>
@@ -778,6 +787,15 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileInformeM;
+
+        /// <summary>
+        /// Control btnInforme.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnInforme;
 
         /// <summary>
         /// Control Label14.
@@ -807,6 +825,15 @@ namespace ControlAsistentes.CatalogoEncargado
         protected global::System.Web.UI.WebControls.FileUpload fileCVM;
 
         /// <summary>
+        /// Control btnCV.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnCV;
+
+        /// <summary>
         /// Control Label15.
         /// </summary>
         /// <remarks>
@@ -832,6 +859,15 @@ namespace ControlAsistentes.CatalogoEncargado
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload fileCuentaM;
+
+        /// <summary>
+        /// Control btnCuenta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnCuenta;
 
         /// <summary>
         /// Control btnEditarNombramientoModal.

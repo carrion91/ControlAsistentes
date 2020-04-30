@@ -94,6 +94,36 @@ namespace AccesoDatos
             return listaArchivosAsistente;
         }
 
+        public Archivo getArchivoAsistente(int idAsistente, int idArchivo)
+        {
+            Archivo archivo = new Archivo();
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+            String consulta = @"select nombre_archivo,ruta_archivo,tipo_archivo,creado_por
+                                   from Asistente A,Nombramiento N,Archivo Ar,Archivo_Nombramiento AN,Periodo P
+                                   where A.id_asistente=N.id_asistente and AN.id_nombramiento=N.id_nombramiento and N.id_periodo=P.id_periodo and 
+                                   AN.id_archivo=Ar.id_archivo and A.id_asistente=@idAsistente and AN.id_archivo=@idArchivo";
+
+            SqlCommand command = new SqlCommand(consulta, sqlConnection);
+
+            command.Parameters.AddWithValue("@idAsistente", Convert.ToInt32(idAsistente));
+            command.Parameters.AddWithValue("@idArchivo", Convert.ToInt32(idArchivo));
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                archivo.rutaArchivo = reader["ruta_archivo"].ToString();
+                archivo.nombreArchivo = reader["nombre_archivo"].ToString();
+                archivo.creadoPor = reader["creado_por"].ToString();
+            }
+
+            sqlConnection.Close();
+
+            return archivo;
+        }
 
         /// <summary>
         /// Mariela Calvo
