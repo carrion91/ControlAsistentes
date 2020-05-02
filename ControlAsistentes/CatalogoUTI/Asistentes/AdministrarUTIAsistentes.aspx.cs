@@ -58,7 +58,6 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
-
                 unidadesDDL();
                 MostrarAsistentes();
 
@@ -105,6 +104,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             List<Unidad> unidades = new List<Unidad>();
             ddlUnidad.Items.Clear();
             unidades = UnidadServicios.ObtenerUnidades();
+            ddlUnidad.Items.Add("Seleccione la Unidad");
             foreach (Unidad unidad in unidades)
             {
                 ListItem itemEncargado = new ListItem(unidad.nombre, unidad.idUnidad + "");
@@ -112,6 +112,130 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
             }
         }
 
+
+        /// <summary>
+        /// Karen Guillén
+        /// 15/04/20
+        /// Efecto: Se cargan los datos del asisente y su respectiva tarjeta, y habilita o deshabilita la posibilidad de modificar. 
+        /// Requiere: - 
+        /// Modifica: #modalTarjetaAsistente
+        /// Devuelve: -
+        /// </summary>
+        protected void CargaAsistenteTarjeta(String carnet)
+        {
+            //HabilitarFormulario();
+
+            List<Nombramiento> asistentes = (List<Nombramiento>)Session["listaAsistentesFiltrada"];
+            Nombramiento asistenteSeleccionado = asistentes.FirstOrDefault(Nombramiento => Nombramiento.asistente.carnet == carnet);
+
+            txtAsistente.Text = asistenteSeleccionado.asistente.nombreCompleto;
+            List<Tarjeta> listaTarjetas = TarjetaServicios.ObtenerTarjetas();
+            DeshabilitarFormularioAsistente();
+            btnAsignar.Enabled = true;
+
+            foreach (Tarjeta tarjeta in listaTarjetas)
+            {
+                txtNumeroTarjeta.Text = "";
+                rdExtraviada.Checked = false;
+
+                if (tarjeta.asistente.carnet == asistenteSeleccionado.asistente.carnet)
+                {
+                    txtNumeroTarjeta.Text = tarjeta.numeroTarjeta;
+                    rdExtraviada.Checked = tarjeta.tarjetaExtraviada;
+                    if (tarjeta.numeroTarjeta != "")
+                    {
+                        btnAsignar.Enabled = false;
+                    }
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Karen Guillén A
+        /// 30/04/2020
+        /// Efecto: Deshabilita los campos del formulario
+        /// Requiere: -
+        /// Modifica: Campos del formulario
+        /// Devuelve: -
+        /// </summary>
+        private void DeshabilitarFormularioAsistente()
+        {
+            rdExtraviada.Checked = false;
+            txtNumeroTarjeta.CssClass = "form-control chat-input";
+            txtNumeroTarjeta.Enabled = false;
+            txtAsistente.CssClass = "form-control chat-input";
+            txtAsistente.Enabled = false;
+
+            rdExtraviada.Enabled = false;
+
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 17/04/20
+        /// Efecto: Se cargan los datos del asistente y su respectivo usuario, en el modal AsistenteUsuario
+        /// Requiere: - 
+        /// Modifica: #modalAsistenteUsuario
+        /// Devuelve: -
+        /// </summary>
+        protected void CargaUsuario(String carnet)
+        {
+            // HabilitarFormulario();
+
+            List<Nombramiento> nombramientos = (List<Nombramiento>)Session["listaAsistentesFiltrada"];
+            Nombramiento asistenteSeleccionado = nombramientos.FirstOrDefault(Nombramiento => Nombramiento.asistente.carnet == carnet);
+
+
+            txtAsistenteU.Text = asistenteSeleccionado.asistente.nombreCompleto;
+            List<Usuario> listaUsuarios = UsuariosServicios.ObtenerUsuarios();
+
+            DeshabilitarFormularioUsuario();
+            btnAsignarUsuario.Enabled = true;
+            foreach (Usuario usuario in listaUsuarios)
+            {
+                //txtNombre.Text = "";
+                txtContrasenia.Text = "";
+                rbDisponible.Checked = false;
+                if (usuario.asistente != null)
+                {
+                    if (usuario.asistente.carnet == asistenteSeleccionado.asistente.carnet)
+                    {
+
+                        txtNombre.Text = usuario.nombre;
+                        txtContrasenia.Attributes.Add("value", usuario.contraseña);
+
+                        rbDisponible.Checked = usuario.disponible;
+                        if (usuario.nombre != "")
+                        {
+                            btnAsignarUsuario.Enabled = false;
+                        }
+
+                    }
+                }
+                
+            }
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 17/04/2020
+        /// Efecto: Deshabilita los campos del modal AsistenteUsuario
+        /// Requiere: -
+        /// Modifica: #ModalAsistenteUsuario
+        /// Devuelve: -
+        /// </summary>
+        private void DeshabilitarFormularioUsuario()
+        {
+            rbDisponible.Enabled = false;
+            txtNombre.CssClass = "form-control chat-input";
+            txtNombre.Enabled = false;
+            txtContrasenia.CssClass = "form-control chat-input";
+            txtContrasenia.Enabled = false;
+            txtAsistenteU.CssClass = "form-control chat-input";
+            txtAsistenteU.Enabled = false;
+
+        }
 
 
         #region eventos
@@ -153,10 +277,12 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         public void btnVerTarjetaAsistente(object sender, EventArgs e)
         {
             String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
-            //CargaAsistente(carnet);
+            CargaAsistenteTarjeta(carnet);
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalTarjetaAsistente();", true);
         }
+
+
 
         /// <summary>
         /// Karen Guillén
@@ -171,11 +297,14 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         public void btnVeUsuarioAsistente(object sender, EventArgs e)
         {
             String carnet = (((LinkButton)(sender)).CommandArgument).ToString();
-    
-            //CargaUsuario(carnet);
+            CargaUsuario(carnet);
 
             ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalUsuarioAsistente();", true);
         }
+
+
+
+
 
         /// <summary>
         /// Karen Guillén
@@ -210,18 +339,13 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            int idUnidad = ddlUnidad.SelectedIndex = 1;
+            int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
             List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
 
+            listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
 
-            if (Convert.ToInt32(ddlUnidad.SelectedValue) != 0)
-            {
-                idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-                listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
-
-                Session["listaAsistentes"] = listaAsistentes;
-                Session["listaAsistentesFiltrada"] = listaAsistentes;
-            }
+            Session["listaAsistentes"] = listaAsistentes;
+            Session["listaAsistentesFiltrada"] = listaAsistentes;
 
             MostrarAsistentes();
         }

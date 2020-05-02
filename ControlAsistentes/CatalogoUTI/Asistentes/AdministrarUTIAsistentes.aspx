@@ -69,7 +69,7 @@
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary glyphicon glyphicon-search" OnClick="filtrarAsistentes" aria-hidden="true"></asp:LinkButton></td>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary glyphicon glyphicon-search" AutoPostBack="true" OnClick="filtrarAsistentes" aria-hidden="true"></asp:LinkButton></td>
                             <td>
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro nombre asistente" AutoPostBack="true" onkeypress="enter_click()"></asp:TextBox>
                             </td>
@@ -99,13 +99,13 @@
                                      <td>
                                         <div id="btnUser" class="btn-group">
                                             <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("asistente.carnet") %>' />
-                                            <asp:LinkButton ID="btnVerUsuario" OnClick="btnVeUsuarioAsistente" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("asistente.carnet") %>'><span id="cambiarUser" class="glyphicon glyphicon-user"></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnVerUsuario" OnClick="btnVeUsuarioAsistente" class="glyphicon glyphicon-user" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("asistente.carnet") %>'></asp:LinkButton>
                                         </div>
                                     </td>
                                     <td>
                                         <div id="btnTarjeta" class="btn-group">
                                             <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("asistente.carnet") %>' />
-                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("asistente.carnet") %>'><span id="cambiarCard" class="glyphicon glyphicon-credit-card"></span></asp:LinkButton>
+                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" class="glyphicon glyphicon-credit-card"  runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("asistente.carnet") %>'></asp:LinkButton>
                                         </div>
                                     </td>
 
@@ -176,18 +176,135 @@
             </div>
 
 
-            <!-- Modal nuevo asistente -->
 
 
-            <!-- Fin modal nuevo asistente -->
+            <!-- Modal  Tarjeta Asistente-->
+        <div id="modalTarjetaAsistente" class="modal fade" role="alertdialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <asp:UpdatePanel ID="UpdatePanel_Tarjetas" runat="server">
+                        <ContentTemplate>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Tarjeta Asistente</h4>
+                            </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <%-- fin titulo accion --%>
 
-            <!-- Modal Eliminar -->
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
-          
-                </ContentTemplate>
-            </asp:UpdatePanel>
-            <!-- FIN modal eliminar unidad -->
+                                            <%-- campos a mostrar --%>
+                                            <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                                <div class="col-md-3 col-xs-3 col-sm-3">
+                                                    <asp:Label ID="lblNumeroTarjeta" runat="server" Text="Número de tarjeta" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                </div>
+                                                <div class="col-md-8 col-xs-8 col-sm-8">
+                                                    <asp:TextBox class="form-control" ID="txtNumeroTarjeta" runat="server" Width="320px"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                                <div class="col-md-3 col-xs-3 col-sm-3">
+                                                    <asp:Label ID="lblTarjetaExtraviada" runat="server" Text="Tarjeta Extraviada" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                </div>
+                                                <div class="col-md-3 col-xs-3 col-sm-3">
+                                                    <asp:RadioButton id="rdExtraviada" runat="server" GroupName="measurementSystem"></asp:RadioButton>
+                                                </div>         
+                                            </div>
+                                            <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                                <div class="col-md-3 col-xs-3 col-sm-3">
+                                                    <asp:Label ID="lblAsistente" runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                </div>
+                                                <div class="col-md-8 col-xs-8 col-sm-8">
+                                                    <asp:TextBox class="form-control" ID="txtAsistente" runat="server" Width="320px"></asp:TextBox>
+                                                </div>
+                                            </div>
+
+                                            <%-- botones --%>
+                                            <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
+                                                <asp:Button ID="btnAsignar" runat="server" Text="Asignar" CssClass="btn btn-primary boton-nuevo"   OnClick="btnAsignar_Click"/>
+                                                <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal" >Cerrar</button>
+                                            </div>
+                                            <%-- fin botones --%>
+                                        </div>
+                                    </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+               </div>
+            </div>
+        </div>
+            <!-- FIN modal Tarjeta Asistente -->
+
+
+        <!-- Modal Usuario Asistente-->
+        <div id="modalUsuarioAsistente" class="modal fade" role="alertdialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <asp:UpdatePanel ID="UpdatePanel_Usuarios" runat="server">
+                         <ContentTemplate>
+                            <%-- Titulo --%>
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Usuario Asistente</h4>
+                            </div>
+                            <%-- fin titulo --%>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <%-- campos a mostrar --%>
+                                    <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                        <div class="col-md-3 col-xs-3 col-sm-3">
+                                            <asp:Label ID="lblnombre" runat="server" Text="Nombre" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                        </div>
+                                        <div class="col-md-8 col-xs-8 col-sm-8">
+                                            <asp:TextBox class="form-control" ID="txtNombre" runat="server" Width="320px"></asp:TextBox>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                        <div class="col-md-3 col-xs-3 col-sm-3">
+                                            <asp:Label ID="lblContrasenia" runat="server" Text="Contraseña" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                        </div>
+                                        <div class="col-md-8 col-xs-8 col-sm-8">
+                                            <asp:TextBox class="form-control" ID="txtContrasenia" runat="server" Width="320px"></asp:TextBox>
+
+                        
+
+                                    
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                        <div class="col-md-3 col-xs-3 col-sm-3">
+                                            <asp:Label ID="Label2" runat="server" Text="Usuario Disponible" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                        </div>
+                                        <div class="col-md-3 col-xs-3 col-sm-3">
+                                            <asp:RadioButton id="rbDisponible" runat="server" GroupName="measurementSystem"></asp:RadioButton>
+                                        </div>         
+                                    </div>
+                                    <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                        <div class="col-md-3 col-xs-3 col-sm-3">
+                                            <asp:Label ID="lblAsistenteU" runat="server" Text="Asistente" Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                        </div>
+                                        <div class="col-md-8 col-xs-8 col-sm-8">
+                                            <asp:TextBox class="form-control" ID="txtAsistenteU" runat="server" Width="320px"></asp:TextBox>
+                                        </div>
+                                    </div>
+
+                                    <%-- botones --%>
+                                    <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
+                                        <asp:Button ID="btnAsignarUsuario" runat="server" Text="Asignar" CssClass="btn btn-primary boton-nuevo" OnClick="btnAsignarUsuario_Click"/>
+                                        <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal" >Cerrar</button>
+                                    </div>
+                                    <%-- fin botones --%>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </div>
+        <!--Fin Modal Usuario Asistente-->
+
 
         </ContentTemplate>
 
