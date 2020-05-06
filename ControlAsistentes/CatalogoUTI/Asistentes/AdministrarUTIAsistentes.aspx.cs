@@ -16,7 +16,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
         #region variables globales
 
-        AsistenteServicios AsistenteServicios = new AsistenteServicios();
+        AsistenteServicios asistenteServicios = new AsistenteServicios();
         UnidadServicios UnidadServicios = new UnidadServicios();
         TarjetaServicios TarjetaServicios = new TarjetaServicios();
         UsuariosServicios UsuariosServicios = new UsuariosServicios();
@@ -54,7 +54,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
                 Session["listaAsistentes"] = null;
                 Session["listaAsistentesFiltrada"] = null;
 
-                List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientos();
+                List<Asistente> listaAsistentes = asistenteServicios.ObtenerAsistentes();
                 Session["listaAsistentes"] = listaAsistentes;
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
 
@@ -66,7 +66,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
         protected void MostrarAsistentes()
         {
-            List<Nombramiento> listaAsistentes = (List<Nombramiento>)Session["listaAsistentes"];
+            List<Asistente> listaAsistentes = (List<Asistente>)Session["listaAsistentes"];
             String filtro = "";
 
 
@@ -75,7 +75,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
                 filtro = txtBuscarNombre.Text;
             }
 
-            List<Nombramiento> listaAsistentesFiltrada = (List<Nombramiento>)listaAsistentes.Where(nombramiento => nombramiento.asistente.nombreCompleto.ToUpper().Contains(filtro.ToUpper())).ToList();
+            List<Asistente> listaAsistentesFiltrada = (List<Asistente>)listaAsistentes.Where(asistente => asistente.nombreCompleto.ToUpper().Contains(filtro.ToUpper())).ToList();
             Session["listaAsistentesFiltrada"] = listaAsistentesFiltrada;
 
             var dt = listaAsistentesFiltrada;
@@ -125,10 +125,10 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         {
             //HabilitarFormulario();
 
-            List<Nombramiento> asistentes = (List<Nombramiento>)Session["listaAsistentesFiltrada"];
-            Nombramiento asistenteSeleccionado = asistentes.FirstOrDefault(Nombramiento => Nombramiento.asistente.carnet == carnet);
+            List<Asistente> asistentes = (List<Asistente>)Session["listaAsistentesFiltrada"];
+            Asistente asistenteSeleccionado = asistentes.FirstOrDefault(asistente => asistente.carnet == carnet);
 
-            txtAsistente.Text = asistenteSeleccionado.asistente.nombreCompleto;
+            txtAsistente.Text = asistenteSeleccionado.nombreCompleto;
             List<Tarjeta> listaTarjetas = TarjetaServicios.ObtenerTarjetas();
             DeshabilitarFormularioAsistente();
             btnAsignar.Enabled = true;
@@ -138,7 +138,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
                 txtNumeroTarjeta.Text = "";
                 rdExtraviada.Checked = false;
 
-                if (tarjeta.asistente.carnet == asistenteSeleccionado.asistente.carnet)
+                if (tarjeta.asistente.carnet == asistenteSeleccionado.carnet)
                 {
                     txtNumeroTarjeta.Text = tarjeta.numeroTarjeta;
                     rdExtraviada.Checked = tarjeta.tarjetaExtraviada;
@@ -183,11 +183,11 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
         {
             // HabilitarFormulario();
 
-            List<Nombramiento> nombramientos = (List<Nombramiento>)Session["listaAsistentesFiltrada"];
-            Nombramiento asistenteSeleccionado = nombramientos.FirstOrDefault(Nombramiento => Nombramiento.asistente.carnet == carnet);
+            List<Asistente> nombramientos = (List<Asistente>)Session["listaAsistentesFiltrada"];
+            Asistente asistenteSeleccionado = nombramientos.FirstOrDefault(asistente =>asistente.carnet == carnet);
 
 
-            txtAsistenteU.Text = asistenteSeleccionado.asistente.nombreCompleto;
+            txtAsistenteU.Text = asistenteSeleccionado.nombreCompleto;
             List<Usuario> listaUsuarios = UsuariosServicios.ObtenerUsuarios();
 
             DeshabilitarFormularioUsuario();
@@ -199,7 +199,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
                 rbDisponible.Checked = false;
                 if (usuario.asistente != null)
                 {
-                    if (usuario.asistente.carnet == asistenteSeleccionado.asistente.carnet)
+                    if (usuario.asistente.carnet == asistenteSeleccionado.carnet)
                     {
 
                         txtNombre.Text = usuario.nombre;
@@ -338,11 +338,15 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
 
         protected void ddlUnidad_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int idUnidad = 0;
+            if (!ddlUnidad.SelectedValue.Equals("Seleccione la Unidad"))
+            {
+                idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
+            }
+           
+            List<Asistente> listaAsistentes =asistenteServicios.ObtenerAsistentesPorUnidad1(idUnidad);
 
-            int idUnidad = Convert.ToInt32(ddlUnidad.SelectedValue);
-            List<Nombramiento> listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
-
-            listaAsistentes = nombramientoServicios.ObtenerNombramientosPorUnidad(idUnidad);
+            listaAsistentes = asistenteServicios.ObtenerNombramientosPorUnidad(idUnidad);
 
             Session["listaAsistentes"] = listaAsistentes;
             Session["listaAsistentesFiltrada"] = listaAsistentes;

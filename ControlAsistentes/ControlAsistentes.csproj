@@ -157,7 +157,6 @@
     <Content Include="Catalogos\AdministrarAsistentes.aspx" />
     <Content Include="Catalogos\AdministrarPeriodos.aspx" />
     <Content Include="Catalogos\AdministrarUnidades.aspx" />
-    <Content Include="CatalogoUTI\Asistentes\AdministrarAsistentesUTI.aspx" />
     <Content Include="CatalogoUTI\Asistentes\AdministrarUTIAsistentes.aspx" />
     <Content Include="CatalogoUTI\Tarjetas\AdministrarTarjetas.aspx" />
     <Content Include="CatalogoUTI\Usuarios\AdministrarUsuarios.aspx" />
@@ -272,13 +271,6 @@
     </Compile>
     <Compile Include="Catalogos\AdministrarUnidades.aspx.designer.cs">
       <DependentUpon>AdministrarUnidades.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="CatalogoUTI\Asistentes\AdministrarAsistentesUTI.aspx.cs">
-      <DependentUpon>AdministrarAsistentesUTI.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="CatalogoUTI\Asistentes\AdministrarAsistentesUTI.aspx.designer.cs">
-      <DependentUpon>AdministrarAsistentesUTI.aspx</DependentUpon>
     </Compile>
     <Compile Include="CatalogoUTI\Asistentes\AdministrarUTIAsistentes.aspx.cs">
       <DependentUpon>AdministrarUTIAsistentes.aspx</DependentUpon>

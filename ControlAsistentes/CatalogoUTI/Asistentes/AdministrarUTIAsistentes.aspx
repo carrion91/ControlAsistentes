@@ -61,7 +61,6 @@
                                 <th>Nombre</th>
                                 <th>Carné</th>
                                 <th>Unidad Asistencia</th>
-                                <th>Último Periodo Nombrado</th>
                                 <th>Usuario</th>
                                 <th>Tarjeta</th>
 
@@ -78,8 +77,8 @@
 
                             <td></td>
                             <td></td>
-
-
+                             <td></td>
+                           
 
                         </tr>
                         <asp:Repeater ID="rpAsistentes" runat="server">
@@ -90,22 +89,22 @@
 
 
                                     <td></td>
-                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
-                                        <%# Eval("asistente.nombreCompleto") %></td>
-                                    <td><%# Eval("asistente.carnet") %></td>
+                                    <td>
+                                        <%# Eval("nombreCompleto") %></td>
+                                    <td><%# Eval("carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
-                                    <td><%# Eval("periodo.semestre") %> Semestre - <%# Eval("periodo.anoPeriodo")%> </td>
+                                   
 
                                      <td>
                                         <div id="btnUser" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("asistente.carnet") %>' />
-                                            <asp:LinkButton ID="btnVerUsuario" OnClick="btnVeUsuarioAsistente" class="glyphicon glyphicon-user" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("asistente.carnet") %>'></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("carnet") %>' />
+                                            <asp:LinkButton ID="btnVerUsuario" OnClick="btnVeUsuarioAsistente" class="glyphicon glyphicon-user" runat="server" ToolTip="Ver Usuario" CommandArgument='<%# Eval("carnet") %>'></asp:LinkButton>
                                         </div>
                                     </td>
                                     <td>
                                         <div id="btnTarjeta" class="btn-group">
-                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("asistente.carnet") %>' />
-                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" class="glyphicon glyphicon-credit-card"  runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("asistente.carnet") %>'></asp:LinkButton>
+                                            <asp:HiddenField runat="server" ID="HFIdProyecto" Value='<%# Eval("carnet") %>' />
+                                            <asp:LinkButton ID="btnVerTarjeta"  OnClick="btnVerTarjetaAsistente" class="glyphicon glyphicon-credit-card"  runat="server" ToolTip="Ver Tarjeta" CommandArgument='<%# Eval("carnet") %>'></asp:LinkButton>
                                         </div>
                                     </td>
 

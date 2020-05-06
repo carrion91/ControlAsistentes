@@ -115,7 +115,47 @@ namespace AccesoDatos
 
             return asistentes;
         }
+        public List<Asistente> ObtenerAsistentesPorUnidad1(int idUnidad)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            List<Asistente> asistentes = new List<Asistente>();
 
+            String consulta = @"SELECT distinct a.id_asistente, a.nombre_completo,a.carnet,a.telefono, e.nombre_completo as nombre_encargado, u.nombre as unidadA,u.id_unidad 
+                                FROM Asistente a JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente JOIN Encargado e ON e.id_encargado = ea.id_encargado JOIN Encargado_Unidad eu ON e.id_encargado=eu.id_encargado 
+                                JOIN Unidad u ON eu.id_unidad=u.id_unidad WHERE eu.id_unidad=@id_unidad AND a.disponible=1; ";
+
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@id_unidad", idUnidad);
+
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Asistente asistente = new Asistente();
+                asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
+                asistente.nombreCompleto = reader["nombre_completo"].ToString();
+                asistente.carnet = reader["carnet"].ToString();
+                asistente.telefono = reader["telefono"].ToString();
+                
+                
+               
+                
+                Unidad unidad = new Unidad();
+                unidad.nombre = reader["unidadA"].ToString();
+                unidad.idUnidad = idUnidad;
+                Encargado encargado = new Encargado();
+                encargado.nombreCompleto = reader["nombre_encargado"].ToString();
+                unidad.encargado = encargado;
+                asistente.unidad = unidad;
+                asistentes.Add(asistente);
+            }
+
+            sqlConnection.Close();
+
+            return asistentes;
+        }
 
         public Asistente ObtenerAsistentesPorID(int idAsistente)
         {

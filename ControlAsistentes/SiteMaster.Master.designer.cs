@@ -177,6 +177,15 @@ namespace ControlAsistentes
         protected global::System.Web.UI.HtmlControls.HtmlAnchor nombramientoE;
 
         /// <summary>
+        /// Control A1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor A1;
+
+        /// <summary>
         /// Control MenuUTI.
         /// </summary>
         /// <remarks>

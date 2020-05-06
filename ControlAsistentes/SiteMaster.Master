@@ -120,6 +120,9 @@
                                 <ul class="nav navbar-nav">
                                     <li><a href='<%=Page.ResolveUrl("~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx") %>'>Nombramientos</a></li>
                                 </ul>
+                                <ul class="nav navbar-nav">
+                                    <li><a href='<%=Page.ResolveUrl("~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx") %>'>Proyectos</a></li>
+                                </ul>
                             </div>
                             <%--MENU UTI--%>
                             <div id="MenuNavBarUTI" runat="server">
@@ -219,6 +222,18 @@
                                     <div class="fmcircle_in fmcircle_red">
                                         <h3 class="fa fa-folder-open fa-2x"></h3>
                                         <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Nombramientos</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="grid_3">
+                        <a id="A1"  runat="server" href="~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx">
+                            <div class="fmcircle_out">
+                                <div class="fmcircle_border">
+                                    <div class="fmcircle_in fmcircle_red">
+                                        <h3 class="glyphicon glyphicon-briefcase fa-2x"</h3>
+                                        <h3 style=" color: black;font-family:'Bookman Old Style'; font-size:25px;font-weight:bold"">Proyectos</h3>
                                     </div>
                                 </div>
                             </div>

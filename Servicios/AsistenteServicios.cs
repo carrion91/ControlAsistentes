@@ -37,8 +37,20 @@ namespace Servicios
         {
             return asistenteDatos.ObtenerAsistentesPorUnidad(idUnidad);
         }
+		/// <summary>
+		/// Jesús Torres
+		/// 02/abr/2020
+		/// Efecto: Obtiene los asistentes de la capa de datos por unidad y periodo actual
+		/// Requiere: - 
+		/// Modifica: 
+		/// Devuelve: Lista de asistentes 
+		/// </summary>
+		public List<Asistente> ObtenerAsistentesPorUnidad1(int idUnidad)
+		{
+			return asistenteDatos.ObtenerAsistentesPorUnidad1(idUnidad);
+		}
 
-        public int insertarAsistente(Asistente asistente)
+		public int insertarAsistente(Asistente asistente)
         {
             return asistenteDatos.insertarAsistente(asistente);
         }
