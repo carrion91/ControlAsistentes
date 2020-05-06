@@ -16,7 +16,7 @@
              <div class="col-md-12 col-xs-12 col-sm-12">
             <center>
                 <asp:Label id="tituloUn" runat="server" Text="Administración de Asistentes" Font-Size="Large" ForeColor="Black"></asp:Label>
-                <p class="mt-1">En esta sección podrá registrar nombramientos de las horas asistentes</p>
+                <h2 class="mt-1">En esta sección podrá registrar nombramientos de las horas asistentes</h2>
             </center>
         </div>
         </center>
@@ -29,8 +29,14 @@
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
-
-
+                
+                <asp:Label id="Label19" runat="server" Text="Simbología" Font-Size="Large" ForeColor="Black"></asp:Label>
+                <br />
+                <div class="w3-panel w3-card-2 w3-orange" style="width:30px;height:20px; "></div>
+                <div class="W3-panel w3-card-2 w3-green" style="width:30px;height:20px; "></div>
+                <div class="w3-panel w3-card-2 w3-red" style="width:30px;height:20px; "></div>
+                
+                 
                 <div class="col-md-12 col-xs-6 col-sm-6">
 
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
@@ -71,7 +77,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-
+                            <td></td>
 
                         </tr>
                         <asp:Repeater ID="rpAsistentes" runat="server">
@@ -84,7 +90,8 @@
                                         <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idNombramiento") %>' class="btn glyphicon glyphicon-pencil" OnClick="btnEditarNombramiento"></asp:LinkButton>
                                         <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("idNombramiento") %>' class="btn glyphicon glyphicon-trash" OnClick="btnEliminarNombramiento"></asp:LinkButton>
                                     </td>
-                                    <td><%# Eval("asistente.nombreCompleto") %></td>
+                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
+                                        <%# Eval("asistente.nombreCompleto") %></td>
                                     <td><%# Eval("asistente.carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <td>
@@ -787,9 +794,10 @@
                                                     <asp:FileUpload ID="fileExpedienteM" runat="server" AllowMultiple="true" CssClass="form-control" />
                                                     <asp:LinkButton ID="btnExpediente"
                                                      runat ="server"
+                                                     ToolTip="Ver Archivo"
                                                      CssClass="input-group-addon boton-otro"
                                                      style="cursor:pointer"
-                                                     
+                                                     CommandArgument='<%# Eval("") %>'
                                                      OnClick="btnVerArchivo_Click">
 												    <i class="glyphicon glyphicon-floppy-save"></i>
                                                     </asp:LinkButton>
@@ -817,8 +825,10 @@
                                                         runat ="server"
                                                         CssClass="input-group-addon boton-otro"
                                                         style="cursor:pointer"
+                                                        ToolTip="Ver Archivo"
+                                                        CommandArgument='<%# Eval("") %>'
+                                                        OnClick="btnVerArchivo_Click">
                                                         
-                                                        >
 												        <i class="glyphicon glyphicon-floppy-save"></i>
                                                     </asp:LinkButton>
                                                 </div>
@@ -847,6 +857,9 @@
                                                         runat ="server"
                                                         CssClass="input-group-addon boton-otro"
                                                         style="cursor:pointer"
+                                                        ToolTip="Ver Archivo"
+                                                        CommandArgument='<%# Eval("") %>'
+                                                        OnClick="btnVerArchivo_Click"
                                                         >
 												        <i class="glyphicon glyphicon-floppy-save"></i>
                                                     </asp:LinkButton>
@@ -875,6 +888,9 @@
                                                         runat ="server"
                                                         CssClass="input-group-addon boton-otro"
                                                         style="cursor:pointer"
+                                                        ToolTip="Ver Archivo"
+                                                        CommandArgument='<%# Eval("") %>'
+                                                        OnClick="btnVerArchivo_Click"
                                                         >
 												        <i class="glyphicon glyphicon-floppy-save"></i>
                                                     </asp:LinkButton>

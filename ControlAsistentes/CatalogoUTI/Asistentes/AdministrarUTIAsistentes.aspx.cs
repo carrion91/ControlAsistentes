@@ -346,7 +346,7 @@ namespace ControlAsistentes.CatalogoUTI.Asistentes
            
             List<Asistente> listaAsistentes =asistenteServicios.ObtenerAsistentesPorUnidad1(idUnidad);
 
-            listaAsistentes = asistenteServicios.ObtenerNombramientosPorUnidad(idUnidad);
+   
 
             Session["listaAsistentes"] = listaAsistentes;
             Session["listaAsistentesFiltrada"] = listaAsistentes;

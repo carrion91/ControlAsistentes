@@ -458,7 +458,7 @@ namespace ControlAsistentes.Catalogos
             List<Asistente> tempAsistente = new List<Asistente>();
             tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
             int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
-            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivosAsistente(Convert.ToInt32(idAsistente), idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
             {
                 try
@@ -495,7 +495,7 @@ namespace ControlAsistentes.Catalogos
             List<Asistente> tempAsistente = new List<Asistente>();
             tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
             int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
-            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivosAsistente(Convert.ToInt32(idAsistente), idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
             {
                 try

@@ -63,7 +63,7 @@ namespace AccesoDatos
 
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
 
-            String consulta = @"select nombre_archivo,ruta_archivo,tipo_archivo,creado_por
+            String consulta = @"select AN.id_archivo,nombre_archivo,ruta_archivo,tipo_archivo,creado_por
                                    from Asistente A,Nombramiento N,Archivo Ar,Archivo_Nombramiento AN,Periodo P
                                    where A.id_asistente=N.id_asistente and AN.id_nombramiento=N.id_nombramiento and N.id_periodo=P.id_periodo and 
                                    AN.id_archivo=Ar.id_archivo and A.id_asistente=@idAsistente and P.id_periodo=@idPeriodo";
@@ -82,10 +82,11 @@ namespace AccesoDatos
             {
                 Archivo archivo = new Archivo();
 
-
+                archivo.idArchivo= Convert.ToInt32(reader["id_archivo"].ToString());
                 archivo.rutaArchivo = reader["ruta_archivo"].ToString();
                 archivo.nombreArchivo = reader["nombre_archivo"].ToString();
                 archivo.creadoPor = reader["creado_por"].ToString();
+                archivo.tipoArchivo = Convert.ToInt32(reader["tipo_archivo"].ToString());
                 listaArchivosAsistente.Add(archivo);
             }
 

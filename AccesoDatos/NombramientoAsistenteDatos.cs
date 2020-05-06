@@ -81,7 +81,7 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Nombramiento> nombramientos = new List<Nombramiento>();
 
-            String consulta = @"SELECT n.solicitud,n.induccion, n.id_nombramiento, a.id_asistente, a.nombre_completo,a.carnet,a.telefono, n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
+            String consulta = @"SELECT p.id_periodo, n.solicitud,n.induccion, n.id_nombramiento, a.id_asistente, a.nombre_completo,a.carnet,a.telefono, n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
                               " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente " +
                               " JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad " +
                                " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.id_unidad=@idUnidad  AND a.disponible=1 AND n.disponible=1";
@@ -116,6 +116,7 @@ namespace AccesoDatos
 
 
                 Periodo periodo = new Periodo();
+                periodo.idPeriodo= periodo.anoPeriodo = Convert.ToInt32(reader["id_periodo"].ToString());
                 periodo.semestre = reader["semestre"].ToString();
                 periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
                 nombramiento.periodo = periodo;

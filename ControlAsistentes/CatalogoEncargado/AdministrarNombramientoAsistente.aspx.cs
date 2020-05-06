@@ -67,7 +67,7 @@ namespace ControlAsistentes.CatalogoEncargado
         {
             object[] rolesPermitidos = { 1, 2, 5 };
             Page.Master.FindControl("MenuControl").Visible = false;
-           
+
 
             if (Session["nombreCompleto"] != null)
             {
@@ -522,7 +522,10 @@ namespace ControlAsistentes.CatalogoEncargado
             int idNombramiento = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
             List<Nombramiento> nombramientos = nombramientoServicios.ObtenerNombramientosPorUnidad(unidadEncargado.idUnidad);
             nombramientoSeleccionado = nombramientos.FirstOrDefault(a => a.idNombramiento == idNombramiento);
-            int AS= nombramientoSeleccionado.asistente.idAsistente;
+            List<Archivo> archivos = nombramientoSeleccionado.listaArchivos;
+            asistenteSelecionado = nombramientoSeleccionado.asistente;
+            int AS = nombramientoSeleccionado.asistente.idAsistente;
+           
             txtHorasM.CssClass = "form-control";
             txtAsistenteM.CssClass = "form-control";
             txtPeriodoM.CssClass = "form-control";
@@ -534,15 +537,15 @@ namespace ControlAsistentes.CatalogoEncargado
             fileCuenta.CssClass = "form-control";
 
 
-            foreach(Archivo archivo in nombramientoSeleccionado.listaArchivos)
+            foreach (Archivo archivo in archivos)
             {
-                if (archivo.tipoArchivo==2)
+                if (archivo.tipoArchivo == 2)
                 {
-                    btnInforme.CommandArgument = archivo.idArchivo+""; 
+                    btnInforme.CommandArgument = archivo.idArchivo + "";
                 }
                 if (archivo.tipoArchivo == 1)
                 {
-                    btnExpediente.CommandArgument = archivo.idArchivo+"";
+                    btnExpediente.CommandArgument = archivo.idArchivo + "";
                 }
                 if (archivo.tipoArchivo == 3)
                 {
@@ -574,8 +577,8 @@ namespace ControlAsistentes.CatalogoEncargado
         /// </summary>
         protected void editarNombramiento_Click(object sender, EventArgs e)
         {
-            
-            nombramientoSeleccionado.listaArchivos = archivoServicios.ObtenerArchivoAsistente(nombramientoSeleccionado.idNombramiento, nombramientoSeleccionado.periodo.idPeriodo);
+
+            nombramientoSeleccionado.listaArchivos = archivoServicios.ObtenerArchivosAsistente(nombramientoSeleccionado.idNombramiento, nombramientoSeleccionado.periodo.idPeriodo);
             int editado = 0;
 
             if (validarEditarNombramiento())
@@ -588,7 +591,7 @@ namespace ControlAsistentes.CatalogoEncargado
 
                 List<FileUpload> listaArchivosEditar = new List<FileUpload>();
                 List<int> tipoArchivos = new List<int>();
-                
+
                 if (fileExpedienteM.HasFiles)
                 {
                     listaArchivosEditar.Add(fileExpedienteM);
@@ -618,8 +621,8 @@ namespace ControlAsistentes.CatalogoEncargado
                     {
                         foreach (int tipo in tipoArchivos)
                         {
-                            editado = editarArchivos(nombramientoSeleccionado, fileUp,tipo);
-                        }                        
+                            editado = editarArchivos(nombramientoSeleccionado, fileUp, tipo);
+                        }
                     }
                 }
 
@@ -628,7 +631,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 Session["listaAsistentesFiltrada"] = listaAsistentes;
                 MostrarAsistentes();
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.success('" + "Se editó el nombramiento del asistente " + nombramiento.asistente.nombreCompleto + " exitosamente!);", true);
-               
+
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoNombramiento", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoNombramientohide();", true);
             }
             else
@@ -682,16 +685,16 @@ namespace ControlAsistentes.CatalogoEncargado
 
             foreach (HttpPostedFile file in fileUp.PostedFiles)
             {
-              
+
                 String nombreArchivo = Path.GetFileName(file.FileName);
                 nombreArchivo = nombreArchivo.Replace(' ', '_');
                 DateTime fechaHoy = new DateTime();
                 fechaHoy = DateTime.Now;
                 String carpeta = nombramiento.asistente.nombreCompleto + "-" + nombramiento.periodo.semestre + "_" + nombramiento.periodo.anoPeriodo; ;
                 String nuevoTextoConsecutivo = file.FileName;
-                editado = Utilidades.OverWriteFile(fileUp, fechaHoy.Year, nombreArchivo,nuevoTextoConsecutivo,carpeta);
+                editado = Utilidades.OverWriteFile(fileUp, fechaHoy.Year, nombreArchivo, nuevoTextoConsecutivo, carpeta);
 
-                if (editado== 0)
+                if (editado == 0)
                 {
                     Archivo archivoNuevo = new Archivo();
                     archivoNuevo.nombreArchivo = nombreArchivo;
@@ -699,7 +702,7 @@ namespace ControlAsistentes.CatalogoEncargado
                     archivoNuevo.fechaCreacion = fechaHoy;
                     archivoNuevo.creadoPor = "Mariela Calvo";//Session["nombreCompleto"].ToString();
                     archivoNuevo.tipoArchivo = tipo;
-                    int idA=archivoServicios.insertarArchivo(archivoNuevo);
+                    int idA = archivoServicios.insertarArchivo(archivoNuevo);
                     archivoServicios.insertarArchivoNombramiento(idA, nombramiento.idNombramiento);
                 }
             }
@@ -721,22 +724,23 @@ namespace ControlAsistentes.CatalogoEncargado
         {
             int idNombramiento = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
             Nombramiento nombramiento = nombramientoServicios.ObtenerDetallesNombramiento(idNombramiento);
-            
-            
+
+
             txtAsistenteD.CssClass = "form-control";
             txtDetalles.CssClass = "form-control";
-
-            if (nombramiento.aprobado && nombramiento.solicitud==1)
+            txtSolicitudD.Visible = false;
+            Label18.Visible = false;
+            if (nombramiento.aprobado && nombramiento.solicitud == 1)
             {
-              txtSolicitudD.Style.Add("background-color", "#0BA55E");
-               txtSolicitudD.Text = "APROBADO";
+                txtSolicitudD.Style.Add("background-color", "#0BA55E");
+                txtSolicitudD.Text = "APROBADO";
             }
-            else if (!nombramiento.aprobado && nombramiento.solicitud==2)
+            else if (!nombramiento.aprobado && nombramiento.solicitud == 2)
             {
                 txtSolicitudD.Style.Add("background-color", "#D96F6F");
                 txtSolicitudD.Text = "RECHAZADO";
             }
-            else if(!nombramiento.aprobado && nombramiento.solicitud==0)
+            else if (!nombramiento.aprobado && nombramiento.solicitud == 0)
             {
                 txtSolicitudD.Style.Add("background-color", "#E88C01");
                 txtSolicitudD.Text = "PENDIENTE";
@@ -766,7 +770,7 @@ namespace ControlAsistentes.CatalogoEncargado
             List<Asistente> tempAsistente = new List<Asistente>();
             tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
             int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
-            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivosAsistente(Convert.ToInt32(idAsistente), idPeriodo);
             foreach (Archivo archivo in listArchivosAsistente)
             {
                 try
@@ -784,7 +788,7 @@ namespace ControlAsistentes.CatalogoEncargado
                 {
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archvios!);", true);
                     (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
-                 
+
                 }
             }
             if (listArchivosAsistente.Count() == 0)
@@ -806,41 +810,39 @@ namespace ControlAsistentes.CatalogoEncargado
         /// <param name="e"></param>
         protected void btnVerArchivo_Click(object sender, EventArgs e)
         {
-            String idAsistente = asistenteSelecionado.idAsistente+"";
+            String idAsistente = asistenteSelecionado.idAsistente + "";
+            int idArchivo = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
             List<Asistente> listAsistente = new List<Asistente>();
             listAsistente = asistenteServicios.ObtenerAsistentes();
             List<Asistente> tempAsistente = new List<Asistente>();
             tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
-            int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
-            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idPeriodo);
-            foreach (Archivo archivo in listArchivosAsistente)
+            Archivo archivosAsistente = archivoServicios.ObtenerArchivoAsistente(Convert.ToInt32(idAsistente), idArchivo);
+            try
             {
-                try
-                {
-                    FileStream fileStream = new FileStream(archivo.rutaArchivo, FileMode.Open, FileAccess.Read);
-                    BinaryReader binaryReader = new BinaryReader(fileStream);
-                    Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
+                FileStream fileStream = new FileStream(archivosAsistente.rutaArchivo, FileMode.Open, FileAccess.Read);
+                BinaryReader binaryReader = new BinaryReader(fileStream);
+                Byte[] blobValue = binaryReader.ReadBytes(Convert.ToInt32(fileStream.Length));
 
-                    fileStream.Close();
-                    binaryReader.Close();
+                fileStream.Close();
+                binaryReader.Close();
 
-                    descargar(archivo.rutaArchivo);
-                }
-                catch (DirectoryNotFoundException)
-                {
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archvios!);", true);
-                    (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
-
-                }
+                descargar(archivosAsistente.rutaArchivo);
             }
-            if (listArchivosAsistente.Count() == 0)
+            catch (DirectoryNotFoundException)
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "Error al cargar los archvios!);", true);
+                (this.Master as SiteMaster).Toastr("error", "Error al cargar los archivos");
+
+            }
+
+            if (archivosAsistente.idArchivo == 0)
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "toastr.error('" + "No contiene archvios asociados!);", true);
             }
 
         }
         /// <summary>
-        /// Mariela Calvo   
+        /// Mariela Calvo   e
         /// Abril/2020
         /// Efecto: Permite descargar los documentos para que puedan verlos
         /// Requiere: Clickear el boton "Ver documentos" de la tabla nombramiento
