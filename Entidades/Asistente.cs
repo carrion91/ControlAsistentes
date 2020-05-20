@@ -10,25 +10,13 @@ namespace Entidades
     public class Asistente
     {
         public int idAsistente { get; set; }
-        public string nombreCompleto{ get; set; }
+        public string nombreCompleto { get; set; }
         public string carnet { get; set; }
-        public string telefono { get; set; }
-        public string correo { get; set; }
 
-        public bool disponible { get; set; }
-        public bool nombrado { get; set; }
-        public bool recibeInduccion { get; set; }
-        public int cantidadHorasNombrado { get; set; }
+        public string telefono { get; set; }
         public int cantidadPeriodosNombrado { get; set; }
 
-
-        public Archivo achivo { get; set; }
-        public Periodo periodo { get; set; }
-    
         public Unidad unidad { get; set; }
-        public int solicitud { get; set; }
-        public string observaciones { get; set; }
-
 
 
 

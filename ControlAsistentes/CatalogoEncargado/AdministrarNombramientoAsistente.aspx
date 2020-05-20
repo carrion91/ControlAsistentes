@@ -34,7 +34,8 @@
                 <br />
                 <div class="w3-panel w3-card-2 w3-orange" style="width:30px;height:20px; "></div>
                 <div class="W3-panel w3-card-2 w3-green" style="width:30px;height:20px; "></div>
-                <div class="w3-panel w3-card-2 w3-red" style="width:30px;height:20px; "></div>
+                <br />
+                <div class="W3-panel w3-card-2 w3-red" style="width:30px;height:20px; "></div>
                 
                  
                 <div class="col-md-12 col-xs-6 col-sm-6">
@@ -90,7 +91,7 @@
                                         <asp:LinkButton ID="btnEditar" runat="server" ToolTip="Editar" CommandArgument='<%# Eval("idNombramiento") %>' class="btn glyphicon glyphicon-pencil" OnClick="btnEditarNombramiento"></asp:LinkButton>
                                         <asp:LinkButton ID="btnEliminar" runat="server" ToolTip="Eliminar" CommandArgument='<%# Eval("idNombramiento") %>' class="btn glyphicon glyphicon-trash" OnClick="btnEliminarNombramiento"></asp:LinkButton>
                                     </td>
-                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
+                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#fd8e03": "background-color:#ff0000") %>'>
                                         <%# Eval("asistente.nombreCompleto") %></td>
                                     <td><%# Eval("asistente.carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>

@@ -66,7 +66,7 @@ namespace AccesoDatos
             String consulta = @"select AN.id_archivo,nombre_archivo,ruta_archivo,tipo_archivo,creado_por
                                    from Asistente A,Nombramiento N,Archivo Ar,Archivo_Nombramiento AN,Periodo P
                                    where A.id_asistente=N.id_asistente and AN.id_nombramiento=N.id_nombramiento and N.id_periodo=P.id_periodo and 
-                                   AN.id_archivo=Ar.id_archivo and A.id_asistente=@idAsistente and P.id_periodo=@idPeriodo";
+                                   AN.id_archivo=Ar.id_archivo and A.id_asistente=@idAsistente";
 
             SqlCommand command = new SqlCommand(consulta, sqlConnection);
 

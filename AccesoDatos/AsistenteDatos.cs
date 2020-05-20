@@ -29,7 +29,7 @@ namespace AccesoDatos
             List<Asistente> asistentes = new List<Asistente>();
 
             String consulta = @"SELECT a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre,n.id_periodo, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado ,n.solicitud ,n.observaciones" +
-            " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado where p.habilitado=1  AND a.disponible=1;; ";
+            " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Periodo p ON n.id_periodo=p.id_periodo JOIN Unidad u ON n.id_unidad=u.id_unidad JOIN Encargado_Unidad eu ON u.id_unidad=eu.id_unidad JOIN Encargado e ON e.id_encargado = eu.id_encargado where p.habilitado=1  AND a.disponible=1; ";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
 
@@ -44,23 +44,16 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
-                asistente.nombrado = Convert.ToBoolean(reader["aprobado"].ToString());
                 Periodo periodo = new Periodo();
                 periodo.semestre = reader["semestre"].ToString();
                 periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
                 periodo.idPeriodo = Convert.ToInt32(reader["id_periodo"].ToString());
-                asistente.periodo = periodo;
-                asistente.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
                 asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
-                asistente.solicitud = Convert.ToInt32(reader["solicitud"].ToString());
-                asistente.observaciones= reader["observaciones"].ToString();
                 Unidad unidad = new Unidad();
                 unidad.nombre = reader["unidad"].ToString();
                 Encargado encargado = new Encargado();
                 encargado.nombreCompleto = reader["nombre_encargado"].ToString();
                 unidad.encargado = encargado;
-                asistente.unidad = unidad;
                 asistentes.Add(asistente);
             }
 
@@ -91,15 +84,9 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
-                asistente.nombrado = Convert.ToBoolean(reader["aprobado"].ToString());
                 Periodo periodo = new Periodo();
                 periodo.semestre = reader["semestre"].ToString();
                 periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
-                asistente.periodo = periodo;
-                asistente.solicitud = Convert.ToInt32(reader["solicitud"].ToString());
-                asistente.observaciones= reader["observaciones"].ToString();
-                asistente.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
                 asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
                 Unidad unidad = new Unidad();
                 unidad.nombre = reader["unidadA"].ToString();
@@ -107,7 +94,6 @@ namespace AccesoDatos
                 Encargado encargado = new Encargado();
                 encargado.nombreCompleto = reader["nombre_encargado"].ToString();
                 unidad.encargado = encargado;
-                asistente.unidad = unidad;
                 asistentes.Add(asistente);
             }
 
@@ -137,7 +123,6 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
                 
                 
                
@@ -148,7 +133,6 @@ namespace AccesoDatos
                 Encargado encargado = new Encargado();
                 encargado.nombreCompleto = reader["nombre_encargado"].ToString();
                 unidad.encargado = encargado;
-                asistente.unidad = unidad;
                 asistentes.Add(asistente);
             }
 
@@ -179,15 +163,9 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
-                asistente.nombrado = Convert.ToBoolean(reader["aprobado"].ToString());
                 Periodo periodo = new Periodo();
                 periodo.semestre = reader["semestre"].ToString();
                 periodo.anoPeriodo = Convert.ToInt32(reader["ano_periodo"].ToString());
-                asistente.periodo = periodo;
-                asistente.solicitud = Convert.ToInt32(reader["solicitud"].ToString());
-                asistente.observaciones = reader["observaciones"].ToString();
-                asistente.cantidadHorasNombrado = Convert.ToInt32(reader["cantidad_horas"].ToString());
                 asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
                 Unidad unidad = new Unidad();
                 unidad.nombre = reader["unidadA"].ToString();
@@ -195,7 +173,6 @@ namespace AccesoDatos
                 Encargado encargado = new Encargado();
                 encargado.nombreCompleto = reader["nombre_encargado"].ToString();
                 unidad.encargado = encargado;
-                asistente.unidad = unidad;
                 asistentes.Add(asistente);
             }
 
@@ -215,7 +192,6 @@ namespace AccesoDatos
             SqlCommand command = new SqlCommand(consulta, connection);
             command.Parameters.AddWithValue("@nombre", asistente.nombreCompleto);
             command.Parameters.AddWithValue("@carne", asistente.carnet);
-            command.Parameters.AddWithValue("@telefono", asistente.telefono);
             command.Parameters.AddWithValue("@cantidadP", asistente.cantidadPeriodosNombrado);
 
             connection.Open();
@@ -275,7 +251,7 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Asistente> asistentes = new List<Asistente>();
 
-            String consulta = @"SELECT a.id_asistente, a.nombre_completo as nombreA, a.carnet, a.telefono FROM Asistente a JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente "
+            String consulta = @"SELECT a.id_asistente, a.nombre_completo as nombreA, a.carnet, a.telefono, eu.id_unidad,u.nombre FROM Asistente a JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente "
                                + "JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON e.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad WHERE eu.id_unidad=@idUnidad AND a.disponible=1";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
@@ -291,9 +267,12 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
                 asistente.nombreCompleto = reader["nombreA"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
                 asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
-
+                asistente.telefono= reader["telefono"].ToString();
+                Unidad unidad = new Unidad();
+                unidad.idUnidad= Convert.ToInt32(reader["id_unidad"].ToString());
+                unidad.nombre= reader["nombre"].ToString();
+                asistente.unidad = unidad;
                 asistentes.Add(asistente);
             }
 
@@ -334,7 +313,6 @@ namespace AccesoDatos
             SqlCommand sqlCommand = new SqlCommand("update Asistente set nombre_completo=@nombre_completo_, telefono=@telefono_,carnet=@carnet_ where id_asistente=@id_asistente_;", sqlConnection);
             sqlCommand.Parameters.AddWithValue("@id_asistente_", Asistente.idAsistente);
             sqlCommand.Parameters.AddWithValue("@nombre_completo_", Asistente.nombreCompleto);
-            sqlCommand.Parameters.AddWithValue("@telefono_", Asistente.telefono);
             sqlCommand.Parameters.AddWithValue("@carnet_", Asistente.carnet);
             sqlConnection.Open();
             sqlCommand.ExecuteScalar();
@@ -357,7 +335,7 @@ namespace AccesoDatos
             String consulta = @"SELECT n.id_nombramiento, a.id_asistente, a.nombre_completo,a.carnet,a.telefono,n.aprobado, p.semestre, p.ano_periodo,n.cantidad_horas, a.cantidad_periodos_nombrado, u.nombre as unidad,  e.nombre_completo as nombre_encargado " +
                               " FROM Asistente a JOIN Nombramiento n ON a.id_asistente=n.id_asistente JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente " +
                               " JOIN Encargado e ON ea.id_encargado=e.id_encargado JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado JOIN Unidad u ON eu.id_unidad=u.id_unidad " +
-                              " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE n.solicitud=1 OR n.solicitud=0 AND n.id_unidad=@idUnidad AND a.disponible=1 AND n.disponible=1";
+                              " JOIN Periodo p ON n.id_periodo=p.id_periodo WHERE p.habilitado=1 AND n.solicitud=1 OR n.solicitud=0 AND n.id_unidad=@idUnidad AND a.disponible=1 AND n.disponible=1";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@idUnidad", idUnidad);
@@ -376,7 +354,6 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
                 asistente.nombreCompleto = reader["nombre_completo"].ToString();
                 asistente.carnet = reader["carnet"].ToString();
-                asistente.telefono = reader["telefono"].ToString();
                 asistente.cantidadPeriodosNombrado = ObtenerCantidadAsistencias(asistente.idAsistente);
 
                 nombramiento.asistente = asistente;
@@ -413,7 +390,7 @@ namespace AccesoDatos
 
             String consulta = @"SELECT a.id_asistente,a.nombre_completo,a.carnet FROM Asistente a JOIN Encargado_Asistente ea On a.id_asistente=ea.id_asistente "
                                 + "JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado WHERE eu.id_unidad=@idUnidad AND a.id_asistente NOT IN " +
-                     "(SELECT a.id_asistente FROM Asistente a JOIN Nombramiento n ON a.id_asistente = n.id_asistente) AND a.disponible=1";
+                     "(SELECT a.id_asistente FROM Asistente a JOIN Nombramiento n ON a.id_asistente = n.id_asistente) AND a.disponible=1 ";
 
             SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
             sqlCommand.Parameters.AddWithValue("@idUnidad", idUnidad);

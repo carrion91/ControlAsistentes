@@ -84,6 +84,20 @@ namespace Servicios
 		{
 			usuarioDatos.EliminarUsuario(usuario);
 		}
+
+		/// <summary>
+		/// Mariela Calvo Méndez
+		/// Mayo/2020
+		/// Efecto: Regresa la lista de Usuarios 
+		/// Requiere: -
+		/// Modifica: -
+		/// Devuelve: Lista de Usuarios
+		/// </summary>
+		/// <returns>list</returns>
+		public Usuario ObtenerUsuarioAsistente(int idAsistente)
+		{
+			return usuarioDatos.ObtenerUsuarioAsistente(idAsistente);
+		}
 		#endregion
 	}
 }
