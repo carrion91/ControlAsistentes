@@ -14,9 +14,11 @@ namespace Entidades
         public int idProyecto { get; set; }
         public string nombre { get; set; }
         public string descripcion { get; set; }
+        public DateTime fechaInicio { get; set; }
+        public DateTime fechaFinalizacion { get; set; }
+        public bool disponible { get; set; }
+        public bool finalizado { get; set; }
 
-
-
-
+        public Asistente asistente { get; set; }
     }
 }
