@@ -24,7 +24,151 @@
       </ConnectionProperties>
       <rd:DataSourceID>206b112e-7d32-42fc-8b68-7f9a9842cdac</rd:DataSourceID>
     </DataSource>
+    <DataSource Name="Servicios">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>3be2888f-614f-4847-97f0-6dfdd6940f56</rd:DataSourceID>
+    </DataSource>
   </DataSources>
+  <DataSets>
+    <DataSet Name="TarjetaAsistente">
+      <Query>
+        <DataSourceName>Servicios</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="idTarjeta">
+          <DataField>idTarjeta</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="numeroTarjeta">
+          <DataField>numeroTarjeta</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="disponible">
+          <DataField>disponible</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="tarjetaExtraviada">
+          <DataField>tarjetaExtraviada</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="asistente">
+          <DataField>asistente</DataField>
+          <rd:TypeName>Entidades.Asistente</rd:TypeName>
+        </Field>
+        <Field Name="pagada">
+          <DataField>pagada</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>Servicios</rd:DataSetName>
+        <rd:TableName>TarjetaServicios</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>ObtenerTarjetas</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceType>Servicios.TarjetaServicios, Servicios, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="ReporteNombramientosAsistentes">
+      <Query>
+        <DataSourceName>Servicios</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="idNombramiento">
+          <DataField>idNombramiento</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="asistente">
+          <DataField>asistente</DataField>
+          <rd:TypeName>Entidades.Asistente</rd:TypeName>
+        </Field>
+        <Field Name="unidad">
+          <DataField>unidad</DataField>
+          <rd:TypeName>Entidades.Unidad</rd:TypeName>
+        </Field>
+        <Field Name="periodo">
+          <DataField>periodo</DataField>
+          <rd:TypeName>Entidades.Periodo</rd:TypeName>
+        </Field>
+        <Field Name="aprobado">
+          <DataField>aprobado</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="recibeInduccion">
+          <DataField>recibeInduccion</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="cantidadHorasNombrado">
+          <DataField>cantidadHorasNombrado</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="fechaAprobacion">
+          <DataField>fechaAprobacion</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="observaciones">
+          <DataField>observaciones</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="disponible">
+          <DataField>disponible</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="solicitud">
+          <DataField>solicitud</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="listaArchivos">
+          <DataField>listaArchivos</DataField>
+          <rd:TypeName>System.Collections.Generic.List`1[[Entidades.Archivo, Entidades, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>Servicios</rd:DataSetName>
+        <rd:TableName>NombramientoServicios</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>ObtenerNombramientosReporte</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceSelectMethodSignature>System.Collections.Generic.List`1[Entidades.Nombramiento] ObtenerNombramientosReporte(Int32, Int32)</rd:ObjectDataSourceSelectMethodSignature>
+        <rd:ObjectDataSourceType>Servicios.NombramientoServicios, Servicios, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="UsuarioAsistente">
+      <Query>
+        <DataSourceName>Servicios</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="idUsuario">
+          <DataField>idUsuario</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="nombre">
+          <DataField>nombre</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="disponible">
+          <DataField>disponible</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="contraseña">
+          <DataField>contraseña</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="asistente">
+          <DataField>asistente</DataField>
+          <rd:TypeName>Entidades.Asistente</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>Servicios</rd:DataSetName>
+        <rd:TableName>UsuariosServicios</rd:TableName>
+        <rd:ObjectDataSourceSelectMethod>ObtenerUsuarios</rd:ObjectDataSourceSelectMethod>
+        <rd:ObjectDataSourceType>Servicios.UsuariosServicios, Servicios, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</rd:ObjectDataSourceType>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>53afd6a1-c441-415f-9cb4-83bec7b0c34b</rd:ReportID>
 </Report>

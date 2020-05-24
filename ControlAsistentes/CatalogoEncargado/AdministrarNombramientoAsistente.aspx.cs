@@ -672,7 +672,7 @@ namespace ControlAsistentes.CatalogoEncargado
 
         /// <summary>
         /// Mariela Calvo
-        /// Abril/2020
+        /// Mayo/2020
         /// Efecto: Guardar los archivos del nombramiento del asistente
         /// Requiere: -
         /// Modifica:
@@ -769,8 +769,7 @@ namespace ControlAsistentes.CatalogoEncargado
             listAsistente = asistenteServicios.ObtenerAsistentes();
             List<Asistente> tempAsistente = new List<Asistente>();
             tempAsistente = listAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList();
-            int idPeriodo = tempAsistente.Where(item => item.idAsistente == Convert.ToInt32(idAsistente)).ToList().First().periodo.idPeriodo;
-            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivosAsistente(Convert.ToInt32(idAsistente), idPeriodo);
+            List<Archivo> listArchivosAsistente = archivoServicios.ObtenerArchivosAsistente(Convert.ToInt32(idAsistente),1);
             foreach (Archivo archivo in listArchivosAsistente)
             {
                 try

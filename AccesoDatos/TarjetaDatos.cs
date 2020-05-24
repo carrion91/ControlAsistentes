@@ -45,7 +45,6 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
                     asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"]);
                     asistente.nombreCompleto = reader["nombre_completo"].ToString();
                     asistente.carnet = reader["carnet"].ToString();
-                    asistente.telefono = reader["telefono"].ToString();
                     asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
                 }
                 tarjeta.idTarjeta = Convert.ToInt32(reader["id_tarjeta"].ToString());
@@ -159,6 +158,40 @@ FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente = a.id_asistente;";
             sqlCommand.ExecuteReader();
             sqlConnection.Close();
         }
+
+        /// <summary>
+        /// Mariela Calvo Mendez
+        /// Mayo/2020
+        /// Efecto: Regresa la lista de tarjetas de la base de datos
+        /// Requiere: -
+        /// Modifica: -
+        /// Devuelve: Tarjeta de un asistente
+        /// </summary>
+        /// <returns></returns>
+        public Tarjeta ObtenerTarjetaAsistente(int idAsistente)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            Tarjeta tarjeta = new Tarjeta();
+            String consulta = @"SELECT t.id_tarjeta, t.numeroTarjeta, t.disponible, t.tarjeta_extraviada, 
+                              a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado, t.pagada
+                              FROM Tarjeta t LEFT JOIN Asistente a ON t.id_asistente =@idAsistente;";
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idAsistente", idAsistente);
+            SqlDataReader reader;
+            sqlConnection.Open();
+            reader = sqlCommand.ExecuteReader();
+            while (reader.Read())
+            {
+                Asistente asistente = new Asistente();
+                asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"]);
+                tarjeta.idTarjeta = Convert.ToInt32(reader["id_tarjeta"].ToString());
+                tarjeta.numeroTarjeta = reader["numeroTarjeta"].ToString();
+                tarjeta.asistente = asistente;
+            }
+            sqlConnection.Close();
+            return tarjeta;
+        }
         #endregion
     }
+
 }

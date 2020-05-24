@@ -70,6 +70,20 @@ namespace Servicios
         {
             tarjetaDatos.InsertarTarjeta(tarjeta);
         }
+
+        /// <summary>
+        /// Mariela Calvo Mendez
+        /// Mayo/2020
+        /// Efecto: Regresa una tarjeta 
+        /// Requiere: -
+        /// Modifica: -
+        /// Devuelve: Tarjeta de un asistente
+        /// </summary>
+        /// <returns></returns>
+        public Tarjeta ObtenerTarjetaAsistente(int idAsistente)
+        {
+            return tarjetaDatos.ObtenerTarjetaAsistente(idAsistente);
+        }
         #endregion
     }
 }

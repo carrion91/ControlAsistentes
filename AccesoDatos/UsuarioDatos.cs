@@ -52,7 +52,6 @@ namespace AccesoDatos
 					asistente.idAsistente = Convert.ToInt32(reader["id_Asistente"].ToString());
 					asistente.nombreCompleto = reader["nombre_completo"].ToString();
 					asistente.carnet = reader["carnet"].ToString();
-					asistente.telefono = reader["telefono"].ToString();
 					asistente.cantidadPeriodosNombrado = Convert.ToInt32(reader["cantidad_periodos_nombrado"].ToString());
 				}
 				
@@ -208,6 +207,44 @@ namespace AccesoDatos
 				usuario.contraseña = reader["contrasenia"].ToString();
 				usuario.asistente = asistente;
 				
+			}
+			sqlConnection.Close();
+			return usuario;
+		}
+
+		/// <summary>
+		/// Mariela Calvo Méndz
+		/// Abril/2020
+		/// Efecto: Regresa el usuario por id usuario
+		/// Requiere: -
+		/// Modifica: -
+		/// Devuelve: Lista de usuarios
+		/// </summary>
+		/// <returns>List</returns>
+		public Usuario ObtenerUsuarioAsistente(int idAsistente)
+		{
+			SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+			Usuario usuario = new Usuario();
+			String consulta = @"SELECT u.id_usuario, u.nombre_completo as usuario, u.contrasenia, u.disponible, 
+								a.id_asistente, a.nombre_completo, a.carnet, a.telefono, a.cantidad_periodos_nombrado 
+								FROM Usuario u LEFT JOIN Asistente a ON u.id_asistente = a.id_asistente WHERE u.id_asistente=@id;";
+
+			SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+			sqlCommand.Parameters.AddWithValue("@id", idAsistente);
+			SqlDataReader reader;
+			sqlConnection.Open();
+			reader = sqlCommand.ExecuteReader();
+			while (reader.Read())
+			{
+				Asistente asistente = new Asistente();
+				asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
+				usuario.idUsuario = Convert.ToInt32(reader["id_usuario"].ToString());
+				usuario.nombre = reader["usuario"].ToString();
+				usuario.disponible = Convert.ToBoolean(reader["disponible"]);
+				usuario.contraseña = reader["contrasenia"].ToString();
+				usuario.asistente = asistente;
+
 			}
 			sqlConnection.Close();
 			return usuario;
