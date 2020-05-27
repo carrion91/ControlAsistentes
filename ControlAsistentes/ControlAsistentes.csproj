@@ -44,8 +44,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeAnalysis, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.3.5.0\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
+    <Reference Include="Microsoft.CodeAnalysis, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeAnalysis.Common.3.6.0\lib\netstandard2.0\Microsoft.CodeAnalysis.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -213,6 +213,7 @@
     <Content Include="Imagenes\logo_LANAMME-140x140.png" />
     <Content Include="Imagenes\UCR informe.png" />
     <Content Include="Informes\ReporteAsistentes.aspx" />
+    <Content Include="Informes\ReporteEncargado\ReporteEncargadoAsistente.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Menu.aspx" />
@@ -330,6 +331,13 @@
     </Compile>
     <Compile Include="Informes\ReporteAsistentes.aspx.designer.cs">
       <DependentUpon>ReporteAsistentes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Informes\ReporteEncargado\ReporteEncargadoAsistente.aspx.cs">
+      <DependentUpon>ReporteEncargadoAsistente.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Informes\ReporteEncargado\ReporteEncargadoAsistente.aspx.designer.cs">
+      <DependentUpon>ReporteEncargadoAsistente.aspx</DependentUpon>
     </Compile>
     <Compile Include="Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
@@ -457,6 +465,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Informes\ReporteAsistentes.rdlc" />
+    <EmbeddedResource Include="Informes\ReporteEncargado\ReporteEncargadoAsistenterdlc.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Informes\ReporteSecretaria\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

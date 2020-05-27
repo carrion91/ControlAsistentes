@@ -417,7 +417,14 @@ namespace AccesoDatos
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
             List<Nombramiento> nombramientos = new List<Nombramiento>();
 
-            String consulta = @"";
+            String consulta = @"SELECT a.id_asistente, a.nombre_completo,a.carnet,a.cantidad_periodos_nombrado, ea.id_encargado,e.nombre_completo as encargado, eu.id_unidad,u.nombre,
+                                p.id_periodo, p.semestre, p.ano_periodo, n.id_nombramiento, n.cantidad_horas FROM Asistente a
+                                JOIN Encargado_Asistente ea ON a.id_asistente=ea.id_asistente
+                                JOIN Encargado_Unidad eu ON ea.id_encargado=eu.id_encargado
+                                JOIN Encargado e ON ea.id_encargado=e.id_encargado
+                                JOIN Unidad u ON eu.id_unidad=u.id_unidad
+                                JOIN Nombramiento n ON a.id_asistente = n.id_asistente
+                                JOIN Periodo p ON n.id_periodo=p.id_periodo  ";
             if (idUnidad!=0 && idPeriodo!=0)
             {
                 consulta += "WHERE n.solicitud=1 AND p.id_periodo=@idPeriodo AND eu.id_unidad=@idUnidad " +
@@ -477,11 +484,11 @@ namespace AccesoDatos
 
 
                 Unidad unidad = new Unidad();
-                unidad.nombre = reader["unidad"].ToString();
+                unidad.nombre = reader["nombre"].ToString();
                 unidad.idUnidad = idUnidad;
 
                 Encargado encargado = new Encargado();
-                encargado.nombreCompleto = reader["nombre_encargado"].ToString();
+                encargado.nombreCompleto = reader["encargado"].ToString();
                 unidad.encargado = encargado;
 
                 nombramiento.unidad = unidad;

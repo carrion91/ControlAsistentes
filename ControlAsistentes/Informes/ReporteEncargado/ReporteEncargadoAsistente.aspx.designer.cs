@@ -7,11 +7,11 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace ControlAsistentes.Informes
+namespace ControlAsistentes.Informes.ReporteEncargado
 {
 
 
-    public partial class ReporteAsistentes
+    public partial class ReporteEncargadoAsistente
     {
 
         /// <summary>
