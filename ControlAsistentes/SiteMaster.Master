@@ -121,7 +121,7 @@
                                     <li><a href='<%=Page.ResolveUrl("~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx") %>'>Nombramientos</a></li>
                                 </ul>
                                 <ul class="nav navbar-nav">
-                                    <li><a href='<%=Page.ResolveUrl("~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx") %>'>Proyectos</a></li>
+                                    <li><a href='<%=Page.ResolveUrl("~/Catalogos/AdministrarProyectos.aspx") %>'>Proyectos</a></li>
                                 </ul>
                             </div>
                             <%--MENU UTI--%>
@@ -228,7 +228,7 @@
                         </a>
                     </div>
                     <div class="grid_3">
-                        <a id="A1"  runat="server" href="~/CatalogoEncargado/AdministrarNombramientoAsistente.aspx">
+                        <a id="A1"  runat="server" href="~/Catalogos/AdministrarProyectos.aspx">
                             <div class="fmcircle_out">
                                 <div class="fmcircle_border">
                                     <div class="fmcircle_in fmcircle_red">

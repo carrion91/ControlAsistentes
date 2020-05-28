@@ -121,6 +121,7 @@
     <Compile Include="NombramientoServicios.cs" />
     <Compile Include="PeriodoServicios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProyectoServicios.cs" />
     <Compile Include="TarjetaServicios.cs" />
     <Compile Include="UnidadServicios.cs" />
     <Compile Include="UsuariosServicios.cs" />
