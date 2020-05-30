@@ -144,6 +144,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReporteAsistenteServicios.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <Compile Include="ProyectoServicios.cs" />
     <Compile Include="TarjetaServicios.cs" />
     <Compile Include="UnidadServicios.cs" />
     <Compile Include="UsuariosServicios.cs" />
