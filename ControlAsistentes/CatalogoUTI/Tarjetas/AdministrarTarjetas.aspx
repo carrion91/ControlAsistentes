@@ -25,10 +25,12 @@
                 </div>
 
                 <%--boton nuevo--%>
-                <div class="col-md-2 col-xs-2 col-md-offset-10">
-                    <asp:Button runat="server" Text="Nueva Tarjeta" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevo_Click" />
-                </div>
 
+                <div class="col-md-12 col-xs-12 col-sm-12" style="">
+                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
+                        <asp:Button runat="server" Text="Nueva Tarjeta" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevo_Click" />
+                    </div>
+                </div>
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
@@ -71,7 +73,9 @@
                                             <div class='<%# Eval("disponible") %>'></div>
                                         </td>
                                         <td>
-                                            <div style="cursor:pointer; color: #337ab7;" data-toggle="tooltip" title='<%# ((bool)Eval("pagada")) ? "Pagada" : "Sin pagar" %>'><div class='<%# Eval("tarjetaExtraviada") %>'></div></div>
+                                            <div style="cursor: pointer; color: #337ab7;" data-toggle="tooltip" title='<%# ((bool)Eval("pagada")) ? "Pagada" : "Sin pagar" %>'>
+                                                <div class='<%# Eval("tarjetaExtraviada") %>'></div>
+                                            </div>
                                         </td>
                                         <td><%# Eval("asistente.nombreCompleto") %></td>
                                     </tr>
@@ -144,11 +148,11 @@
                                     <div class="col-md-3 col-xs-3 col-sm-3">
                                         <asp:Label runat="server" Text="Número de Tarjeta <span style='color:red'>*</span> " Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
-                                     <div class="col-md-6 col-xs-6 col-sm-4">
-                                      <div class="input-group">
-                                        <asp:TextBox ID="txtNumeroTarjeta" runat="server" CssClass="form-control chat-input" placeholder="Número de tarjeta" Width="260"></asp:TextBox>
-                                       </div>
-                                      </div>
+                                    <div class="col-md-6 col-xs-6 col-sm-4">
+                                        <div class="input-group">
+                                            <asp:TextBox ID="txtNumeroTarjeta" runat="server" CssClass="form-control chat-input" placeholder="Número de tarjeta" Width="260"></asp:TextBox>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                                     <br />
@@ -169,7 +173,7 @@
                                         <asp:Label runat="server" Text="Tarjeta extraviada" Font-Size="Medium" ForeColor="Black"></asp:Label>
                                     </div>
                                     <div class="col-xs-3">
-                                        <asp:CheckBox ID="cbxExtraviada" runat="server" OnCheckedChanged="cbxExtraviada_CheckedChanged" AutoPostBack="true"/>
+                                        <asp:CheckBox ID="cbxExtraviada" runat="server" OnCheckedChanged="cbxExtraviada_CheckedChanged" AutoPostBack="true" />
                                     </div>
                                 </div>
                                 <div class="col-xs-12">
@@ -191,12 +195,12 @@
                                     </div>
                                     <div class="col-md-4 col-xs-4 col-sm-4">
                                         <div class="input-group">
-                                        <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon boton-eliminar" OnClick="btnEliminarAsistente_Click">
+                                            <asp:LinkButton ID="btnEliminarAsistente" runat="server" CssClass="input-group-addon boton-eliminar" OnClick="btnEliminarAsistente_Click">
                                             <i class="glyphicon glyphicon-trash"></i>
-                                        </asp:LinkButton>
+                                            </asp:LinkButton>
 
-                                        <asp:TextBox ID="txtAsistente" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
-                                        <span id="spanAgregarAsistenes" runat="server" style="cursor:pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon boton-nuevo"><i class="glyphicon glyphicon-plus-sign"></i></span>
+                                            <asp:TextBox ID="txtAsistente" runat="server" ReadOnly="true" CssClass="form-control"></asp:TextBox>
+                                            <span id="spanAgregarAsistenes" runat="server" style="cursor: pointer" data-toggle="modal" data-target="#modalAsistentes" class="input-group-addon boton-nuevo"><i class="glyphicon glyphicon-plus-sign"></i></span>
                                         </div>
                                     </div>
                                 </div>

@@ -13,11 +13,11 @@
             <div class="row">
                 <%-- titulo pantalla --%>
                 <div class="col-md-12 col-xs-12 col-sm-12">
-            <center>
+                    <center>
                 <asp:Label runat="server" Text="Administrar Unidades" Font-Size="Large" ForeColor="Black"></asp:Label>
                 <p class="mt-1">Puede ingresar una nueva unidad, modificarla o eliminarla</p>
             </center>
-        </div>
+                </div>
                 <%-- fin titulo pantalla --%>
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <hr />
@@ -25,12 +25,12 @@
                 <br />
 
 
-                <div class="col-md-12 col-xs-6 col-sm-6">
+
+                <div class="col-md-12 col-xs-12 col-sm-12" style="">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
                         <asp:Button ID="btnNuevaUnidad" runat="server" Text="Nueva Unidad" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevaUnidad_Click" />
                     </div>
                 </div>
-
 
                 <%-- tabla--%>
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
@@ -182,7 +182,7 @@
             </asp:UpdatePanel>
 
             <!-- Modal Eliminar -->
-           <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
                     <div id="modalEliminarUnidad" class="modal" role="alertdialog">
                         <div class="modal-dialog modal-lg">
@@ -245,7 +245,7 @@
                                         </div>
 
                                         <%-- botones --%>
-                                        <div class="modal-footer" >
+                                        <div class="modal-footer">
                                             <asp:Button ID="btnEliminarUnidadP" runat="server" Text="Eliminar" CssClass="btn btn-primary boton-eliminar" OnClick="btnConfirmarEliminarUnidad" />
                                             <button type="button" class="btn btn-primary boton-otro" data-dismiss="modal">Cerrar</button>
                                         </div>
@@ -294,7 +294,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer" >
+                                <div class="modal-footer">
                                     <asp:Button ID="btnConfirmar" runat="server" Text="Confirmar" CssClass="btn btn-primary boton-eliminar" OnClick="eliminarUnidad" />
                                     <button type="button" class="btn btn-default boton-otro" data-dismiss="modal">Cancelar</button>
                                 </div>

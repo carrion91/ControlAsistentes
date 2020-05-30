@@ -25,9 +25,12 @@
 				</div>
 
 				<%--boton nuevo--%>
-				<div class="col-md-2 col-xs-2 col-md-offset-10">
-					<asp:Button ID="btnNuevo" runat="server" Text="Nuevo Usuario" CssClass="btn btn-primary boton-nuevo" OnClick ="btnNuevoUsuario_Click" />
-				</div>
+				
+				 <div class="col-md-12 col-xs-12 col-sm-12" style="">
+                    <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
+                       <asp:Button ID="btnNuevo" runat="server" Text="Nuevo Usuario" CssClass="btn btn-primary boton-nuevo" OnClick ="btnNuevoUsuario_Click" />
+                    </div>
+                </div>
 
 				<div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
 					<br />

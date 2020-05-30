@@ -212,8 +212,8 @@
     <Content Include="Imagenes\logoUCR.png" />
     <Content Include="Imagenes\logo_LANAMME-140x140.png" />
     <Content Include="Imagenes\UCR informe.png" />
-    <Content Include="Informes\ReporteAsistentes.aspx" />
-    <Content Include="Informes\ReporteEncargado\ReporteEncargadoAsistente.aspx" />
+    <Content Include="Informes\ReporteAsistentesEncargado\ReporteAsistentesEncargado.aspx" />
+    <Content Include="Informes\ReporteAsistentesSecretaria\ReporteAsistentesSecretaria.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="Menu.aspx" />
@@ -325,19 +325,19 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Informes\ReporteAsistentes.aspx.cs">
-      <DependentUpon>ReporteAsistentes.aspx</DependentUpon>
+    <Compile Include="Informes\ReporteAsistentesEncargado\ReporteAsistentesEncargado.aspx.cs">
+      <DependentUpon>ReporteAsistentesEncargado.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Informes\ReporteAsistentes.aspx.designer.cs">
-      <DependentUpon>ReporteAsistentes.aspx</DependentUpon>
+    <Compile Include="Informes\ReporteAsistentesEncargado\ReporteAsistentesEncargado.aspx.designer.cs">
+      <DependentUpon>ReporteAsistentesEncargado.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Informes\ReporteEncargado\ReporteEncargadoAsistente.aspx.cs">
-      <DependentUpon>ReporteEncargadoAsistente.aspx</DependentUpon>
+    <Compile Include="Informes\ReporteAsistentesSecretaria\ReporteAsistentesSecretaria.aspx.cs">
+      <DependentUpon>ReporteAsistentesSecretaria.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Informes\ReporteEncargado\ReporteEncargadoAsistente.aspx.designer.cs">
-      <DependentUpon>ReporteEncargadoAsistente.aspx</DependentUpon>
+    <Compile Include="Informes\ReporteAsistentesSecretaria\ReporteAsistentesSecretaria.aspx.designer.cs">
+      <DependentUpon>ReporteAsistentesSecretaria.aspx</DependentUpon>
     </Compile>
     <Compile Include="Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
@@ -426,6 +426,7 @@
     <Content Include="ControlAsistentesDataSet.xss">
       <DependentUpon>ControlAsistentesDataSet.xsd</DependentUpon>
     </Content>
+    <EmbeddedResource Include="Informes\ReporteAsistentesEncargado\ReporteAsistentes.rdlc" />
     <None Include="packages.config" />
     <Content Include="ReporteAsistenteDataSet.xsc">
       <DependentUpon>ReporteAsistenteDataSet.xsd</DependentUpon>
@@ -464,12 +465,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.3.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Informes\ReporteAsistentes.rdlc" />
-    <EmbeddedResource Include="Informes\ReporteEncargado\ReporteEncargadoAsistenterdlc.rdlc" />
+    <EmbeddedResource Include="Informes\ReporteAsistentesSecretaria\ReporteAsistentes.rdlc" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Informes\ReporteSecretaria\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

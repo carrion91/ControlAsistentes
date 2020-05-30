@@ -38,9 +38,10 @@
                 </div>
 
                 <%--Filtro Unidades--%>
-                <div class="col-md-6 col-xs-6 col-sm-6">
+                <div class="col-md-4 col-xs-12 col-sm-12" style="">
                     <h4>Unidad</h4>
                     <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
+                    <br />
                 </div>
                 
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
