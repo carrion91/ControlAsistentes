@@ -31,17 +31,18 @@
                 <br />
 
 
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <br />
-                </div>
-
-
 
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
                 </div>
 
-                <div class="col-md-12 col-xs-6 col-sm-6">
+
+
+                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                    <br />
+                </div>
+
+                <div class="col-md-12 col-xs-12 col-sm-12" style="">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
                         <asp:Button ID="Button1" runat="server" Text="Nuevo Asistente" CssClass="btn btn-primary boton-nuevo" OnClick="btnNuevoAsistente_Click" />
                     </div>

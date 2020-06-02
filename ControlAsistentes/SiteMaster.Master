@@ -110,6 +110,7 @@
                                     <li><a href='<%=Page.ResolveUrl("~/Catalogos/AdministrarUnidades.aspx") %>'>Unidades</a></li>
                                     <li><a href='<%=Page.ResolveUrl("~/Catalogos/AdministrarAsistentes.aspx") %>'>Asistentes</a></li>
                                     <li><a href='<%=Page.ResolveUrl("~/Catalogos/AdministrarPeriodos.aspx") %>'>Periodos</a></li>
+                                    <li><a href='<%=Page.ResolveUrl("~/Informes/ReporteAsistentesSecretaria/ReporteAsistentesSecretaria.aspx") %>'>Reporte Asistentes</a></li>
                                 </ul>
                             </div>
                             <%--MENU ENCARGADO--%>
@@ -123,6 +124,9 @@
                                 <ul class="nav navbar-nav">
                                     <li><a href='<%=Page.ResolveUrl("~/Catalogos/AdministrarProyectos.aspx") %>'>Proyectos</a></li>
                                 </ul>
+                                 <ul class="nav navbar-nav">
+                                <li><a href='<%=Page.ResolveUrl("~/Informes/ReporteAsistentesEncargado/ReporteAsistentesEncargado.aspx") %>'>Reporte Asistentes</a></li>
+                                     </ul>
                             </div>
                             <%--MENU UTI--%>
                             <div id="MenuNavBarUTI" runat="server">

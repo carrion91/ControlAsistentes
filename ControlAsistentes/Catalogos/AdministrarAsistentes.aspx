@@ -23,35 +23,41 @@
                 <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <hr />
                 </div>
-                <br />
-
-
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <br />
-                </div>
-
-                <div class="col-md-6 col-xs-6 col-sm-6">
+                
+                 <div class="col-md-4 col-xs-12 col-sm-12" style="">
                     <h4>Unidad</h4>
                     <asp:DropDownList ID="ddlUnidad" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
-                </div>
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
                     <br />
-                </div>
-                <div class="col-md-6 col-xs-6 col-sm-6">
                     <h4>Periodo</h4>
-                    <asp:DropDownList ID="ddlPeriodo" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPeriodo_SelectedIndexChanged"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlPeriodo" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlUnidad_SelectedIndexChanged"></asp:DropDownList>
                 </div>
-
-                <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
-                    <br />
+               <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+                   <br />
+                   <br />
+                   <br />
+                   <label>Simbología</label>
                 </div>
+                <div class="col-xs-12">
+                    <div class="col-xs-1 w3-card-2 w3-orange" style="width: 30px; height: 20px;"></div>
+                    <label class="col-xs-5" style="margin-left: 2px">Pendiente</label>
+                </div>
+                <div class="col-xs-12">
+                    <div class=" col-xs-1 w3-card-2 w3-green" style="width: 30px; height: 20px;"></div>
+                    <label class="col-xs-5" style="margin-left: 2px">Aprobado</label>
+                </div>
+                <br />
 
-                <div class="col-md-12 col-xs-6 col-sm-6">
-
+                <div class="col-xs-12">
+                    <div class=" col-xs-1 w3-card-2 w3-red" style="width: 30px; height: 20px;"></div>
+                    <label class="col-xs-5" style="margin-left: 2px">Rechazado</label>
+                </div>
+                
+                <div class="col-md-12 col-xs-12 col-sm-12" style="">
                     <div class="col-md-2 col-xs-2 col-sm-2 col-md-offset-10 col-xs-offset-10 col-sm-offset-10" style="text-align: right">
                         <asp:Button ID="btnPendientes" runat="server" Text="Aprobaciones Pendientes" CssClass="btn btn-primary boton-nuevo" OnClick="btnPendientes_Click" />
                     </div>
                 </div>
+              
 
 
                 <div class="table-responsive col-md-12 col-xs-12 col-sm-12" style="text-align: center; overflow-y: auto;">
@@ -475,10 +481,10 @@
         function observacionesAsistentes() {
             $('#modalObservacionesAsistente').modal('show');
         };
-         function activarModalAsistentesAprobacionesPendientes() {
+        function activarModalAsistentesAprobacionesPendientes() {
             $('#modalAsistentesAprobacionesPendientes').modal('show');
         };
-         function closeModalAsistentes() {
+        function closeModalAsistentes() {
             $('#modalAsistentes').modal('hide');
         }
 
