@@ -18,6 +18,7 @@ namespace ControlAsistentes.Catalogos
         ProyectoServicios proyectoServicios = new ProyectoServicios();
         UnidadServicios unidadServicios = new UnidadServicios();
         Unidad unidad = new Unidad();
+        NombramientoServicios nombramientoServicios = new NombramientoServicios();
         Proyecto proyecto = new Proyecto();
         //AsistenteServicios asistenteServicios = new AsistenteServicios();
         //UnidadServicios UnidadServicios = new UnidadServicios();
@@ -61,6 +62,8 @@ namespace ControlAsistentes.Catalogos
         }
 
         #endregion
+
+        #region carga de datos
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -112,7 +115,6 @@ namespace ControlAsistentes.Catalogos
                 listaProyectos = proyectoServicios.ObtenerProyectoPorId(idProyecto);
             }
 
-
             String nombreProyecto = "";
 
             if (!String.IsNullOrEmpty(txtBuscarNombre.Text))
@@ -120,16 +122,11 @@ namespace ControlAsistentes.Catalogos
                 nombreProyecto = txtBuscarNombre.Text;
             }
 
-            List<Proyecto> listaProyectosFiltrada = listaProyectos;
-            if (nombreProyecto!="")
-            {
-                listaProyectosFiltrada = listaProyectos.Where(Proyecto => proyecto.nombre.ToUpper().Contains(nombreProyecto.ToUpper())).ToList();
-            }
+            List<Proyecto> listaProyectosFiltrada = listaProyectos.Where(proyecto => proyecto.nombre.ToUpper().Contains(nombreProyecto.ToUpper())).ToList();
+            
 
             Session["listaProyectosFiltrada"] = listaProyectosFiltrada;
-            Session["listaProyectosFiltrada"] = listaProyectos;
 
-            //var dt = listaAsistentesFiltrada;
             var dt = listaProyectosFiltrada;
             pgsource.DataSource = dt;
             pgsource.AllowPaging = true;
@@ -170,15 +167,56 @@ namespace ControlAsistentes.Catalogos
             {
                 ListItem itemProyecto = new ListItem(proyecto.nombre, proyecto.idProyecto + "");
 
-                ddlProyecto.Items.Add(itemProyecto);
+                if (!ddlProyecto.Items.Contains(itemProyecto))
+                {
+                    ddlProyecto.Items.Add(itemProyecto);
+                }
+
             }
         }
 
         /// <summary>
         /// Karen Guillén
+        /// 29/05/2020
+        /// Efecto: llenan DropDownList con los nombres de los asistentes.
+        /// Requiere: - 
+        /// Modifica: DropDownList
+        /// Devuelve: -
+        /// </summary>
+        protected void asistentesDDL()
+        {
+            //List<Proyecto> proyectos = new List<Proyecto>();
+            //ddlProyecto.Items.Clear();
+
+            List<Nombramiento> asistentesNombrados = new List<Nombramiento>();
+            ddlAsistentes.Items.Clear();
+
+            //proyectos = proyectoServicios.ObtenerProyectos();
+            asistentesNombrados = nombramientoServicios.ObtenerNombramientos();
+            ddlAsistentes.Items.Add("--Seleccione un Asistente--");
+            
+            //ddlProyecto.Items.Add("--Seleccione el Proyecto--");
+            foreach (Nombramiento asistNombrado in asistentesNombrados)
+            {
+                ListItem itemAsistente = new ListItem(asistNombrado.asistente.nombreCompleto, asistNombrado.asistente.idAsistente+"");
+
+                if (!ddlAsistentes.Items.Contains(itemAsistente))
+                {
+                    ddlAsistentes.Items.Add(itemAsistente);
+                }
+
+            }
+        }
+
+#endregion
+
+        #region acciones
+
+        /// <summary>
+        /// Karen Guillén
         /// 23/05/2020
-        /// Efecto: filtra la tabla segun los datos ingresados en los filtros
-        /// Requiere: dar clic en el boton de flitrar e ingresar datos en los filtros
+        /// Efecto: filtra la tabla segun los datos ingresados en el campo de texto
+        /// Requiere: dar clic en el boton de flitrar e ingresar criterio de filtro en el campo de texto
         /// Modifica: datos de la tabla
         /// Devuelve: -
         /// </summary>
@@ -187,11 +225,141 @@ namespace ControlAsistentes.Catalogos
         public void filtrarProyectos(object sender, EventArgs e)
         {
             paginaActual = 0;
-            // DEBE FILTRAR LOS PROYECTOS
+        
             MostrarProyectos();
-
         }
 
+
+        /// <summary>
+        /// Karen Guillén
+        /// 28/05/2020
+        /// Efecto: Guarda el nuevo proyecto en la base de datos
+        /// Requiere: 
+        /// Modifica: 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnGuardarProyecto_Click(object sender, EventArgs e)
+        {
+            Proyecto proyecto = new Proyecto();
+
+            proyecto.nombre = txtNombreProyecto.Text;
+            proyecto.fechaInicio = Convert.ToDateTime(txtFechaInicio.Text);
+            proyecto.fechaFinalizacion = Convert.ToDateTime(txtFechaFinalización.Text);
+            proyecto.disponible = rdProyectoDisponible.Checked;
+            proyecto.descripcion = txtDescripción.Text;
+
+            proyectoServicios.insertar(proyecto);
+
+            MostrarProyectos();
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoProyecto", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoProyecto').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "closeModalNuevoProyecto();", true);
+        }
+
+        public void btnCerrar(object sender, EventArgs e)
+        {
+            String url = Page.ResolveUrl("~/Catalogos/AdministrarProyectos.aspx");
+            Response.Redirect(url);
+        }
+
+
+        
+        /// <summary>
+        /// Karen Guillén
+        /// 29/05/2020
+        /// Efecto: Asigna un asistente al proyecto seleccionado
+        /// Requiere: llenar los campos del formulario
+        /// Modifica: la base de datos
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnGuardarAsistenteEnProyecto_Click(object sender, EventArgs e)
+        {
+            int idProyecto = Convert.ToInt32(lblIdProyecto.Text);
+            int idAsistente = Int32.Parse(ddlAsistentes.SelectedValue);
+            
+
+            proyectoServicios.insertarAsistenteProyecto(idProyecto, idAsistente);
+
+            MostrarProyectos();
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalAsignarAsistenteProyecto", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalAsignarAsistenteProyecto').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "closeModalAsignarAsistenteProyecto();", true);
+        }
+
+
+        /// <summary>
+        /// Karen Guillén
+        /// 29/05/2020
+        /// Efecto: Carga la información de proyecto y asistente, en el modal de asignar asistente
+        /// Requiere: 
+        /// Modifica: 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnAsignarAsistenteProyecto_Click(object sender, EventArgs e)
+        {
+            int idProyectoSeleccionado = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+
+            Proyecto proyectoSeleccionado = proyectoServicios.ObtenerProyectoPorId(idProyectoSeleccionado).ElementAt(0);
+
+            lblIdProyecto.Text = proyectoSeleccionado.idProyecto+"";
+            txbNombreProyecto.Text = proyectoSeleccionado.nombre;
+            txbDescripciónProyecto.Text = proyectoSeleccionado.descripcion;
+
+            asistentesDDL();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalAsignarAsistenteProyecto();", true);
+        }
+
+        /// <summary>
+        /// Karen Guillén
+        /// 29/05/2020
+        /// Efecto: Guarda el nuevo proyecto en la base de datos
+        /// Requiere: 
+        /// Modifica: 
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void btnEliminarProyecto_Click(object sender, EventArgs e)
+        {
+            int idProyectoEliminar = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+
+            proyectoServicios.Eliminar(idProyectoEliminar);
+
+            MostrarProyectos();
+
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoProyecto", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoProyecto').hide();", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "closeModalNuevoProyecto();", true);
+        }
+
+        ///// <summary>
+        ///// Karen Guillén
+        ///// 29/05/2020
+        ///// Efecto: Guarda el nuevo proyecto en la base de datos
+        ///// Requiere: 
+        ///// Modifica: 
+        ///// Devuelve: -
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //public void btnEliminarAsistenteProyecto_Click(object sender, EventArgs e)
+        //{
+        //    int idProyectoEliminar = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+
+        //    Proyecto proyectoEliminar = proyectoServicios.ObtenerProyectoPorId(idProyectoEliminar);
+
+        //    proyectoServicios.Eliminar(idProyectoEliminar);
+
+        //    MostrarProyectos();
+
+        //    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "#modalNuevoProyecto", "$('body').removeClass('modal-open');$('.modal-backdrop').remove();$('#modalNuevoProyecto').hide();", true);
+        //    ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "closeModalNuevoProyecto();", true);
+        //}
 
 
         /// <summary>
@@ -209,7 +377,7 @@ namespace ControlAsistentes.Catalogos
             int idProyecto = 0;
 
             List<Proyecto> listaProyectos = proyectoServicios.ObtenerProyectos();
-            if (!ddlProyecto.SelectedValue.Equals("Seleccione la Unidad"))
+            if (!ddlProyecto.SelectedValue.Equals("--Seleccione el Proyecto--"))
             {
                 idProyecto = Convert.ToInt32(ddlProyecto.SelectedValue);
                 listaProyectos = proyectoServicios.ObtenerProyectoPorId(idProyecto);
@@ -220,6 +388,15 @@ namespace ControlAsistentes.Catalogos
 
             MostrarProyectos();
         }
+
+         protected void btnNuevoProyecto_Click(object sender, EventArgs e)
+        {
+
+            //MostrarProyectos();
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalNuevoProyecto();", true);
+        }
+
+        #endregion
 
         #region metodos paginacion
         public void Paginacion()
@@ -271,7 +448,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbPrimero_Click(object sender, EventArgs e)
         {
             paginaActual = 0;
-          //  MostrarAsistentes();
+            MostrarProyectos();
         }
 
         /// <summary>
@@ -287,7 +464,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbAnterior_Click(object sender, EventArgs e)
         {
             paginaActual -= 1;
-          //  MostrarAsistentes();
+            MostrarProyectos();
         }
 
         /// <summary>
@@ -303,7 +480,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbSiguiente_Click(object sender, EventArgs e)
         {
             paginaActual += 1;
-           // MostrarAsistentes();
+            MostrarProyectos();
         }
 
 
@@ -321,7 +498,7 @@ namespace ControlAsistentes.Catalogos
         protected void lbUltimo_Click(object sender, EventArgs e)
         {
             paginaActual = (Convert.ToInt32(ViewState["TotalPaginas"]) - 1);
-           // MostrarAsistentes();
+            MostrarProyectos();
         }
 
         /// <summary>
@@ -338,7 +515,7 @@ namespace ControlAsistentes.Catalogos
         {
             if (!e.CommandName.Equals("nuevaPagina")) return;
             paginaActual = Convert.ToInt32(e.CommandArgument.ToString());
-            //MostrarAsistentes();
+            MostrarProyectos();
         }
 
         /// Mariela Calvo

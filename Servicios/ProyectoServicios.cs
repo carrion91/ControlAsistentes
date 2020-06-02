@@ -8,15 +8,16 @@ namespace Servicios
     {
         ProyectoAsistenteDatos proyectoDatos = new ProyectoAsistenteDatos();
 
-        public int insertar(Proyecto proyecto)
+        public void insertar(Proyecto proyecto)
         {
-            return proyectoDatos.Insertar(proyecto);
+            proyectoDatos.Insertar(proyecto);
         }
 
-        public int insertarAsistenteProyecto(int idAsistente, int idProyecto)
+        public void insertarAsistenteProyecto(int idAsistente, int idProyecto)
         {
-            return proyectoDatos.InsertarAsistenteProyecto(idAsistente, idProyecto);
+            proyectoDatos.AsignarAsistenteProyecto(idAsistente, idProyecto);
         }
+
 
         public List<Proyecto> ObtenerProyectos()
         {

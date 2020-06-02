@@ -17,7 +17,7 @@ namespace AccesoDatos
     public class ProyectoAsistenteDatos
     {
         private ConexionDatos conexion = new ConexionDatos();
-        private AsistenteDatos asistenteDatos = new AsistenteDatos();
+        private NombramientoAsistenteDatos nombramientoasistenteDatos = new NombramientoAsistenteDatos();
 
         public List<Proyecto> ObtenerProyectos()
         {
@@ -27,8 +27,8 @@ namespace AccesoDatos
                                                     +"from Proyecto p join Asistente_Proyecto ap on p.id_proyecto = ap.id_proyecto " +
                                                     "where p.disponible=1", sqlConnection);
 
-            List<Asistente> asistentes = new List<Asistente>();
-            asistentes = asistenteDatos.ObtenerAsistentes();
+            List<Nombramiento> nombramientos = new List<Nombramiento>();
+            nombramientos = nombramientoasistenteDatos.ObtenerNombramientos();
 
             SqlDataReader reader;
             sqlConnection.Open();
@@ -48,14 +48,17 @@ namespace AccesoDatos
                 asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
 
                 //Aquí no utilio el ObtenerAsistentesPorId, por el @id_unidad
-                foreach(Asistente asist in asistentes)
+                foreach(Nombramiento asist in nombramientos)
                 {
-                    if (asist.idAsistente==asistente.idAsistente)
+                    if (asist.asistente.idAsistente==asistente.idAsistente)
                     {
                       
-                        asistente = asist;
+                        asistente = asist.asistente;
+                        asistente.unidad = asist.unidad;
                     }
-                }                
+                }         
+                
+
 
                 proyecto.asistente = asistente;
 
@@ -71,55 +74,28 @@ namespace AccesoDatos
         /// 13/05/2020
         /// Metodo para insertar proyectos
         /// </summary>
-        public int Insertar(Proyecto proyecto)
+        public void Insertar(Proyecto proyecto)
         {
             SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
-            SqlCommand sqlCommand = new SqlCommand("insert into Proyecto (nombre, descripcion, fecha_inicio, fecha_finalizacion, disponible, finalizado " +
-                "VALUES (@nombre, @descripcion, @fecha_inicio, @fecha_finalizacion, @disponible, @finalizado ));", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("insert into Proyecto (nombre, descripcion, fecha_inicio, fecha_finalizacion, disponible, finalizado) " +
+                "VALUES (@nombre, @descripcion, @fecha_inicio, @fecha_finalizacion, @disponible, @finalizado );", sqlConnection);
 
             sqlCommand.Parameters.AddWithValue("@nombre", proyecto.nombre);
             sqlCommand.Parameters.AddWithValue("@descripcion", proyecto.descripcion);
-            sqlCommand.Parameters.AddWithValue("@fecha_inicio", proyecto.nombre);
-            sqlCommand.Parameters.AddWithValue("@fecha_finalizacion", proyecto.descripcion);
+            sqlCommand.Parameters.AddWithValue("@fecha_inicio", proyecto.fechaInicio);
+            sqlCommand.Parameters.AddWithValue("@fecha_finalizacion", proyecto.fechaFinalizacion);
             sqlCommand.Parameters.AddWithValue("@disponible", proyecto.disponible);
             sqlCommand.Parameters.AddWithValue("@finalizado", proyecto.finalizado);
 
+            sqlCommand.CommandType = System.Data.CommandType.Text;
             sqlConnection.Open();
-            int idProyecto = (int)sqlCommand.ExecuteScalar();
+                sqlCommand.ExecuteReader();
             sqlConnection.Close();
 
             //int insertaAsistente = InsertarAsistenteProyecto(proyecto.asistente.idAsistente, proyecto.idProyecto);
 
-            return idProyecto;
         }
 
-        /// <summary>
-        /// Karen Guillén A
-        /// 13/05/2020
-        /// Metodo para insertar asistentes a un proyecto
-        /// </summary>
-        public int InsertarAsistenteProyecto(int idA, int idP)
-        {
-            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
-
-            int idProyecto = idP;
-            int idAsistente=idA;
-
-            if (idProyecto !=0 && idAsistente !=0)
-            {
-                SqlCommand sqlCommand = new SqlCommand("insert into Asistente_Proyecto(id_proyecto, id_asistente)" +
-                                                        "VALUES (@idProyecto, @idAsistente));", sqlConnection);
-
-                sqlCommand.Parameters.AddWithValue("@idProyecto", idProyecto);
-                sqlCommand.Parameters.AddWithValue("@idAsistente", idAsistente);
-
-                sqlConnection.Open();
-                idProyecto = (int)sqlCommand.ExecuteScalar();
-                sqlConnection.Close();
-            }
-
-            return idProyecto;
-        }
 
         // <summary>
         // Karen Guillén A.
@@ -138,8 +114,8 @@ namespace AccesoDatos
                                                     "where p.disponible=1 and p.id_proyecto = @idProyecto_; ", sqlConnection);
 
             List<Proyecto> proyectos = new List<Proyecto>();
-            List<Asistente> asistentes = new List<Asistente>();
-            asistentes = asistenteDatos.ObtenerAsistentes();
+            List<Nombramiento> nombramientos = new List<Nombramiento>();
+            nombramientos = nombramientoasistenteDatos.ObtenerNombramientos();
 
             sqlCommand.Parameters.AddWithValue("@idProyecto_", idProyecto);
             SqlDataReader reader;
@@ -160,15 +136,17 @@ namespace AccesoDatos
                 Asistente asistente = new Asistente();
                 asistente.idAsistente = Convert.ToInt32(reader["id_asistente"].ToString());
 
-                //Aquí no utilio el ObtenerAsistentesPorId, por el @id_unidad
-                foreach (Asistente asist in asistentes)
+                //Aquí no utilizo el ObtenerAsistentesPorId, por el @id_unidad
+                foreach (Nombramiento asist in nombramientos)
                 {
-                    if (asist.idAsistente == asistente.idAsistente)
+                    if (asist.asistente.idAsistente == asistente.idAsistente)
                     {
 
-                        asistente = asist;
+                        asistente = asist.asistente;
+                        asistente.unidad = asist.unidad;
                     }
                 }
+
 
                 proyecto.asistente = asistente;
 
@@ -177,6 +155,32 @@ namespace AccesoDatos
             sqlConnection.Close();
 
             return proyectos;
+        }
+
+        // <summary>
+        // Karen Guillén A.
+        // 29/05/2020
+        // Efecto: Asigna un asistente al proyecto asignado
+        // Requiere: idProyecto y idAsistente
+        // Modifica: -
+        // Devuelve: -
+        // </summary>
+        // <param name="idProyecto", name="idAsistente"></param>
+        public void AsignarAsistenteProyecto(int idProyecto, int idAsistente)
+        {
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+            String consulta = "INSERT INTO  Asistente_Proyecto (id_proyecto, id_asistente)" 
+                                +"VALUES(@idProyecto, @idAsistente); ";
+
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idProyecto", idProyecto);
+            sqlCommand.Parameters.AddWithValue("@idAsistente", idAsistente);
+           
+
+            sqlCommand.CommandType = System.Data.CommandType.Text;
+            sqlConnection.Open();
+            sqlCommand.ExecuteReader();
+            sqlConnection.Close();
         }
 
 
@@ -196,10 +200,37 @@ namespace AccesoDatos
             SqlCommand sqlCommand = new SqlCommand("UPDATE Proyecto SET disponible=0 where id_proyecto=@id_proyecto_;", sqlConnection);
             sqlCommand.Parameters.AddWithValue("@id_proyecto_", idProyecto);
 
+            sqlCommand.CommandType = System.Data.CommandType.Text;
+
             sqlConnection.Open();
+                sqlCommand.ExecuteReader();
+            sqlConnection.Close();
+        }
 
-            sqlCommand.ExecuteScalar();
+        // <summary>
+        // Karen Guillén A.
+        // 29/05/2020
+        // Efecto: Elimina el asistente asociado al proyecto
+        // Requiere: id del asistente y id del proyecto
+        // Modifica: tabla de proyectos
+        // Devuelve: -
+        // </summary>
+        // <param name="Proyecto"></param>
+        public void EliminarAsistenteProyecto(int idAsistente, int idProyecto)
+        {
 
+           string consulta = "delete from Asistente_Proyecto where id_proyecto = @idProyecto and id_asistente = @idAsistente";
+
+            SqlConnection sqlConnection = conexion.ConexionControlAsistentes();
+
+            SqlCommand sqlCommand = new SqlCommand(consulta, sqlConnection);
+            sqlCommand.Parameters.AddWithValue("@idAsistente", idAsistente);
+            sqlCommand.Parameters.AddWithValue("@id_proyecto_", idProyecto);
+
+            sqlCommand.CommandType = System.Data.CommandType.Text;
+
+            sqlConnection.Open();
+                sqlCommand.ExecuteReader();
             sqlConnection.Close();
         }
 
