@@ -171,6 +171,83 @@
             </asp:UpdatePanel>
             <%-- Fin Modal Nuevo Proyecto--%>
 
+              <!-- Modal Modificar Proyecto-->
+            <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                <ContentTemplate>
+                    <div id="modalModificarProyecto" class="modal fade" role="alertdialog">
+                        <div class="modal-dialog modal-lg">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Modificar Proyecto</h4>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <%-- fin titulo accion --%>
+
+                                        <%-- campos a llenar --%>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="Label3" runat="server" Text="Nombre <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txbNombre" runat="server" ReadOnly="false"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="Label4" runat="server"  Text="Fecha de Inicio <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                             <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txbFInicio" runat="server" ReadOnly="false"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="Label6" runat="server"  Text="Fecha de finalización <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <asp:TextBox class="form-control" ID="txbFFin"  runat="server" ReadOnly="false"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                            <div class="col-md-3 col-xs-3 col-sm-3">
+                                                <asp:Label ID="Label7" runat="server" Text="Disponible <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                            </div>
+                                                <div class="col-md-3 col-xs-3 col-sm-3">
+                                                    <asp:RadioButton id="rdBtnDisponible" runat="server" GroupName="measurementSystem" Checked="false" ></asp:RadioButton>
+                                                </div>   
+                                        </div>
+                                         <div class="col-md-12 col-xs-12 col-sm-12 mt-1">
+                                              <div class="col-md-3 col-xs-3 col-sm-3">
+                                                    <asp:Label ID="Label8" runat="server" Text="Descripción <span style='color:red'></span> " Font-Size="Medium" ForeColor="Black" CssClass="label" Font-Bold="false"></asp:Label>
+                                                </div>
+                                              <div class="col-md-4 col-xs-4 col-sm-4">
+                                                <div  class="input-group">
+                                                    <asp:TextBox class="form-control" ID="txbDescrip" TextMode="multiline" Columns="50" Rows="5"  runat="server"  Width="260" ></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                       
+                                        <%-- botones --%>
+                                        <div class="col-md-3 col-xs-3 col-sm-3 col-md-offset-9 col-xs-offset-9 col-sm-offset-9">
+                                            <asp:Button ID="Button3" runat="server" Text="Guardar" CssClass="btn btn-primary boton-nuevo" OnClick="btnGuardarProyecto_Click" />
+                                           <asp:Button ID="Button4" runat="server" Text="Cerrar" CssClass="btn btn-primary boton-nuevo" data-dismiss="modal"/>
+                                        </div>
+                                        <%-- fin botones --%>
+                                    </div>
+                                </div
+                            </div>
+                        </div>
+                    </div>
+
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            <%-- Fin Modal Modificar Proyecto--%>
+            
 
             <h4>Proyecto</h4>
             <asp:DropDownList ID="ddlProyecto" class="btn btn-default dropdown-toggle" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlProyecto_SelectedIndexChanged"></asp:DropDownList>
@@ -186,8 +263,8 @@
                     <table class="table table-bordered">
                         <thead style="text-align: center !important; align-content: center">
                             <tr style="text-align: center" class="btn-primary">
-                                <th></th>
-                                <th>Acciónes</th>
+                           
+                                <th>Acciones</th>
                                 <th>Proyecto</th>
                                 <th>Descripción</th>
                                 <th>Asistente</th>
@@ -199,7 +276,9 @@
                         </thead>
                         <tr>
                             <td>
-                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="filtrarProyectos"><span aria-hidden="true" class="glyphicon glyphicon-search"></span> </asp:LinkButton>
+                                <asp:LinkButton ID="btnFiltrar" runat="server" CssClass="btn btn-primary" OnClick="filtrarProyectos"><span aria-hidden="true" class="glyphicon glyphicon-search"></span>
+
+                                </asp:LinkButton>
                             </td>
                             <td>
                                 <asp:TextBox ID="txtBuscarNombre" runat="server" CssClass="form-control chat-input" placeholder="filtro por nombre" AutoPostBack="true"></asp:TextBox>
@@ -213,17 +292,17 @@
                             <td></td>
                         </tr>
                         <asp:Repeater ID="rpProyectos" runat="server">
-                            <HeaderTemplate>
-                            </HeaderTemplate>
+<%--                            <HeaderTemplate>
+                            </HeaderTemplate>--%>
 
                             <ItemTemplate>
                                 <tr style="text-align: center">
 
-                                    <td></td>
+
                                     <td>
                                         <div id="btnTarjeta" class="btn-group">
                                             <asp:HiddenField runat="server" ID="hdfIdProyectoModificar" Value='<%# Eval("idProyecto") %>' />
-                                            <asp:LinkButton ID="linkModificarProyecto" style="margin-right: 10px" class="glyphicon glyphicon-pencil btn" runat="server" ToolTip="Modificar Proyecto" CommandArgument='<%# Eval("idProyecto") %>'></asp:LinkButton>
+                                            <asp:LinkButton ID="linkModificarProyecto" OnClick="linkModificarProyecto_Click" style="margin-right: 10px" class="glyphicon glyphicon-pencil btn" runat="server" ToolTip="Modificar Proyecto" CommandArgument='<%# Eval("idProyecto") %>'></asp:LinkButton>
                                        
                                             <asp:HiddenField runat="server" ID="hdfIdProyectoEliminar" Value='<%# Eval("idProyecto") %>' />
                                             <asp:LinkButton ID="linkEliminarProyecto" OnClick="btnEliminarProyecto_Click" style="margin-left: 10px" class="glyphicon glyphicon-trash btn" runat="server" ToolTip="Eliminar Proyecto" CommandArgument='<%# Eval("idProyecto") %>'></asp:LinkButton>
@@ -239,16 +318,23 @@
                                     <td><%# Eval("descripcion") %></td>
                                     <td><%# Eval("asistente.nombreCompleto") %></td>
                                     <td><%# Eval("asistente.unidad.nombre") %></td>
-                                    <td><%# Eval("fechaInicio") %></td>
-                                    <td><%# Eval("fechaFinalizacion") %></td>
-                                    <td><%# Eval("finalizado") %></td>
+                                    <td><%# ((DateTime)Eval("fechaInicio")).ToShortDateString() %></td>
+                                    <td><%# ((DateTime)Eval("fechaFinalizacion")).ToShortDateString() %></td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <asp:HiddenField runat="server" ID="HiddenField2" Value='<%# Eval("asistente.carnet") %>' />
+                                            <asp:LinkButton ID="btnDetalles" runat="server" Enabled="false" AutoPostBack="false" ToolTip="Detalles" CommandArgument='<%# Eval("finalizado") %>' >
+                                                <div class='<%# Eval("finalizado") %>'></div></asp:LinkButton>
+                                        </div>
+                                    </td>
 
                                 </tr>
 
                             </ItemTemplate>
 
-                            <FooterTemplate>
-                            </FooterTemplate>
+<%--                            <FooterTemplate>
+                            </FooterTemplate>--%>
                         </asp:Repeater>
                     </table>
                 </div>
@@ -290,15 +376,56 @@
                 </div>
 
                 <%--fn paginación--%>
+            <div >
 
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
                 <br />
                 <br />
                 <br />
                 <br />
             </div>
+                
+            </div>
 
             <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12 mt-2">
                 <hr />
+
             </div>
 
 
@@ -317,8 +444,14 @@
         function closeModalAsignarAsistenteProyecto() {
             $('#modalAsignarAsistenteProyecto').modal('hide');
         };
+        function activarModalModificarProyecto() {
+            $('#modalModificarProyecto').modal('show');
+        };
+        function closeModalModificarProyecto() {
+            $('#modalModificarProyecto').modal('hide');
+        };
 
-      </script>
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptContent" runat="server">

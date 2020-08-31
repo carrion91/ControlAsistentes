@@ -104,8 +104,10 @@
 
 
                                     <td></td>
-                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")&&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
-                                        <%# Eval("asistente.nombreCompleto") %></td>
+                                    <td style='<%# Convert.ToString(Eval("aprobado")).Equals("True")? "background-color:#008f39":(Convert.ToString(Eval("aprobado")).Equals("False")
+                                        &&Convert.ToString(Eval("solicitud")).Equals("2")? "background-color:#ff0000": "background-color:#fd8e03") %>'>
+                                        <%# Eval("asistente.nombreCompleto") %>
+                                    </td>
                                     <td><%# Eval("asistente.carnet") %></td>
                                     <td><%# Eval("unidad.nombre") %></td>
                                     <td>

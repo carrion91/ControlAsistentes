@@ -317,6 +317,40 @@ namespace ControlAsistentes.Catalogos
 
         /// <summary>
         /// Karen Guillén
+        /// 23/08/2020
+        /// Efecto: Modifica el proyecto
+        /// Requiere: seleccionar un proyecto
+        /// Modifica: proyecto
+        /// Devuelve: -
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void linkModificarProyecto_Click(object sender, EventArgs e)
+        {
+            int idProyectoSeleccionado = Convert.ToInt32((((LinkButton)(sender)).CommandArgument).ToString());
+            Proyecto proyectoSeleccionado = proyectoServicios.ObtenerProyectoPorId(idProyectoSeleccionado).ElementAt(0);
+
+            txbNombre.Text = proyectoSeleccionado.nombre;
+
+            DateTime dateI = proyectoSeleccionado.fechaInicio;
+            string rnow = "dd/mm/yyyy";
+            var Fini = (dateI.ToString(rnow));
+
+            DateTime dateF = proyectoSeleccionado.fechaFinalizacion;
+            string rFin = "dd/mm/yyyy";
+            var Ffin = (dateF.ToString(rFin));
+
+            txbFInicio.Text = Fini;
+            txbFFin.Text = Ffin;
+            rdBtnDisponible.Checked = proyectoSeleccionado.disponible;
+            txbDescrip.Text = proyectoSeleccionado.descripcion;
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "activar", "activarModalModificarProyecto();", true);
+
+        }
+
+        /// <summary>
+        /// Karen Guillén
         /// 29/05/2020
         /// Efecto: Guarda el nuevo proyecto en la base de datos
         /// Requiere: 
@@ -482,7 +516,6 @@ namespace ControlAsistentes.Catalogos
             paginaActual += 1;
             MostrarProyectos();
         }
-
 
 
         /// <summary>
