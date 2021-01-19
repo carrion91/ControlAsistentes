@@ -49,8 +49,9 @@ namespace ControlAsistentes.CatalogoEncargado
         #endregion
         protected void Page_Load(object sender, EventArgs e)
         {
-            object[] rolesPermitidos = { 1, 2, 5 };
             Page.Master.FindControl("MenuControl").Visible = false;
+            int[] rolesPermitidos = { 1, 2, 5 };
+            Utilidades.escogerMenu(Page, rolesPermitidos);
 
             if (Session["nombreCompleto"] != null)
             {

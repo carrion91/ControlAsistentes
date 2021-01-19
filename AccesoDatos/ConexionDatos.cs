@@ -50,7 +50,7 @@ namespace AccesoDatos
         {
             object[] rolNombreCompleto = new object[2];
             SqlConnection sqlConnection = ConexionLogin();
-            SqlCommand sqlCommand = new SqlCommand("select R.id_rol, U.nombre_completo from Rol R, Usuario U, Usuario_Rol_Aplicacion URA where  U.usuario = @usuario and URA.id_usuario = u.id_usuario and R.id_rol = URA.id_rol ", sqlConnection);
+            SqlCommand sqlCommand = new SqlCommand("select R.id_rol, U.nombre_completo from Rol R, Usuario U, Usuario_Rol_Aplicacion URA where A.nombre_aplicacion='CP' and  U.usuario = @usuario and URA.id_usuario = u.id_usuario and R.id_rol = URA.id_rol ", sqlConnection);
             sqlCommand.Parameters.AddWithValue("@usuario", usuario);
             
             SqlDataReader reader;

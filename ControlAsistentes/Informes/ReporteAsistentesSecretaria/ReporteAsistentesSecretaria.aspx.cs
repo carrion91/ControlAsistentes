@@ -19,7 +19,7 @@ namespace ControlAsistentes.Informes.ReporteAsistentesSecretaria
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            int[] rolesPermitidos = { 1 };
+            int[] rolesPermitidos = { 1, 2, 5 };
             Utilidades.escogerMenu(Page, rolesPermitidos);
             Page.Master.FindControl("MenuControl").Visible = false;
 
